@@ -215,8 +215,8 @@ public class Fenetre extends JFrame {
 		public void mouseClicked(MouseEvent e) {
 			// TODO Auto-generated method stub
 			/* Position du curseur de la souris */
-			plateforme.get_echelle().setX((int)(e.getPoint().getX() + getLocationOnScreen().getX()));
-			plateforme.get_echelle().setY((int)(e.getPoint().getY() + getLocationOnScreen().getY()));
+			plateforme.get_echelle().setX_translation((int)(e.getPoint().getX() + getLocationOnScreen().getX()));
+			plateforme.get_echelle().setY_translation((int)(e.getPoint().getY() + getLocationOnScreen().getY()));
 			repaint();
 		}
 
@@ -269,24 +269,27 @@ public class Fenetre extends JFrame {
 		@Override
 		public void mouseWheelMoved(MouseWheelEvent e) {
 			// TODO Auto-generated method stub
-			double resolution = plateforme.get_echelle().get_resolution();
+			int index_zoom = plateforme.get_echelle().get_index_zoom();
+			double tableau_zoom[] = plateforme.get_echelle().get_tableau_zoom();
+			for(int i = 0; i<tableau_zoom.length; i++){
+				System.out.println(tableau_zoom[i]);
+			}
 			int wheelRotation = e.getWheelRotation();
-			if(resolution == 0) {
-				if(wheelRotation != 1){
-					resolution += wheelRotation;
-				}
-				else {
-					resolution = 0.5;
+			/* Zoom + */
+			if(wheelRotation == 1) {
+				if(index_zoom != (tableau_zoom.length-1) ) {
+					index_zoom++;
 				}
 			}
-			if(resolution < 1) {
-				resolution /= ((-wheelRotation)*2);
-			}
+			/* Zoom - */
 			else {
-				resolution += wheelRotation;
+				if(index_zoom != 0) {
+					index_zoom--;
+				}
 			}
-			plateforme.get_echelle().set_resolution(resolution);
-			System.out.println("Resolution = " + plateforme.get_echelle().get_resolution());
+			plateforme.get_echelle().set_index_zoom(index_zoom);
+			plateforme.get_echelle().set_zoom(tableau_zoom[index_zoom]);
+			System.out.println("Zoom = " + plateforme.get_echelle().get_zoom());
 			repaint();
 		}
 	}

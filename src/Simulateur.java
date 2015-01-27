@@ -78,6 +78,6 @@ public class Simulateur extends JPanel {
 	/** translate **/
 	/** fonction : Translation au niveau de l'affichage du simulateur **/
 	public void translate (Graphics g) {
-		g.translate(echelle.getX(), echelle.getY());
+		g.translate(echelle.getX_translation(), echelle.getY_translation());
 	}
 }
