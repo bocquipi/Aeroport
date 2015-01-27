@@ -16,6 +16,8 @@ public class Simulateur extends JPanel {
 	private Aeroport aeroport;
 	private Echelle echelle;
 	
+	/* utilisation du pattern Singleton */
+	
 	/** Constructeur de la classe Simulateur **/
 	public Simulateur(Aeroport aeroport, Echelle echelle) {
 		super();

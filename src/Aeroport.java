@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
 public class Aeroport {
 	
 	/** Declaration des variables privees **/
@@ -19,6 +20,8 @@ public class Aeroport {
 	private String nom_fichier_aeroport;
 	private Trafic trafic;
 	private Plateforme plateforme;
+	
+	/* utilisation du pattern Singleton */
 	
 	/** Constructeur de la classe Aeroport **/
 	public Aeroport(Plateforme plateforme){
@@ -168,8 +171,88 @@ public class Aeroport {
 			e.printStackTrace();
 		}
 			
+		/* Mise à jour de l'echelle */
+    	plateforme.get_echelle().calculer_translation();
+    	
 		/* Mise à jour du simulateur */
-		plateforme.get_fenetre().get_pSimulateur().repaint();
+		plateforme.get_fenetre().get_simulateur().repaint();
+	}
+	
+	/** calcul_max_min_coordonnees **/
+	/** fonction : calculer le x_max de la plateforme aeroportuaire **/
+	public int calcul_max_min_coordonnees(String parametre) {
+		
+		/* Declaration des variables locales */
+		int max_x = 0;
+		int min_x = 0;
+		int max_y = 0;
+		int min_y = 0;
+		
+		/* Points */
+		for(Point p : points){
+			if(p.get_coordonnees_point().getX() > max_x){
+				max_x = p.get_coordonnees_point().getX();
+			}
+			if(p.get_coordonnees_point().getX() < min_x){
+				min_x = p.get_coordonnees_point().getX();
+			}
+			if(p.get_coordonnees_point().getY() > max_y){
+				max_y = p.get_coordonnees_point().getY();
+			}
+			if(p.get_coordonnees_point().getY() < min_y){
+				min_y = p.get_coordonnees_point().getY();
+			}
+		}
+		
+		/* Lines */
+		for(Line l : lines){
+			for(Coordonnees c : l.get_coordonnees_line()){
+				if(c.getX() > max_x){
+					max_x = c.getX();
+				}
+				if(c.getX() < min_x){
+					min_x = c.getX();
+				}
+				if(c.getY() > max_y){
+					max_y = c.getY();
+				}
+				if(c.getY() < min_y){
+					min_y = c.getY();
+				}
+			}
+		}
+		
+		/* Runways */
+		for(Runway r : runways){
+			for(Coordonnees c : r.get_coordonnees_extremites()){
+				if(c.getX() > max_x){
+					max_x = c.getX();
+				}
+				if(c.getX() < min_x){
+					min_x = c.getX();
+				}
+				if(c.getY() > max_y){
+					max_y = c.getY();
+				}
+				if(c.getY() < min_y){
+					min_y = c.getY();
+				}
+			}
+		}
+		
+		/* Choix du parametre de retour */
+		if(parametre.equals("max_x")){
+			return max_x;
+		}
+		if(parametre.equals("min_x")){
+			return min_x;
+		}
+		if(parametre.equals("max_y")){
+			return max_y;
+		}
+		else {
+			return min_y;
+		}
 	}
 	
 	/* TEST */

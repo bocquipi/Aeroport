@@ -16,6 +16,8 @@ public class Trafic {
 	private int nombre_vols;
 	private String nom_fichier_trafic;
 	
+	/* utilisation du pattern Singleton */
+	
 	/** Constructeur de la classe Trafic **/
 	public Trafic(){
 		liste_vols = new ArrayList<Vol>();

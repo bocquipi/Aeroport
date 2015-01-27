@@ -45,8 +45,9 @@ public class Fenetre extends JFrame {
 	private JMenuItem ouvrir;
 	private JMenuItem fermer;
 	private Container conteneur;
-	private Echelle echelle;
 
+	/* utilisation du pattern Singleton */
+	
 	/** Constructeur de la classe Fenetre **/
 	public Fenetre(Plateforme plateforme) {
 		
@@ -107,8 +108,7 @@ public class Fenetre extends JFrame {
 	    gbc.fill = GridBagConstraints.VERTICAL;
 	    
 	    /* Panel pSimulateur */
-	    echelle = new Echelle();
-	    pSimulateur = new Simulateur(plateforme.get_aeroport(), echelle);
+	    pSimulateur = new Simulateur(plateforme.get_aeroport(), plateforme.get_echelle());
 	    conteneur.add(pSimulateur, gbc);
 	    
 	    /* Positionnement de la case initiale */
@@ -134,7 +134,7 @@ public class Fenetre extends JFrame {
 	}
 	
 	/** Getter de simulateur **/
-	public Simulateur get_pSimulateur() {
+	public Simulateur get_simulateur() {
 		return pSimulateur;
 	}
 	
@@ -215,8 +215,8 @@ public class Fenetre extends JFrame {
 		public void mouseClicked(MouseEvent e) {
 			// TODO Auto-generated method stub
 			/* Position du curseur de la souris */
-			echelle.setX((int)(e.getPoint().getX() + getLocationOnScreen().getX()));
-			echelle.setY((int)(e.getPoint().getY() + getLocationOnScreen().getY()));
+			plateforme.get_echelle().setX((int)(e.getPoint().getX() + getLocationOnScreen().getX()));
+			plateforme.get_echelle().setY((int)(e.getPoint().getY() + getLocationOnScreen().getY()));
 			repaint();
 		}
 
@@ -269,7 +269,7 @@ public class Fenetre extends JFrame {
 		@Override
 		public void mouseWheelMoved(MouseWheelEvent e) {
 			// TODO Auto-generated method stub
-			double resolution = echelle.get_resolution();
+			double resolution = plateforme.get_echelle().get_resolution();
 			int wheelRotation = e.getWheelRotation();
 			if(resolution == 0) {
 				if(wheelRotation != 1){
@@ -285,8 +285,8 @@ public class Fenetre extends JFrame {
 			else {
 				resolution += wheelRotation;
 			}
-			echelle.set_resolution(resolution);
-			System.out.println("Resolution = " + echelle.get_resolution());
+			plateforme.get_echelle().set_resolution(resolution);
+			System.out.println("Resolution = " + plateforme.get_echelle().get_resolution());
 			repaint();
 		}
 	}
