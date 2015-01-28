@@ -67,10 +67,10 @@ public class Simulateur extends JPanel {
 		}
 		
 		/* Taille du simulateur */
-		Dimension tailleEcran = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		int hauteur = (int)tailleEcran.getHeight();
-		int largeur = (int)tailleEcran.getWidth();
-		this.setPreferredSize(new Dimension(hauteur, largeur));
+		//Dimension tailleEcran = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+		//int hauteur = (int)tailleEcran.getHeight();
+		//int largeur = (int)tailleEcran.getWidth();
+		//this.setPreferredSize(new Dimension(hauteur, largeur));
 	}
 	
 	/** translate **/

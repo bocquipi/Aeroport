@@ -3,7 +3,7 @@ import java.util.ArrayList;
 /**
  * 
  * @author papinal
- * Vengut la verge
+ * 
  */
 public class Line {
 	

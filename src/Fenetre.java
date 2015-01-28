@@ -33,6 +33,7 @@ public class Fenetre extends JFrame {
 	/** Declaration des variables privees **/
 	private Plateforme plateforme;
 	private Simulateur pSimulateur;
+	private Informations pInformations;
 	private Dialogue dialogue;
 	private File repertoire_courant;
 	private JFileChooser filechooser;
@@ -120,7 +121,7 @@ public class Fenetre extends JFrame {
 	    gbc.fill = GridBagConstraints.VERTICAL;
 	    
 	    /* Panel pInformations */
-	    JPanel pInformations = new JPanel();
+	    pInformations = new Informations(plateforme.get_aeroport(), echelle);
 	    conteneur.add(pInformations, gbc);
 	    
 		/* Listeners */

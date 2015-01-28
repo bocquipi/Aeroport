@@ -20,7 +20,8 @@ public class Vol {
 	private int temps_limite_vol;
 	
 	/** Constructeur de la classe Vol **/
-	public Vol(String type, String identifiant, String categorie, String point_depart, String qfu, int temps_depart, String temps_limite, String trajectoire)
+	public Vol(String type, String identifiant, String categorie, String point_depart, String qfu,
+			int temps_depart, String temps_limite, String trajectoire)
 	{
 		trajectoire_vol = new ArrayList <Point>();
 		this.type_vol = type;
@@ -58,6 +59,7 @@ public class Vol {
 	/** toString **/
 	/** fonction : surcharge de toString pour l'affichage des caracteristiques d'un vol **/
 	public String toString(){
-		return type_vol + " " + identifiant_vol + " "  + categorie_avion + " " + point_depart_vol + " " + qfu_piste + " " + temps_depart_vol + " " + temps_limite_vol;
+		return type_vol + " " + identifiant_vol + " "  + categorie_avion + " " 
+				+ point_depart_vol + " " + qfu_piste + " " + temps_depart_vol + " " + temps_limite_vol;
 	}
 }
