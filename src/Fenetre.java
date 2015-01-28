@@ -271,9 +271,6 @@ public class Fenetre extends JFrame {
 			// TODO Auto-generated method stub
 			int index_zoom = plateforme.get_echelle().get_index_zoom();
 			double tableau_zoom[] = plateforme.get_echelle().get_tableau_zoom();
-			for(int i = 0; i<tableau_zoom.length; i++){
-				System.out.println(tableau_zoom[i]);
-			}
 			int wheelRotation = e.getWheelRotation();
 			/* Zoom + */
 			if(wheelRotation == 1) {
