@@ -3,7 +3,6 @@
 /* author :            */
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
@@ -21,17 +20,8 @@ public class SimulateurAeroport extends JPanel {
 	
 	/** Constructeur de la classe SimulateurAeroport **/
 	public SimulateurAeroport(Aeroport aeroport, Echelle echelle) {
+		
 		super();
-		
-		/* Taille du SimulateurAeroport */
-		Dimension tailleEcran = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		int hauteur = (int)tailleEcran.getHeight();
-		int largeur = (int)tailleEcran.getWidth();
-		this.setMinimumSize(new Dimension(hauteur,largeur));
-		this.setPreferredSize(new Dimension(hauteur, largeur));
-		this.setBounds(0, 0, hauteur, largeur);
-		
-		this.setBackground(Color.WHITE);
 		this.aeroport = aeroport;
 		this.echelle = echelle;
 	}
@@ -81,10 +71,5 @@ public class SimulateurAeroport extends JPanel {
 	/** fonction : Translation au niveau de l'affichage du simulateur **/
 	public void translate (Graphics g) {
 		g.translate(echelle.getX_translation(), echelle.getY_translation());
-		System.out.println(echelle.getX_translation());
-		System.out.println(echelle.getY_translation());
-		System.out.println(echelle.getX_adapte());
-		System.out.println(echelle.getY_adapte());
-		
 	}
 }

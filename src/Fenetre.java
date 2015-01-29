@@ -2,6 +2,7 @@
 /* Vue                 */
 /* author :            */
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -103,45 +104,55 @@ public class Fenetre extends JFrame {
 	    /* Conteneur */
 	    conteneur = new Container();
 	    conteneur = this.getContentPane();
-	    conteneur.setLayout(new GridBagLayout());
+	    //conteneur.setLayout(new GridBagLayout());
 	    
 	    /* GridBagConstraints */
-	    GridBagConstraints gbc = new GridBagConstraints();
+	    //GridBagConstraints gbc = new GridBagConstraints();
 	    
 	    /* Positionnement de la case initiale */
-	    gbc.gridx = 0;
-	    gbc.gridy = 0;
+	    //gbc.gridx = 0;
+	    //gbc.gridy = 0;
 	    
 	    /* Contrainte de la case */
-	    gbc.fill = GridBagConstraints.HORIZONTAL;
-	    gbc.fill = GridBagConstraints.VERTICAL;
+	    //gbc.fill = GridBagConstraints.HORIZONTAL;
+	    //gbc.fill = GridBagConstraints.VERTICAL;
 	    
 	    /* LayeredPane layer */
 	    layer = new JLayeredPane();
 	    layer.setOpaque(false);
-	    conteneur.add(layer, gbc);
+	    layer.setSize(new Dimension(hauteur, largeur));
+	    //conteneur.add(layer, gbc);
+	    conteneur.add(layer);
 	    
 	    /* Panel pSimulateurAeroport */
 	    pSimulateurAeroport = new SimulateurAeroport(plateforme.get_aeroport(), plateforme.get_echelle());
 	    pSimulateurAeroport.setOpaque(true);
+	    pSimulateurAeroport.setMinimumSize(new Dimension(hauteur,largeur));
+	    pSimulateurAeroport.setPreferredSize(new Dimension(hauteur, largeur));
+	    pSimulateurAeroport.setBounds(0, 0, hauteur, largeur);
 	    layer.add(pSimulateurAeroport, 1);
 	    
 	    /* Panel pSimulateurVol */
-	    pSimulateurVol = new SimulateurVol();
+	    pSimulateurVol = new SimulateurVol(plateforme.get_aeroport(), plateforme.get_echelle());
 	    pSimulateurVol.setOpaque(false);
+	    pSimulateurVol.setMinimumSize(new Dimension(hauteur,largeur));
+	    pSimulateurVol.setPreferredSize(new Dimension(hauteur, largeur));
+	    pSimulateurVol.setBounds(0, 0, hauteur, largeur);
+	    pSimulateurVol.setBackground(Color.WHITE);
 	    layer.add(pSimulateurVol, 0);
 	    
 	    /* Positionnement de la case initiale */
-	    gbc.gridx = 1;
-	    gbc.gridy = 0;
+	    //gbc.gridx = 1;
+	    //gbc.gridy = 0;
 	    
 	    /* Contrainte de la case */
-	    gbc.fill = GridBagConstraints.HORIZONTAL;
-	    gbc.fill = GridBagConstraints.VERTICAL;
+	    //gbc.fill = GridBagConstraints.HORIZONTAL;
+	    //gbc.fill = GridBagConstraints.VERTICAL;
 	    
 	    /* Panel pInformations */
-	    pInformations = new Informations(plateforme.get_aeroport(), plateforme.get_echelle());
-	    conteneur.add(pInformations, gbc);
+	    //pInformations = new Informations(plateforme.get_aeroport(), plateforme.get_echelle());
+	    //conteneur.add(pInformations, gbc);
+	    
 	    
 	    /* Listeners */
 		this.addMouseListener(new ActionMouseListener());
@@ -306,7 +317,6 @@ public class Fenetre extends JFrame {
 			}
 			plateforme.get_echelle().set_index_zoom(index_zoom);
 			plateforme.get_echelle().set_zoom(tableau_zoom[index_zoom]);
-			System.out.println("Zoom = " + plateforme.get_echelle().get_zoom());
 			repaint();
 		}
 	}
