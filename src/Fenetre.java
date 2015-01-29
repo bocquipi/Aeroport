@@ -24,7 +24,6 @@ import javax.swing.JLayeredPane;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 
 public class Fenetre extends JFrame {
 
@@ -35,7 +34,7 @@ public class Fenetre extends JFrame {
 	private Plateforme plateforme;
 	private SimulateurAeroport pSimulateurAeroport;
 	private SimulateurVol pSimulateurVol;
-	//private Informations pInformations;
+	private Informations pInformations;
 	private Dialogue dialogue;
 	private File repertoire_courant;
 	private JFileChooser filechooser;
@@ -120,7 +119,6 @@ public class Fenetre extends JFrame {
 	    /* LayeredPane layer */
 	    layer = new JLayeredPane();
 	    layer.setOpaque(false);
-	    layer.setSize(new Dimension(hauteur, largeur));
 	    conteneur.add(layer, gbc);
 	    
 	    /* Panel pSimulateurAeroport */
@@ -142,8 +140,7 @@ public class Fenetre extends JFrame {
 	    gbc.fill = GridBagConstraints.VERTICAL;
 	    
 	    /* Panel pInformations */
-	    //pInformations = new Informations(plateforme.get_aeroport(), echelle);
-	    JPanel pInformations = new JPanel();
+	    pInformations = new Informations(plateforme.get_aeroport(), plateforme.get_echelle());
 	    conteneur.add(pInformations, gbc);
 	    
 	    /* Listeners */

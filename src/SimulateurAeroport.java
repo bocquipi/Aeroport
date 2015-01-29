@@ -29,6 +29,7 @@ public class SimulateurAeroport extends JPanel {
 		int largeur = (int)tailleEcran.getWidth();
 		this.setMinimumSize(new Dimension(hauteur,largeur));
 		this.setPreferredSize(new Dimension(hauteur, largeur));
+		this.setBounds(0, 0, hauteur, largeur);
 		
 		this.setBackground(Color.WHITE);
 		this.aeroport = aeroport;
