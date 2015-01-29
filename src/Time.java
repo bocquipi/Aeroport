@@ -12,20 +12,20 @@ public class Time extends Observable implements ActionListener {
 
 	/** Declaration des variables privees **/
 	private Timer timer;
-	private int delais;
+	private int delay;
 	
 	/** Constructeur de la classe Echelle **/
 	public Time(Fenetre fenetre) {
 		
-		delais = 5000; //Par defaut : vitesse = 5ms
+		delay = 5000; //Par defaut : vitesse = 5ms
 		create_timer();
 	}
 
 	/** create_timer **/
 	/** fonction : creation d'un timer **/
 	public void create_timer() {
-		timer = new Timer(delais, this);
-		timer.setInitialDelay(delais);
+		timer = new Timer(delay, this);
+		timer.setInitialDelay(delay);
 		timer.start(); 
 	}
 
@@ -34,5 +34,4 @@ public class Time extends Observable implements ActionListener {
 		// TODO Auto-generated method stub
 		
 	}
-
 }

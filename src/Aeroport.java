@@ -175,7 +175,7 @@ public class Aeroport {
     	plateforme.get_echelle().calculer_translation();
     	
 		/* Mise à jour du simulateur */
-		plateforme.get_fenetre().get_simulateur().repaint();
+		plateforme.get_fenetre().get_simulateur_aeroport().repaint();
 	}
 	
 	/** calcul_max_min_coordonnees **/

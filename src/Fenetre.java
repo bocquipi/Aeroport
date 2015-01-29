@@ -3,6 +3,7 @@
 /* author :            */
 
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -14,12 +15,12 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-
 import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -32,9 +33,9 @@ public class Fenetre extends JFrame {
 	
 	/** Declaration des variables privees **/
 	private Plateforme plateforme;
-	private Simulateur pSimulateur;
-	private Informations pInformations;
-	private Echelle echelle;
+	private SimulateurAeroport pSimulateurAeroport;
+	private SimulateurVol pSimulateurVol;
+	//private Informations pInformations;
 	private Dialogue dialogue;
 	private File repertoire_courant;
 	private JFileChooser filechooser;
@@ -47,6 +48,7 @@ public class Fenetre extends JFrame {
 	private JMenuItem ouvrir;
 	private JMenuItem fermer;
 	private Container conteneur;
+	private JLayeredPane layer;
 
 	/* utilisation du pattern Singleton */
 	
@@ -56,6 +58,12 @@ public class Fenetre extends JFrame {
 		/* Icone de la fenetre */
 		Image icone = Toolkit.getDefaultToolkit().getImage("air_control.png");
 		this.setIconImage(icone);
+		
+		/* Taille de la Fenetre */
+		Dimension tailleEcran = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+		int hauteur = (int)tailleEcran.getHeight();
+		int largeur = (int)tailleEcran.getWidth();
+		this.setPreferredSize(new Dimension(hauteur, largeur));
 		
 		/* Plateforme */
 		this.plateforme = plateforme;
@@ -109,9 +117,21 @@ public class Fenetre extends JFrame {
 	    gbc.fill = GridBagConstraints.HORIZONTAL;
 	    gbc.fill = GridBagConstraints.VERTICAL;
 	    
-	    /* Panel pSimulateur */
-	    pSimulateur = new Simulateur(plateforme.get_aeroport(), plateforme.get_echelle());
-	    conteneur.add(pSimulateur, gbc);
+	    /* LayeredPane layer */
+	    layer = new JLayeredPane();
+	    layer.setOpaque(false);
+	    layer.setSize(new Dimension(hauteur, largeur));
+	    conteneur.add(layer, gbc);
+	    
+	    /* Panel pSimulateurAeroport */
+	    pSimulateurAeroport = new SimulateurAeroport(plateforme.get_aeroport(), plateforme.get_echelle());
+	    pSimulateurAeroport.setOpaque(true);
+	    layer.add(pSimulateurAeroport, 1);
+	    
+	    /* Panel pSimulateurVol */
+	    pSimulateurVol = new SimulateurVol();
+	    pSimulateurVol.setOpaque(false);
+	    layer.add(pSimulateurVol, 0);
 	    
 	    /* Positionnement de la case initiale */
 	    gbc.gridx = 1;
@@ -122,10 +142,11 @@ public class Fenetre extends JFrame {
 	    gbc.fill = GridBagConstraints.VERTICAL;
 	    
 	    /* Panel pInformations */
-	    pInformations = new Informations(plateforme.get_aeroport(), echelle);
+	    //pInformations = new Informations(plateforme.get_aeroport(), echelle);
+	    JPanel pInformations = new JPanel();
 	    conteneur.add(pInformations, gbc);
 	    
-		/* Listeners */
+	    /* Listeners */
 		this.addMouseListener(new ActionMouseListener());
 		this.addMouseMotionListener(new ActionMouseMotion());
 		this.addMouseWheelListener(new ActionMouseWheel());
@@ -135,9 +156,9 @@ public class Fenetre extends JFrame {
 	    this.setVisible(true);
 	}
 	
-	/** Getter de simulateur **/
-	public Simulateur get_simulateur() {
-		return pSimulateur;
+	/** Getter de pSimulateurAeroport **/
+	public SimulateurAeroport get_simulateur_aeroport() {
+		return pSimulateurAeroport;
 	}
 	
 	/** Classe inner pour les listeners **/
