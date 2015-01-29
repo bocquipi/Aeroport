@@ -1,10 +1,10 @@
+/* Projet JAVA         */
+/* Modele              */
+/* author :            */
+
 import java.util.ArrayList;
 
-/**
- * 
- * @author papinal
- * 
- */
+
 public class Line {
 	
 	/** Declaration des variables privees **/
