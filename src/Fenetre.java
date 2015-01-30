@@ -5,8 +5,7 @@
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -105,6 +104,7 @@ public class Fenetre extends JFrame {
 	    conteneur = new Container();
 	    conteneur = this.getContentPane();
 	    //conteneur.setLayout(new GridBagLayout());
+	    conteneur.setLayout(new GridLayout(1,2));
 	    
 	    /* GridBagConstraints */
 	    //GridBagConstraints gbc = new GridBagConstraints();
@@ -150,9 +150,9 @@ public class Fenetre extends JFrame {
 	    //gbc.fill = GridBagConstraints.VERTICAL;
 	    
 	    /* Panel pInformations */
-	    //pInformations = new Informations(plateforme.get_aeroport(), plateforme.get_echelle());
+	    pInformations = new Informations(plateforme.get_aeroport(), plateforme.get_echelle());
 	    //conteneur.add(pInformations, gbc);
-	    
+	    conteneur.add(pInformations);
 	    
 	    /* Listeners */
 		this.addMouseListener(new ActionMouseListener());
@@ -245,10 +245,7 @@ public class Fenetre extends JFrame {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			// TODO Auto-generated method stub
-			/* Position du curseur de la souris */
-			plateforme.get_echelle().setX_translation((int)(e.getPoint().getX() + getLocationOnScreen().getX()));
-			plateforme.get_echelle().setY_translation((int)(e.getPoint().getY() + getLocationOnScreen().getY()));
-			repaint();
+
 		}
 
 		@Override
@@ -266,7 +263,7 @@ public class Fenetre extends JFrame {
 		@Override
 		public void mousePressed(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
@@ -283,7 +280,12 @@ public class Fenetre extends JFrame {
 		@Override
 		public void mouseDragged(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+			if (contains(e.getX(),e.getY())) {
+				/* Position du curseur de la souris */
+				plateforme.get_echelle().setX_translation((int)(e.getPoint().getX()));
+				plateforme.get_echelle().setY_translation((int)(e.getPoint().getY()));
+				repaint();
+			}
 		}
 
 		@Override
