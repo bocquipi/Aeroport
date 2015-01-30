@@ -86,7 +86,7 @@ public class Informations extends JPanel{
         //Remplir le model
 
 
-       Remplir_liste();
+        remplir_liste();
        
         tab1.add(depart);
         tab1.add(liste_depart);
@@ -105,7 +105,7 @@ public class Informations extends JPanel{
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void Remplir_liste(){
+	public void remplir_liste(){
        
 	    liste_depart = new JList(listModel);
 	        
