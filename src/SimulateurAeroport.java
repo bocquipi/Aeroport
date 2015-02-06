@@ -41,12 +41,12 @@ public class SimulateurAeroport extends JPanel {
 		int y2;
 		
 		/* Points */
-		int point = 5;
+		int point = 20;
 		for(Point p : this.aeroport.get_points()) {
 			g.setColor(Color.BLACK);
 			x1 = p.get_coordonnees_point().getX();
 			y1 = p.get_coordonnees_point().getY();
-			g.fillOval(echelle.adapter(x1), echelle.adapter(echelle.inverser(y1)), point, point);
+			g.fillOval(echelle.adapter(x1), echelle.adapter(echelle.inverser(y1)), echelle.adapter(point), echelle.adapter(point));
 		}
 		
 		/* Lines */
