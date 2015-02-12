@@ -91,7 +91,7 @@ public class Fenetre extends JFrame {
 	    ouvrir.addActionListener(new ActionOuvrir());
 	    this.boite_dialogue.add(fermer);
 	    fermer.addActionListener(new ActionFermer());
-	    
+
 	    /* Items tertiaires */
 	    charger_aeroport = new JMenuItem("Aeroport");
 		charger_trafic = new JMenuItem("Trafic");
