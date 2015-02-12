@@ -2,10 +2,10 @@
 /* Vue                 */
 /* author :            */
 
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -15,6 +15,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -54,18 +55,18 @@ public class Fenetre extends JFrame {
 	/** Constructeur de la classe Fenetre **/
 	public Fenetre(Plateforme plateforme) {
 		
+		/* Plateforme */
+		this.plateforme = plateforme;
+		
 		/* Icone de la fenetre */
 		Image icone = Toolkit.getDefaultToolkit().getImage("air_control.png");
 		this.setIconImage(icone);
 		
-		/* Taille de la Fenetre */
+		/* Taille de la fenetre */
 		Dimension tailleEcran = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 		int hauteur = (int)tailleEcran.getHeight();
 		int largeur = (int)tailleEcran.getWidth();
 		this.setPreferredSize(new Dimension(hauteur, largeur));
-		
-		/* Plateforme */
-		this.plateforme = plateforme;
 		
 		/* FileChooser */
 	    repertoire_courant = null;
@@ -74,87 +75,85 @@ public class Fenetre extends JFrame {
 	    /* Boite de dialogue */
 		dialogue = new Dialogue(null, "Gestion de fichiers", true);
 
-		/* Items principaux */
+		/* MenuBar */
 		menuBar = new JMenuBar();
+		this.setJMenuBar(menuBar);
+		
+		/* Menus primaires */
 		fichier = new JMenu("Fichier");
 		boite_dialogue = new JMenu("Boite de dialogue");
-		this.menuBar.add(fichier);
-	    this.menuBar.add(boite_dialogue);
-	    this.setJMenuBar(menuBar);
+		menuBar.add(fichier);
+	    menuBar.add(boite_dialogue);
 	    
-	    /* Items secondaires */
+	    /* Menus secondaires */
 	    charger_fichier = new JMenu("Charger un fichier");
+	    fichier.add(charger_fichier);
+	    
+	    /* MenuItems boite_dialogue */
 	    ouvrir = new JMenuItem("Ouvrir");
 		fermer = new JMenuItem("Fermer");
-	    this.fichier.add(charger_fichier);
-	    this.boite_dialogue.add(ouvrir);
-	    ouvrir.addActionListener(new ActionOuvrir());
-	    this.boite_dialogue.add(fermer);
-	    fermer.addActionListener(new ActionFermer());
-
-	    /* Items tertiaires */
+	    boite_dialogue.add(ouvrir);
+	    boite_dialogue.add(fermer);
+	    
+	    /* MenuItems charger_fichier */
 	    charger_aeroport = new JMenuItem("Aeroport");
 		charger_trafic = new JMenuItem("Trafic");
-	    this.charger_fichier.add(charger_aeroport);
-	    charger_aeroport.addActionListener(new ActionChargerAeroport());
-	    this.charger_fichier.add(charger_trafic);
-	    charger_trafic.addActionListener(new ActionChargerTrafic());
+	    charger_fichier.add(charger_aeroport);
+	    charger_fichier.add(charger_trafic);
 	    
 	    /* Conteneur */
 	    conteneur = new Container();
 	    conteneur = this.getContentPane();
-	    //conteneur.setLayout(new GridBagLayout());
-	    conteneur.setLayout(new GridLayout(1,2));
+	    conteneur.setLayout(new GridBagLayout());
 	    
 	    /* GridBagConstraints */
-	    //GridBagConstraints gbc = new GridBagConstraints();
+	    GridBagConstraints gbc = new GridBagConstraints();
 	    
 	    /* Positionnement de la case initiale */
-	    //gbc.gridx = 0;
-	    //gbc.gridy = 0;
+	    gbc.gridx = 0;
+	    gbc.gridy = 0;
 	    
 	    /* Contrainte de la case */
-	    //gbc.fill = GridBagConstraints.HORIZONTAL;
-	    //gbc.fill = GridBagConstraints.VERTICAL;
+	    gbc.gridheight = 1;
+	    gbc.gridwidth = 1;
+	    gbc.fill = GridBagConstraints.BOTH;
+	    gbc.weightx = 0.7;
+	    gbc.weighty = 1;
 	    
 	    /* LayeredPane layer */
 	    layer = new JLayeredPane();
 	    layer.setOpaque(false);
 	    layer.setSize(new Dimension(hauteur, largeur));
-	    //conteneur.add(layer, gbc);
-	    conteneur.add(layer);
+	    conteneur.add(layer, gbc);
 	    
 	    /* Panel pSimulateurAeroport */
 	    pSimulateurAeroport = new SimulateurAeroport(plateforme.get_aeroport(), plateforme.get_echelle());
-	    pSimulateurAeroport.setOpaque(true);
-	    pSimulateurAeroport.setMinimumSize(new Dimension(hauteur,largeur));
-	    pSimulateurAeroport.setPreferredSize(new Dimension(hauteur, largeur));
-	    pSimulateurAeroport.setBounds(0, 0, hauteur, largeur);
 	    layer.add(pSimulateurAeroport, 1);
 	    
 	    /* Panel pSimulateurVol */
 	    pSimulateurVol = new SimulateurVol(plateforme.get_aeroport(), plateforme.get_echelle());
-	    pSimulateurVol.setOpaque(false);
-	    pSimulateurVol.setMinimumSize(new Dimension(hauteur,largeur));
-	    pSimulateurVol.setPreferredSize(new Dimension(hauteur, largeur));
-	    pSimulateurVol.setBounds(0, 0, hauteur, largeur);
-	    pSimulateurVol.setBackground(Color.WHITE);
 	    layer.add(pSimulateurVol, 0);
 	    
 	    /* Positionnement de la case initiale */
-	    //gbc.gridx = 1;
-	    //gbc.gridy = 0;
+	    gbc.gridx = 1;
+	    gbc.gridy = 0;
 	    
 	    /* Contrainte de la case */
-	    //gbc.fill = GridBagConstraints.HORIZONTAL;
-	    //gbc.fill = GridBagConstraints.VERTICAL;
+	    gbc.gridheight = 1;
+	    gbc.gridwidth = 1;
+	    gbc.fill = GridBagConstraints.BOTH;
+	    gbc.weightx = 0.3;
+	    gbc.weighty = 1;
 	    
 	    /* Panel pInformations */
 	    pInformations = new Informations(plateforme.get_aeroport(), plateforme.get_echelle());
-	    //conteneur.add(pInformations, gbc);
-	    conteneur.add(pInformations);
+	    conteneur.add(pInformations, gbc);
 	    
 	    /* Listeners */
+	    ouvrir.addActionListener(new ActionOuvrir());
+	    fermer.addActionListener(new ActionFermer());
+	    charger_aeroport.addActionListener(new ActionChargerAeroport());
+	    charger_trafic.addActionListener(new ActionChargerTrafic());
 		this.addMouseListener(new ActionMouseListener());
 		this.addMouseMotionListener(new ActionMouseMotion());
 		this.addMouseWheelListener(new ActionMouseWheel());
