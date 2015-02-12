@@ -2,17 +2,11 @@
 /* Vue                 */
 /* author :            */
 
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-
 import javax.swing.*;
 
 public class Informations extends JPanel{
@@ -31,15 +25,11 @@ public class Informations extends JPanel{
 	private JPanel tab1,tab2;
 	private JList liste_depart, liste_arrivee;
 	private ArrayList<Vol> liste_vols; 
-    DefaultListModel listModel;            
-                
-//	private JTextField ;
-	
-	
+    private DefaultListModel listModel;            
 	
 	/** Constructeur de la classe Informations **/
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Informations(Aeroport aeroport, Echelle echelle) {
+		
 		this.aeroport = aeroport;
 		this.echelle = echelle;
 		
@@ -57,13 +47,11 @@ public class Informations extends JPanel{
 		//onglets.setTabPlacement(JTabbedPane.LEFT);
 		ImageIcon icon = new ImageIcon("avion.png");
 		
-	/*	Image img = icon.getImage();
-		BufferedImage bi = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-		Graphics g = bi.createGraphics();
-		g.drawImage(img, 0, 0, WIDTH, HEIGHT, null);
-		ImageIcon avion = new ImageIcon(bi);
-		
-	*/
+//		Image img = icon.getImage();
+//		BufferedImage bi = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+//		Graphics g = bi.createGraphics();
+//		g.drawImage(img, 0, 0, WIDTH, HEIGHT, null);
+//		ImageIcon avion = new ImageIcon(bi);
 
         /** Onglet 1 **/
 		tab1.setLayout(new GridLayout(4, 1));
@@ -84,8 +72,6 @@ public class Informations extends JPanel{
         listModel = new DefaultListModel<Vol>();
          
         //Remplir le model
-
-
         remplir_liste();
        
         tab1.add(depart);
@@ -93,19 +79,15 @@ public class Informations extends JPanel{
         tab1.add(infos);
         tab1.add(vol);
      
-        
         /** Onglet 2 **/
 	
-		
 		/** Ajouts des onglets au Panel Informations**/
         onglets.addTab("Info Vols", tab1 ); //
         onglets.addTab("Outils", tab2);
-        
         this.add(onglets);
 	}
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void remplir_liste(){
+	public void remplir_liste() {
        
 	    liste_depart = new JList(listModel);
 	        
@@ -152,9 +134,5 @@ public class Informations extends JPanel{
 			// TODO Auto-generated method stub
 			
 		}
-		
-		
 	}
-	
-	
 }
