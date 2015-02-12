@@ -5,6 +5,8 @@
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -24,6 +26,8 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 
 	/** Declaration des variables privees **/
 	private Time time;
+	private JSlider slider;
+	private JLabel label1;
 	
 	/** Constructeur de la classe Echelle **/
 	public AfficheurTime() {
@@ -42,7 +46,7 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 		panel1.setBorder(BorderFactory.createLineBorder(Color.black));
 		
 		/* label1 */
-		JLabel label1 = new JLabel();
+		label1 = new JLabel();
 		label1.setHorizontalTextPosition(JLabel.CENTER);
 		label1.setVerticalTextPosition(JLabel.CENTER);
 		label1.setText(time.afficher_time());
@@ -54,8 +58,8 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 		JPanel panel2 = new JPanel();
 		panel2.setLayout(new GridLayout(1,1));
 		
-		/* slider1 */
-		JSlider slider = new JSlider(0, 86400,0);
+		/* slider */
+		slider = new JSlider(0, 86400,0);
 		slider.setMajorTickSpacing(3600);
 		slider.setMinorTickSpacing(60);
 		slider.addChangeListener(this);
@@ -77,12 +81,18 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 		panel3.add(stop); 
 		
 		JButton restart = new JButton("Restart"); 
-		panel3.add(restart); 						
+		panel3.add(restart); 					
 		
 		/* conteneur <- panels */
 		conteneur.add(panel1); 
 		conteneur.add(panel2); 
-		conteneur.add(panel3); 
+		conteneur.add(panel3);
+		
+		/* Listeners */
+		rewind.addActionListener(new ActionRewind());
+		play.addActionListener(new ActionPlay());
+		stop.addActionListener(new ActionStop());
+		restart.addActionListener(new ActionRestart());
 		
 		/* Dimensionnement et affichage de la fenetre */
 		this.pack();
@@ -90,16 +100,66 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 		this.setVisible(true);
 	}
 	
-	@Override
+	/** update **/
+	/** fonction : Mise a jour au changement d'etat du slider **/
 	public void stateChanged(ChangeEvent e) {
 		// TODO Auto-generated method stub
-		
+		int valeur;
+		valeur = slider.getValue();
+		if(valeur%5 >= 2.5){
+			time.setTemps(valeur+(5-(valeur%5)));  
+		}
+		if(valeur%5 < 2.5) {
+			time.setTemps(valeur-(valeur%5));
+		}
+		System.out.println(time.getTemps());
+		label1.setText(time.afficher_time());
 	}
 
-	@Override
-	public void update(Observable o, Object arg) {
+	/** update **/
+	/** fonction : Mise a jour au changement d'etat de l'objet Time **/
+	public void update(Observable Time, Object arg) {
 		// TODO Auto-generated method stub
-		
+		slider.setValue(time.getTemps());
+		label1.setText(time.afficher_time());
 	}
-
+	
+	/** Classe inner pour les listeners **/
+	
+	/* Class ActionRewind */
+	/* fonction : timer en mode rewind */
+	class ActionRewind implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			time.setAvance(false);
+			time.start_timer();
+		}
+	}		
+   
+	/* Class ActionPlay */
+	/* fonction : timer en mode play */
+	class ActionPlay implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			time.setAvance(true);
+			time.start_timer();
+		}
+	}
+   
+	/* Class ActionStop */
+	/* fonction : stop le timer */
+	class ActionStop implements ActionListener {		   
+		public void actionPerformed(ActionEvent e) {
+			time.stop_timer();
+		}
+	}	
+   
+	/* Class ActionRestart */
+	/* fonction : restart le timer */
+	class ActionRestart implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			slider.setValue(0);
+			time.setTemps(0);
+			label1.setText(time.afficher_time());
+			time.stop_timer(); 
+		}
+	}
 }

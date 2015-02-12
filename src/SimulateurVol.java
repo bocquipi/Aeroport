@@ -1,6 +1,4 @@
-/* Projet JAVA         */
-/* Vue                 */
-/* author :            */
+
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -29,13 +27,26 @@ public class SimulateurVol extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		/*Translation*/
+		/* Translation */
 		translate(g);
 		
-		/* Recuperation des vols */
-		//Vol v = aeroport.get_trafic().get_liste_vols().get(0);
+		/* Test : Affichage de la trajectoire d'un avion */ 
+		if(aeroport.get_trafic().get_liste_vols().size() != 0){
+			Vol v = aeroport.get_trafic().get_liste_vols().get(0);
+			for(Point p : v.getTrajectoire_vol()) {
+				g.setColor(Color.BLUE);
+				g.fillOval(echelle.adapter(p.get_coordonnees_point().getX()), echelle.adapter(echelle.inverser(p.get_coordonnees_point().getY())), 20, 20);
+			}
+		}
 		
-		/* Creation des Getters/Setters dans Vol */
+		/* Recuperation des vols */
+		for(Vol v : aeroport.get_trafic().get_liste_vols()) {
+			for(Point p : v.getTrajectoire_vol()) {
+				p.get_coordonnees_point().getX();
+				p.get_coordonnees_point().getY();
+				
+			}
+		}
 		
 		/* Affichage */ 
 		g.setColor(Color.pink);

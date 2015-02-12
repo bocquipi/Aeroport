@@ -169,6 +169,11 @@ public class Fenetre extends JFrame {
 		return pSimulateurAeroport;
 	}
 	
+	/** Getter de pSimulateurAeroport **/
+	public SimulateurVol get_simulateur_vol() {
+		return pSimulateurVol;
+	}
+	
 	/** Classe inner pour les listeners **/
 	
 	/* Class ActionOuvrir */
@@ -209,6 +214,12 @@ public class Fenetre extends JFrame {
 	    	/* TEST */
 	    	//plateforme.get_aeroport().test_programme_aeroport(plateforme.get_aeroport());
 	    	//plateforme.get_aeroport().test_valeur_coordonnees_aeroport();
+	    	
+			/* Mise à jour de l'echelle */
+	    	plateforme.get_echelle().calculer_translation();
+	    	
+			/* Mise à jour du simulateur */
+			get_simulateur_aeroport().repaint();
 	    }
 	}
 	
@@ -233,6 +244,12 @@ public class Fenetre extends JFrame {
 	    	plateforme.get_aeroport().get_trafic().charger_fichier_trafic(plateforme.get_aeroport().get_trafic());
 	    	/* TEST */
 	    	//plateforme.get_aeroport().get_trafic().test_programme_trafic(plateforme.get_aeroport().get_trafic());
+	    	
+	    	/* Mise à jour de l'echelle */
+	    	plateforme.get_echelle().calculer_translation();
+	    	
+			/* Mise à jour du simulateur */
+			get_simulateur_vol().repaint();
 	    }  
 	}
 	

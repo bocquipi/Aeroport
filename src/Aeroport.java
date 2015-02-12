@@ -19,7 +19,6 @@ public class Aeroport {
 	private ArrayList<Runway> runways;
 	private String nom_fichier_aeroport;
 	private Trafic trafic;
-	private Plateforme plateforme;
 	
 	/* utilisation du pattern Singleton */
 	
@@ -31,7 +30,6 @@ public class Aeroport {
 		runways = new ArrayList<Runway>();
 		set_nom_fichier_aeroport("inconnu");
 		trafic = new Trafic();
-		this.plateforme = plateforme;
 	}
 
 	/** Getter/Setter de nom_aeroport **/
@@ -170,12 +168,6 @@ public class Aeroport {
 			System.out.println("Erreur au niveau de la fermeture du fichier "+nom_fichier_aeroport);
 			e.printStackTrace();
 		}
-			
-		/* Mise à jour de l'echelle */
-    	plateforme.get_echelle().calculer_translation();
-    	
-		/* Mise à jour du simulateur */
-		plateforme.get_fenetre().get_simulateur_aeroport().repaint();
 	}
 	
 	/** calcul_max_min_coordonnees **/
