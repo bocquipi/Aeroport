@@ -23,8 +23,9 @@ public class Vol {
 	private String categorie_avion;
 	private String point_depart_vol;
 	private String qfu_piste;
-	private int temps_depart_vol;
-	private int temps_limite_vol;
+	private int temps_depart_vol; //Temps de la premiere position du vol
+	private int temps_fin_vol; //Temps de la derniere position du vol
+	private int temps_limite_vol; //Temps limite du depart du vol
 	
 	/** Constructeur de la classe Vol 
 	 *
@@ -59,6 +60,7 @@ public class Vol {
 		this.point_depart_vol = point_depart;
 		this.qfu_piste = qfu;
 		this.temps_depart_vol = temps_depart;
+		this.temps_fin_vol = traiter_temps_fin();
 		this.temps_limite_vol = traiter_temps_limite(temps_limite);
 	}
 	
@@ -160,7 +162,16 @@ public class Vol {
 	public void setTemps_depart_vol(int temps_depart_vol) {
 		this.temps_depart_vol = temps_depart_vol;
 	}
-
+	
+	/* Getter/Setter de temps_fin_vol */
+	public int getTemps_fin_vol() {
+		return temps_fin_vol;
+	}
+	
+	public void setTemps_fin_vol(int temps_fin_vol) {
+		this.temps_fin_vol = temps_fin_vol;
+	}
+	
 	/** Getter/Setter de trajectoire_vol
 	 *
 	 * @return l'heure limite ou l'avion doit etre parti.
@@ -174,6 +185,14 @@ public class Vol {
 	 */
 	public void setTemps_limite_vol(int temps_limite_vol) {
 		this.temps_limite_vol = temps_limite_vol;
+	}
+	
+	/* traiter_temps_fin */
+	/* fonction : traitement du temps de la derniere position du vol */
+	public int traiter_temps_fin() {
+		
+		int pas = 5; //Option : Recuperation du pas dans Time
+		return this.temps_depart_vol + this.trajectoire_vol.size()*pas;
 	}
 	
 	/** traiter_temps_limite

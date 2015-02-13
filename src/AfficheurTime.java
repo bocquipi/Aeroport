@@ -25,15 +25,15 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 	private static final long serialVersionUID = 1L;
 
 	/** Declaration des variables privees **/
-	private Time time;
+	private Plateforme plateforme;
 	private JSlider slider;
-	private JLabel label1;
+	private JLabel label;
 	
 	/** Constructeur de la classe Echelle **/
-	public AfficheurTime() {
+	public AfficheurTime(Plateforme plateforme) {
 		
-		/* Time */
-		time = new Time(this);
+		/* Plateforme */
+		this.plateforme = plateforme;
 		
 		/* Conteneur */
 		Container conteneur = this.getContentPane();
@@ -46,13 +46,12 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 		panel1.setBorder(BorderFactory.createLineBorder(Color.black));
 		
 		/* label1 */
-		label1 = new JLabel();
-		label1.setHorizontalTextPosition(JLabel.CENTER);
-		label1.setVerticalTextPosition(JLabel.CENTER);
-		label1.setText(time.afficher_time());
+		label = new JLabel();
+		label.setHorizontalTextPosition(JLabel.CENTER);
+		label.setVerticalTextPosition(JLabel.CENTER);
 		
 		/* panel1 <- label1 */
-		panel1.add(label1);	
+		panel1.add(label);	
 		
 		/* panel2 */
 		JPanel panel2 = new JPanel();
@@ -107,21 +106,20 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 		int valeur;
 		valeur = slider.getValue();
 		if(valeur%5 >= 2.5){
-			time.setTemps(valeur+(5-(valeur%5)));  
+			plateforme.get_time().setTemps(valeur+(5-(valeur%5)));  
 		}
 		if(valeur%5 < 2.5) {
-			time.setTemps(valeur-(valeur%5));
+			plateforme.get_time().setTemps(valeur-(valeur%5));
 		}
-		System.out.println(time.getTemps());
-		label1.setText(time.afficher_time());
+		label.setText(plateforme.get_time().afficher_time());
 	}
 
 	/** update **/
 	/** fonction : Mise a jour au changement d'etat de l'objet Time **/
 	public void update(Observable Time, Object arg) {
 		// TODO Auto-generated method stub
-		slider.setValue(time.getTemps());
-		label1.setText(time.afficher_time());
+		slider.setValue(plateforme.get_time().getTemps());
+		label.setText(plateforme.get_time().afficher_time());
 	}
 	
 	/** Classe inner pour les listeners **/
@@ -130,8 +128,8 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 	/* fonction : timer en mode rewind */
 	class ActionRewind implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			time.setAvance(false);
-			time.start_timer();
+			plateforme.get_time().setAvance(false);
+			plateforme.get_time().start_timer();
 		}
 	}		
    
@@ -139,8 +137,8 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 	/* fonction : timer en mode play */
 	class ActionPlay implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			time.setAvance(true);
-			time.start_timer();
+			plateforme.get_time().setAvance(true);
+			plateforme.get_time().start_timer();
 		}
 	}
    
@@ -148,7 +146,7 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 	/* fonction : stop le timer */
 	class ActionStop implements ActionListener {		   
 		public void actionPerformed(ActionEvent e) {
-			time.stop_timer();
+			plateforme.get_time().stop_timer();
 		}
 	}	
    
@@ -157,9 +155,9 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 	class ActionRestart implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			slider.setValue(0);
-			time.setTemps(0);
-			label1.setText(time.afficher_time());
-			time.stop_timer(); 
+			plateforme.get_time().setTemps(0);
+			label.setText(plateforme.get_time().afficher_time());
+			plateforme.get_time().stop_timer(); 
 		}
 	}
 }

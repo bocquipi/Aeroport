@@ -1,3 +1,6 @@
+/* Projet JAVA         */
+/* Modele              */
+/* author :            */
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -5,13 +8,10 @@ import java.util.Observable;
 
 import javax.swing.Timer;
 
-/* Projet JAVA         */
-/* Modele              */
-/* author :            */
-
 public class Time extends Observable implements ActionListener {
 
 	/** Declaration des variables privees **/
+	Plateforme plateforme;
 	private Timer timer;
 	private int temps;
 	private int secondes;
@@ -22,17 +22,18 @@ public class Time extends Observable implements ActionListener {
 	private boolean avance;
 	
 	/** Constructeur de la classe Echelle **/
-	public Time(AfficheurTime afficheur) {
+	public Time(Plateforme plateforme) {
 		
+		this.plateforme = plateforme;
 		temps = 0;
 		secondes = 0;
 		minutes = 0;
 		heures = 0;
-		delay = 1000; //Par defaut : vitesse = 1s
-		pas = 10; //Par defaut : pas = 5s
+		delay = 10; //Par defaut : vitesse = 1s
+		pas = 5; //Par defaut : pas = 5s
 		avance = true;
 		create_timer();
-		addObserver(afficheur);
+		addObserver(this.plateforme.get_afficheur_time());
 	}
 
 	/** Getter de timer **/
@@ -157,6 +158,7 @@ public class Time extends Observable implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		rafraichir_timer();
+		plateforme.get_fenetre().get_simulateur_vol().repaint();
 		setChanged(); //Changement de l'objet Timer
 		notifyObservers(); //Appel de update et statechanged
 	}

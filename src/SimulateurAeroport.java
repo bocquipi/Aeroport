@@ -2,9 +2,12 @@
 /* Vue                 */
 /* author :            */
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Stroke;
 
 import javax.swing.JPanel;
 
@@ -50,29 +53,88 @@ public class SimulateurAeroport extends JPanel {
 		int y2;
 		
 		/* Points */
-		int point = 20;
+		int point = 5;
 		for(Point p : this.aeroport.get_points()) {
-			g.setColor(Color.BLACK);
+			if (p.get_type_point()==0) {
+				g.setColor(Color.BLUE); //Stand ou Aire de parking
+			}
+			if (p.get_type_point()==1) {
+				g.setColor(Color.BLACK); //Deicing ou Zone de dégel
+			}
+			if(p.get_type_point()==2) {
+				g.setColor(Color.GRAY); //Runway_Point ou Point d'intersection d'une piste
+			}
+			
+			/* Recuperation des coordonnees */
 			x1 = p.get_coordonnees_point().getX();
 			y1 = p.get_coordonnees_point().getY();
-			g.fillOval(echelle.adapter(x1), echelle.adapter(echelle.inverser(y1)), echelle.adapter(point), echelle.adapter(point));
+			/* Creation du point */
+			g.fillOval(echelle.adapter(x1), echelle.adapter(echelle.inverser(y1)), point, point);
 		}
 		
 		/* Lines */
 		for(Line l : this.aeroport.get_lines()) {
-			for(int i=0, j=1;j<l.get_coordonnees_line().size();i++,j++) {	
-				if (l.get_nom_line().equals("_")) {
-					g.setColor(Color.BLUE);
+			Graphics2D g2 = (Graphics2D) g; //Utilisation de Graphics2D pour le BasicStroke
+			for(int i=0, j=1;j<l.get_coordonnees_line().size();i++,j++) {
+				if(l.get_nom_line().equals("_")) {
+					g2.setColor(Color.BLACK); //Piste basique
 				}
 				else {
-					g.setColor(Color.RED);
+					g2.setColor(Color.GRAY); //Taxiway
 				}
+				
+				/* Categorie des lines */
+//				if(l.get_categorie_line()=='H') {
+//					g.setColor(Color.GREEN);
+//				}
+//				if(l.get_categorie_line()=='M') {
+//					g.setColor(Color.GRAY);
+//				}
+//				if(l.get_categorie_line()=='L') {
+//					g.setColor(Color.MAGENTA);				
+//				}
+								
+				/* Direction des lines (simple ou double) */				
+//				if(l.get_direction_line()=='S') {
+//					g2.setStroke(new BasicStroke(1));
+//				}					
+//				if(l.get_direction_line()=='D') {
+//					g2.setStroke(new BasicStroke(2));
+//				}
+                		
+				/* Vitesse de roulage des lines */
+				if(l.get_vitesse_roulage() <= 0) {
+						Stroke dashed = new BasicStroke(1,BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL,0, new float[]{8},0);
+					    g2.setStroke(dashed);
+				}
+				
+				/* Recuperation des coordonnees */
 				x1 = l.get_coordonnees_line().get(i).getX();
 				y1 = l.get_coordonnees_line().get(i).getY();
 				x2 = l.get_coordonnees_line().get(j).getX();
 				y2 = l.get_coordonnees_line().get(j).getY();
-				g.drawLine(echelle.adapter(x1), echelle.adapter(echelle.inverser(y1)), echelle.adapter(x2), echelle.adapter(echelle.inverser(y2)));
+				
+				/* Creation des lines */
+				g2.drawLine(echelle.adapter(x1), echelle.adapter(echelle.inverser(y1)), echelle.adapter(x2), echelle.adapter(echelle.inverser(y2)));
 			}
+		}
+		
+		/* Runway */
+		for(Runway r: this.aeroport.get_runways()) {
+			
+			Graphics2D g2 = (Graphics2D) g;
+			g2.setColor(Color.BLACK);
+			Stroke dashed = new BasicStroke(1,BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL,0, new float[]{8},0);
+			g2.setStroke(dashed);
+			
+			/* Recuperation des coordonnees */
+			x1 = r.get_coordonnees_extremites().get(0).getX();
+			y1 = r.get_coordonnees_extremites().get(0).getY();
+			x2 = r.get_coordonnees_extremites().get(1).getX();
+			y2 = r.get_coordonnees_extremites().get(1).getY();
+			
+			/* Creation des runways */
+			g2.drawLine(echelle.adapter(x1), echelle.adapter(echelle.inverser(y1)), echelle.adapter(x2), echelle.adapter(echelle.inverser(y2)));
 		}
 	}
 	

@@ -14,15 +14,13 @@ public class SimulateurVol extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	/** Declaration des variables privees **/
-	private Aeroport aeroport;
-	private Echelle echelle;
+	private Plateforme plateforme;
 	
 	/** Constructeur de la classe SimulateurAeroport **/
-	public SimulateurVol(Aeroport aeroport, Echelle echelle) {
+	public SimulateurVol(Plateforme plateforme) {
 
 		super();
-		this.aeroport = aeroport;
-		this.echelle = echelle;
+		this.plateforme = plateforme;
 	    this.setOpaque(false);
 	    /* Taille de la fenetre */
 		Dimension tailleEcran = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
@@ -43,13 +41,17 @@ public class SimulateurVol extends JPanel {
 		translate(g);
 		
 		/* Test : Affichage de la trajectoire d'un avion */ 
-		test_affichage_avion(g);
+		//test_affichage_avion(g);
+		
+		/* Recuperation du temps */
+		int temps = plateforme.get_time().getTemps();
 		
 		/* Recuperation des vols */
-		for(Vol v : aeroport.get_trafic().get_liste_vols()) {
-			for(Point p : v.getTrajectoire_vol()) {
-				p.get_coordonnees_point().getX();
-				p.get_coordonnees_point().getY();
+		for(Vol v : plateforme.get_aeroport().get_trafic().get_liste_vols()) {
+			if((temps >= v.getTemps_depart_vol())&&(temps <= v.getTemps_fin_vol())) {
+				Point p = v.getTrajectoire_vol().get(v.getTrajectoire_vol().size() - (v.getTemps_fin_vol()-temps));
+				g.fillOval(plateforme.get_echelle().adapter(p.get_coordonnees_point().getX()), plateforme.get_echelle().adapter(plateforme.get_echelle().inverser(p.get_coordonnees_point().getY())), 5, 5);
+				
 			}
 		}
 	}
@@ -57,17 +59,17 @@ public class SimulateurVol extends JPanel {
 	/** translate **/
 	/** fonction : Translation au niveau de l'affichage du simulateur **/
 	public void translate (Graphics g) {
-		g.translate(echelle.getX_translation(), echelle.getY_translation());
+		g.translate(plateforme.get_echelle().getX_translation(), plateforme.get_echelle().getY_translation());
 	}
 	
 	/** test_affichage_avion **/
 	/** fonction : Translation au niveau de l'affichage du simulateur **/
 	public void test_affichage_avion (Graphics g) {
-		if(aeroport.get_trafic().get_liste_vols().size() != 0){
-			Vol v = aeroport.get_trafic().get_liste_vols().get(0);
+		if(plateforme.get_aeroport().get_trafic().get_liste_vols().size() != 0){
+			Vol v = plateforme.get_aeroport().get_trafic().get_liste_vols().get(0);
 			for(Point p : v.getTrajectoire_vol()) {
 				g.setColor(Color.BLUE);
-				g.fillOval(echelle.adapter(p.get_coordonnees_point().getX()), echelle.adapter(echelle.inverser(p.get_coordonnees_point().getY())), 5, 5);
+				g.fillOval(plateforme.get_echelle().adapter(p.get_coordonnees_point().getX()), plateforme.get_echelle().adapter(plateforme.get_echelle().inverser(p.get_coordonnees_point().getY())), 5, 5);
 			}
 		}
 	}

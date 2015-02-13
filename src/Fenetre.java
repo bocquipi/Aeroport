@@ -109,6 +109,9 @@ public class Fenetre extends JFrame {
 	    /* GridBagConstraints */
 	    GridBagConstraints gbc = new GridBagConstraints();
 	    
+	    //x correspond au colonne
+	    //y correspond au ligne
+	    
 	    /* Positionnement de la case initiale */
 	    gbc.gridx = 0;
 	    gbc.gridy = 0;
@@ -117,7 +120,7 @@ public class Fenetre extends JFrame {
 	    gbc.gridheight = 1;
 	    gbc.gridwidth = 1;
 	    gbc.fill = GridBagConstraints.BOTH;
-	    gbc.weightx = 0.7;
+	    gbc.weightx = 0.9;
 	    gbc.weighty = 1;
 	    
 	    /* LayeredPane layer */
@@ -131,7 +134,7 @@ public class Fenetre extends JFrame {
 	    layer.add(pSimulateurAeroport, 1);
 	    
 	    /* Panel pSimulateurVol */
-	    pSimulateurVol = new SimulateurVol(plateforme.get_aeroport(), plateforme.get_echelle());
+	    pSimulateurVol = new SimulateurVol(plateforme);
 	    layer.add(pSimulateurVol, 0);
 	    
 	    /* Positionnement de la case initiale */
@@ -142,7 +145,7 @@ public class Fenetre extends JFrame {
 	    gbc.gridheight = 1;
 	    gbc.gridwidth = 1;
 	    gbc.fill = GridBagConstraints.BOTH;
-	    gbc.weightx = 0.3;
+	    gbc.weightx = 0.1;
 	    gbc.weighty = 1;
 	    
 	    /* Panel pInformations */
