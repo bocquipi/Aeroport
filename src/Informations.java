@@ -61,8 +61,8 @@ public class Informations extends JPanel{
         tab2.setLayout(new GridLayout(1, 1));
         
         /* Générations des JLabel*/
-        depart = new JLabel("Vols Départs  :");
-        arrivee = new JLabel("Vols Arrivées  :");   
+        depart = new JLabel("Vols Departs  :");
+        arrivee = new JLabel("Vols Arrivees  :");   
         infos = new JLabel("Informations sur le vol : ");
         vol = new JLabel();
         
