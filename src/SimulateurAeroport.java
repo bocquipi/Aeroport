@@ -44,6 +44,9 @@ public class SimulateurAeroport extends JPanel {
 		/*Translation*/
 		translate(g);
 		
+		/* Graphics -> Graphics2D */
+		Graphics2D g2 = (Graphics2D) g;
+		
 		/* Variables locales */
 		int x1;
 		int y1;
@@ -57,7 +60,7 @@ public class SimulateurAeroport extends JPanel {
 				g.setColor(Color.BLUE); //Stand ou Aire de parking
 			}
 			if (p.get_type_point()==1) {
-				g.setColor(Color.BLACK); //Deicing ou Zone de dégel
+				g.setColor(Color.BLACK); //Deicing ou Zone de degel
 			}
 			if(p.get_type_point()==2) {
 				g.setColor(Color.GRAY); //Runway_Point ou Point d'intersection d'une piste
@@ -72,7 +75,6 @@ public class SimulateurAeroport extends JPanel {
 		
 		/* Lines */
 		for(Line l : plateforme.get_aeroport().get_lines()) {
-			Graphics2D g2 = (Graphics2D) g; //Utilisation de Graphics2D pour le BasicStroke
 			for(int i=0, j=1;j<l.get_coordonnees_line().size();i++,j++) {
 				if(l.get_nom_line().equals("_")) {
 					g2.setColor(Color.BLACK); //Piste basique
@@ -119,10 +121,8 @@ public class SimulateurAeroport extends JPanel {
 		
 		/* Runway */
 		for(Runway r: plateforme.get_aeroport().get_runways()) {
-			
-			Graphics2D g2 = (Graphics2D) g;
 			g2.setColor(Color.BLACK);
-			Stroke dashed = new BasicStroke(1,BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL,0, new float[]{8},0);
+			Stroke dashed = new BasicStroke(1,BasicStroke.CAP_BUTT,BasicStroke.JOIN_BEVEL,0,new float[]{8},0);
 			g2.setStroke(dashed);
 			
 			/* Recuperation des coordonnees */
