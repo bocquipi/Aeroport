@@ -17,17 +17,15 @@ public class SimulateurAeroport extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	/** Declaration des variables privees **/
-	private Aeroport aeroport;
-	private Echelle echelle;
+	private Plateforme plateforme;
 	
 	/* utilisation du pattern Singleton */
 	
 	/** Constructeur de la classe SimulateurAeroport **/
-	public SimulateurAeroport(Aeroport aeroport, Echelle echelle) {
+	public SimulateurAeroport(Plateforme plateforme) {
 		
 		super();
-		this.aeroport = aeroport;
-		this.echelle = echelle;
+		this.plateforme = plateforme;
 		this.setOpaque(true);
 		/* Taille de la fenetre */
 		Dimension tailleEcran = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
@@ -54,7 +52,7 @@ public class SimulateurAeroport extends JPanel {
 		
 		/* Points */
 		int point = 5;
-		for(Point p : this.aeroport.get_points()) {
+		for(Point p : plateforme.get_aeroport().get_points()) {
 			if (p.get_type_point()==0) {
 				g.setColor(Color.BLUE); //Stand ou Aire de parking
 			}
@@ -69,11 +67,11 @@ public class SimulateurAeroport extends JPanel {
 			x1 = p.get_coordonnees_point().getX();
 			y1 = p.get_coordonnees_point().getY();
 			/* Creation du point */
-			g.fillOval(echelle.adapter(x1), echelle.adapter(echelle.inverser(y1)), point, point);
+			g.fillOval(plateforme.get_echelle().adapter(x1), plateforme.get_echelle().adapter(plateforme.get_echelle().inverser(y1)), point, point);
 		}
 		
 		/* Lines */
-		for(Line l : this.aeroport.get_lines()) {
+		for(Line l : plateforme.get_aeroport().get_lines()) {
 			Graphics2D g2 = (Graphics2D) g; //Utilisation de Graphics2D pour le BasicStroke
 			for(int i=0, j=1;j<l.get_coordonnees_line().size();i++,j++) {
 				if(l.get_nom_line().equals("_")) {
@@ -115,12 +113,12 @@ public class SimulateurAeroport extends JPanel {
 				y2 = l.get_coordonnees_line().get(j).getY();
 				
 				/* Creation des lines */
-				g2.drawLine(echelle.adapter(x1), echelle.adapter(echelle.inverser(y1)), echelle.adapter(x2), echelle.adapter(echelle.inverser(y2)));
+				g2.drawLine(plateforme.get_echelle().adapter(x1), plateforme.get_echelle().adapter(plateforme.get_echelle().inverser(y1)), plateforme.get_echelle().adapter(x2), plateforme.get_echelle().adapter(plateforme.get_echelle().inverser(y2)));
 			}
 		}
 		
 		/* Runway */
-		for(Runway r: this.aeroport.get_runways()) {
+		for(Runway r: plateforme.get_aeroport().get_runways()) {
 			
 			Graphics2D g2 = (Graphics2D) g;
 			g2.setColor(Color.BLACK);
@@ -134,13 +132,13 @@ public class SimulateurAeroport extends JPanel {
 			y2 = r.get_coordonnees_extremites().get(1).getY();
 			
 			/* Creation des runways */
-			g2.drawLine(echelle.adapter(x1), echelle.adapter(echelle.inverser(y1)), echelle.adapter(x2), echelle.adapter(echelle.inverser(y2)));
+			g2.drawLine(plateforme.get_echelle().adapter(x1), plateforme.get_echelle().adapter(plateforme.get_echelle().inverser(y1)), plateforme.get_echelle().adapter(x2), plateforme.get_echelle().adapter(plateforme.get_echelle().inverser(y2)));
 		}
 	}
 	
 	/** translate **/
 	/** fonction : Translation au niveau de l'affichage du simulateur **/
 	public void translate (Graphics g) {
-		g.translate(echelle.getX_translation(), echelle.getY_translation());
+		g.translate(plateforme.get_echelle().getX_translation(), plateforme.get_echelle().getY_translation());
 	}
 }

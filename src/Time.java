@@ -29,7 +29,7 @@ public class Time extends Observable implements ActionListener {
 		secondes = 0;
 		minutes = 0;
 		heures = 0;
-		delay = 10; //Par defaut : vitesse = 1s
+		delay = 1000; //Par defaut : vitesse = 1s
 		pas = 5; //Par defaut : pas = 5s
 		avance = true;
 		create_timer();
@@ -122,7 +122,8 @@ public class Time extends Observable implements ActionListener {
 		timer.stop(); 
 	}
 	
-	/** convertion**/
+	/** convertion **/
+	/** fonction : Convertion du temps en heures, minutes et secondes **/
 	public void convertir_time() {
 		setHeures(getTemps()/3600);
 		setMinutes((getTemps()%3600)/60);
@@ -132,22 +133,38 @@ public class Time extends Observable implements ActionListener {
 	/** afficher_time **/
 	/** fonction : Afficher le temps du timer **/
 	public String afficher_time() {
-		
 		convertir_time();
-		return getHeures()+" : "+getMinutes()+" : "+getSecondes();
+		/* Convertion Integer -> String */
+		String heures = Integer.toString(getHeures());
+		String minutes = Integer.toString(getMinutes());
+		String secondes = Integer.toString(getSecondes());
+		/* Gestion de l'affichage */
+		if(getHeures() < 10) {
+			heures = "0" + getHeures();
+		}
+		if(getMinutes() < 10) {
+			minutes = "0" + getMinutes();
+		}
+		if(getSecondes() < 10) {
+			secondes = "0" + getSecondes();
+		}
+		return heures + " : " + minutes + " : " + secondes;
 	}
 	
 	/** rafraichir_time **/
 	/** fonction : Rafraichir le temps du timer **/
 	private void rafraichir_timer() {
+		/* Depassement */
 		if(temps >= 86400 || (temps <=0 & avance == false)) {
 			timer.stop();
 			temps = 0;
 		}		
 		else {
+			/* Play */
 			if(avance == true) {
 				temps += pas;
 			}
+			/* Rewind */
 			else {
 				temps -= pas;
 			}	
@@ -158,8 +175,8 @@ public class Time extends Observable implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		rafraichir_timer();
-		plateforme.get_fenetre().get_simulateur_vol().repaint();
-		setChanged(); //Changement de l'objet Timer
+		setChanged(); //Changement de l'objet Time
 		notifyObservers(); //Appel de update et statechanged
+		plateforme.get_fenetre().get_simulateur_vol().repaint(); //Mise a jour du SimulateurVol
 	}
 }

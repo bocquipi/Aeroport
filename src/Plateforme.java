@@ -15,7 +15,6 @@ public class Plateforme {
 	
 	/** Constructeur de la classe Plateforme **/
 	public Plateforme() {
-		/* Time */
 		afficheur_time = new AfficheurTime(this);
 		time = new Time(this);
 		aeroport = new Aeroport(this);

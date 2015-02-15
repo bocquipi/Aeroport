@@ -33,22 +33,33 @@ public class Fenetre extends JFrame {
 	
 	/** Declaration des variables privees **/
 	private Plateforme plateforme;
-	private SimulateurAeroport pSimulateurAeroport;
+	
+	private Container conteneur; /* Conteneur */
+	private JLayeredPane layer; /* JLayeredPane */
+	
+	private SimulateurAeroport pSimulateurAeroport; /* JPanel */
 	private SimulateurVol pSimulateurVol;
 	private Informations pInformations;
-	private Dialogue dialogue;
-	private File repertoire_courant;
+	
+	private Dialogue dialogue; /* Boite de dialogue */
+	
+	private File repertoire_courant; /* File */
 	private JFileChooser filechooser;
-	private JMenuBar menuBar;
-	private JMenu fichier;
+	
+	private JMenuBar menuBar; /* MenuBar */
+	
+	private JMenu fichier; /* JMenu (Gestion de fichier) */
 	private JMenu charger_fichier;
-	private JMenuItem charger_aeroport;
+	private JMenuItem charger_aeroport; /* JMenuItem (Gestion de fichier) */
 	private JMenuItem charger_trafic;
-	private JMenu boite_dialogue;
-	private JMenuItem ouvrir;
-	private JMenuItem fermer;
-	private Container conteneur;
-	private JLayeredPane layer;
+
+	private JMenu menu_timer; /* JMenu (Timer) */
+	private JMenuItem ouvrir_timer; /* JMenuItem (Timer) */
+	private JMenuItem fermer_timer;
+	
+	private JMenu boite_dialogue; /* JMenu (Boite de dialogue) */
+	private JMenuItem ouvrir_boite_dialogue; /* JMenuItem (Boite de dialogue) */
+	private JMenuItem fermer_boite_dialogue;
 
 	/* utilisation du pattern Singleton */
 	
@@ -81,25 +92,33 @@ public class Fenetre extends JFrame {
 		
 		/* Menus primaires */
 		fichier = new JMenu("Fichier");
+		menu_timer = new JMenu("Timer");
 		boite_dialogue = new JMenu("Boite de dialogue");
 		menuBar.add(fichier);
+		menuBar.add(menu_timer);
 	    menuBar.add(boite_dialogue);
 	    
 	    /* Menus secondaires */
 	    charger_fichier = new JMenu("Charger un fichier");
 	    fichier.add(charger_fichier);
 	    
-	    /* MenuItems boite_dialogue */
-	    ouvrir = new JMenuItem("Ouvrir");
-		fermer = new JMenuItem("Fermer");
-	    boite_dialogue.add(ouvrir);
-	    boite_dialogue.add(fermer);
-	    
 	    /* MenuItems charger_fichier */
 	    charger_aeroport = new JMenuItem("Aeroport");
 		charger_trafic = new JMenuItem("Trafic");
 	    charger_fichier.add(charger_aeroport);
 	    charger_fichier.add(charger_trafic);
+	    
+	    /* MenuItems boite_dialogue */
+	    ouvrir_boite_dialogue = new JMenuItem("Ouvrir");
+		fermer_boite_dialogue = new JMenuItem("Fermer");
+	    boite_dialogue.add(ouvrir_boite_dialogue);
+	    boite_dialogue.add(fermer_boite_dialogue);
+	    
+	    /* MenuItems boite_dialogue */
+	    ouvrir_timer = new JMenuItem("Ouvrir");
+		fermer_timer = new JMenuItem("Fermer");
+		menu_timer.add(ouvrir_timer);
+		menu_timer.add(fermer_timer);
 	    
 	    /* Conteneur */
 	    conteneur = new Container();
@@ -130,7 +149,7 @@ public class Fenetre extends JFrame {
 	    conteneur.add(layer, gbc);
 	    
 	    /* Panel pSimulateurAeroport */
-	    pSimulateurAeroport = new SimulateurAeroport(plateforme.get_aeroport(), plateforme.get_echelle());
+	    pSimulateurAeroport = new SimulateurAeroport(plateforme);
 	    layer.add(pSimulateurAeroport, 1);
 	    
 	    /* Panel pSimulateurVol */
@@ -153,10 +172,14 @@ public class Fenetre extends JFrame {
 	    conteneur.add(pInformations, gbc);
 	    
 	    /* Listeners */
-	    ouvrir.addActionListener(new ActionOuvrir());
-	    fermer.addActionListener(new ActionFermer());
+	    /* JMenuItem */
 	    charger_aeroport.addActionListener(new ActionChargerAeroport());
 	    charger_trafic.addActionListener(new ActionChargerTrafic());
+	    ouvrir_boite_dialogue.addActionListener(new ActionOuvrirBD());
+	    fermer_boite_dialogue.addActionListener(new ActionFermerBD());
+	    ouvrir_timer.addActionListener(new ActionOuvrirTimer());
+	    fermer_timer.addActionListener(new ActionFermerTimer());
+	    /* MouseListener */
 		this.addMouseListener(new ActionMouseListener());
 		this.addMouseMotionListener(new ActionMouseMotion());
 		this.addMouseWheelListener(new ActionMouseWheel());
@@ -178,18 +201,36 @@ public class Fenetre extends JFrame {
 	
 	/** Classe inner pour les listeners **/
 	
-	/* Class ActionOuvrir */
+	/* Class ActionOuvrirTimer */
+	/* fonction : ouvrir le timer */
+	class ActionOuvrirTimer implements ActionListener {
+		
+	    public void actionPerformed(ActionEvent ae) {
+	    	plateforme.get_afficheur_time().setVisible(true);
+	    }  
+	}
+	
+	/* Class ActionFermerTimer */
+	/* fonction : fermer le timer */
+	class ActionFermerTimer implements ActionListener {
+		
+	    public void actionPerformed(ActionEvent ae) {
+	    	plateforme.get_afficheur_time().setVisible(false);
+	    }  
+	}
+	
+	/* Class ActionOuvrirBD */
 	/* fonction : ouvrir la boite de dialogue */
-	class ActionOuvrir implements ActionListener {
+	class ActionOuvrirBD implements ActionListener {
 		
 	    public void actionPerformed(ActionEvent ae) {
 	    	dialogue.setVisible(true);
 	    }  
 	}
 	
-	/* Class ActionFermer */
+	/* Class ActionFermerBD */
 	/* fonction : fermer la boite de dialogue */
-	class ActionFermer implements ActionListener {
+	class ActionFermerBD implements ActionListener {
 		
 	    public void actionPerformed(ActionEvent ae) {
 	    	dialogue.setVisible(false);
@@ -217,10 +258,10 @@ public class Fenetre extends JFrame {
 	    	//plateforme.get_aeroport().test_programme_aeroport(plateforme.get_aeroport());
 	    	//plateforme.get_aeroport().test_valeur_coordonnees_aeroport();
 	    	
-			/* Mise à jour de l'echelle */
+			/* Mise a jour de l'echelle */
 	    	plateforme.get_echelle().calculer_translation();
 	    	
-			/* Mise à jour du simulateur */
+			/* Mise a jour du simulateur */
 			get_simulateur_aeroport().repaint();
 	    }
 	}
@@ -246,12 +287,6 @@ public class Fenetre extends JFrame {
 	    	plateforme.get_aeroport().get_trafic().charger_fichier_trafic(plateforme.get_aeroport().get_trafic());
 	    	/* TEST */
 	    	//plateforme.get_aeroport().get_trafic().test_programme_trafic(plateforme.get_aeroport().get_trafic());
-	    	
-	    	/* Mise à jour de l'echelle */
-	    	plateforme.get_echelle().calculer_translation();
-	    	
-			/* Mise à jour du simulateur */
-			get_simulateur_vol().repaint();
 	    }  
 	}
 	

@@ -2,8 +2,10 @@
 /* Vue                 */
 /* author :            */
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -37,18 +39,20 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 		
 		/* Conteneur */
 		Container conteneur = this.getContentPane();
-		conteneur.setLayout(new java.awt.FlowLayout());
 		conteneur.setLayout(new GridLayout(3,1));
 		
 		/* panel1 */
 		JPanel panel1 = new JPanel();
-		panel1.setLayout(new GridLayout(1,1));
-		panel1.setBorder(BorderFactory.createLineBorder(Color.black));
+		panel1.setLayout(new BorderLayout());
+		panel1.setBorder(BorderFactory.createLineBorder(Color.BLUE));
 		
 		/* label1 */
 		label = new JLabel();
-		label.setHorizontalTextPosition(JLabel.CENTER);
-		label.setVerticalTextPosition(JLabel.CENTER);
+		label.setText("00:00:00");
+		label.setHorizontalAlignment(JLabel.CENTER);
+		label.setForeground(Color.BLUE);
+		Font font = new Font("Verdana",Font.BOLD,40);
+		label.setFont(font);
 		
 		/* panel1 <- label1 */
 		panel1.add(label);	
@@ -96,28 +100,18 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 		/* Dimensionnement et affichage de la fenetre */
 		this.pack();
 		this.setSize(800, 300);
-		this.setVisible(true);
+		this.setVisible(false);
 	}
 	
-	/** update **/
+	/** stateChanged **/
 	/** fonction : Mise a jour au changement d'etat du slider **/
 	public void stateChanged(ChangeEvent e) {
 		// TODO Auto-generated method stub
-		int valeur;
-		valeur = slider.getValue();
-		if(valeur%5 >= 2.5){
-			plateforme.get_time().setTemps(valeur+(5-(valeur%5)));  
-		}
-		if(valeur%5 < 2.5) {
-			plateforme.get_time().setTemps(valeur-(valeur%5));
-		}
-		label.setText(plateforme.get_time().afficher_time());
 	}
 
 	/** update **/
-	/** fonction : Mise a jour au changement d'etat de l'objet Time **/
+	/** fonction : Mise a jour au changement d'etat de l'afficheur **/
 	public void update(Observable Time, Object arg) {
-		// TODO Auto-generated method stub
 		slider.setValue(plateforme.get_time().getTemps());
 		label.setText(plateforme.get_time().afficher_time());
 	}
