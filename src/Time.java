@@ -29,7 +29,7 @@ public class Time extends Observable implements ActionListener {
 		secondes = 0;
 		minutes = 0;
 		heures = 0;
-		delay = 1; //Par defaut : vitesse = 1s
+		delay = 1000; //Par defaut : vitesse = 1s
 		pas = 5; //Par defaut : pas = 5s
 		avance = true;
 		create_timer();
@@ -182,5 +182,6 @@ public class Time extends Observable implements ActionListener {
 		setChanged(); //Changement de l'objet Time
 		notifyObservers(); //Appel de update et statechanged
 		plateforme.get_fenetre().get_simulateur_vol().repaint(); //Mise a jour du SimulateurVol
+		System.out.println("actionPerformed");
 	}
 }

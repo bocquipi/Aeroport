@@ -46,11 +46,14 @@ public class SimulateurVol extends JPanel {
 		/* Recuperation du temps */
 		int temps = plateforme.get_time().getTemps();
 		
+		/* Test : Affichage du temps toutes les secondes */
+		System.out.println("Affichage avion");
+		
 		/* Recuperation des vols */
 		for(Vol v : plateforme.get_aeroport().get_trafic().get_liste_vols()) {
 			if((temps >= v.getTemps_depart_vol())&&(temps <= v.getTemps_fin_vol())) {
-				Point p = v.getTrajectoire_vol().get(v.getTrajectoire_vol().size() - (v.getTemps_fin_vol()-temps));
-				g.fillOval(plateforme.get_echelle().adapter(p.get_coordonnees_point().getX()), plateforme.get_echelle().adapter(plateforme.get_echelle().inverser(p.get_coordonnees_point().getY())), 5, 5);
+				Point p = v.getTrajectoire_vol().get((temps - v.getTemps_depart_vol())/(plateforme.get_time().getPas()));
+				g.fillOval(plateforme.get_echelle().adapter(p.get_coordonnees_point().getX()), plateforme.get_echelle().adapter(plateforme.get_echelle().inverser(p.get_coordonnees_point().getY())), 20, 20);
 				
 			}
 		}
