@@ -109,65 +109,72 @@ public class Aeroport {
 	/**				creation de la plateforme aeroportuaire **/
 	public void charger_fichier_aeroport(Aeroport aeroport) {
 		
-		/* Declaration des variables locales */
-		BufferedReader fe = null;
-		String tampon;
-		String type;
-		Point point;
-		Line line;
-		Runway runway;
-				
-		/* Ouverture du fichier */
-		try {
-			fe = new BufferedReader(new FileReader(nom_fichier_aeroport));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch bloc;
-			System.out.println("Erreur au niveau de l'ouverture du fichier "+nom_fichier_aeroport);
-			e.printStackTrace();
-		}
-				
-		/* Lecture du fichier */
-		try {
-			while((tampon = fe.readLine()) != null) {
-				Scanner s = new Scanner(tampon);
-				s.useDelimiter(" ");
-				/* Informations de la plateforme aeroportuaire */
-				type = s.next();
-				/* Aeroport */
-				if(type.length() != 1) {
-					aeroport.set_nom_aeroport(type);
+		new Thread() {
+			
+			/* Declaration des variables locales */
+			BufferedReader fe = null;
+			String tampon;
+			String type;
+			Point point;
+			Line line;
+			Runway runway;
+			
+			public void run() {
+				/* Ouverture du fichier */
+				try {
+					fe = new BufferedReader(new FileReader(nom_fichier_aeroport));
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch bloc;
+					System.out.println("Erreur au niveau de l'ouverture du fichier "+nom_fichier_aeroport);
+					e.printStackTrace();
 				}
-				/* Point */
-				if(type.equals("P")) {
-					point = new Point(s.next(), s.nextInt(), s.next());
-					aeroport.add_point(point);
+						
+				/* Lecture du fichier */
+				try {
+					while((tampon = fe.readLine()) != null) {
+						Scanner s = new Scanner(tampon);
+						s.useDelimiter(" ");
+						/* Informations de la plateforme aeroportuaire */
+						type = s.next();
+						/* Aeroport */
+						if(type.length() != 1) {
+							aeroport.set_nom_aeroport(type);
+						}
+						/* Point */
+						if(type.equals("P")) {
+							point = new Point(s.next(), s.nextInt(), s.next());
+							aeroport.add_point(point);
+						}
+						/* Line */
+						if(type.equals("L")) {
+							line = new Line(s.next(), s.nextInt(), s.next().charAt(0), s.next().charAt(0), s.next());
+							aeroport.add_line(line);
+						}
+						/* Runway */
+						if(type.equals("R")) {
+							runway = new Runway(s.next(), s.next(), s.next(), s.next(), aeroport, s.next());
+							aeroport.add_runway(runway);
+						}
+					    s.close();
+					}
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					System.out.println("Erreur au niveau de la lecture du fichier "+nom_fichier_aeroport);
+					e1.printStackTrace();
 				}
-				/* Line */
-				if(type.equals("L")) {
-					line = new Line(s.next(), s.nextInt(), s.next().charAt(0), s.next().charAt(0), s.next());
-					aeroport.add_line(line);
+						
+				/* Fermeture du fichier */
+				try {
+					fe.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					System.out.println("Erreur au niveau de la fermeture du fichier "+nom_fichier_aeroport);
+					e.printStackTrace();
 				}
-				/* Runway */
-				if(type.equals("R")) {
-					runway = new Runway(s.next(), s.next(), s.next(), s.next(), aeroport, s.next());
-					aeroport.add_runway(runway);
-				}
-			    s.close();
 			}
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			System.out.println("Erreur au niveau de la lecture du fichier "+nom_fichier_aeroport);
-			e1.printStackTrace();
-		}
-				
-		/* Fermeture du fichier */
-		try {
-			fe.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			System.out.println("Erreur au niveau de la fermeture du fichier "+nom_fichier_aeroport);
-			e.printStackTrace();
-		}
+		}.start();
+		
+		
 	}
 	
 	/** calcul_max_min_coordonnees **/

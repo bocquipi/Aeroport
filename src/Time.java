@@ -29,7 +29,7 @@ public class Time extends Observable implements ActionListener {
 		secondes = 0;
 		minutes = 0;
 		heures = 0;
-		delay = 1000; //Par defaut : vitesse = 1s
+		delay = 1; //Par defaut : vitesse = 1s
 		pas = 5; //Par defaut : pas = 5s
 		avance = true;
 		create_timer();
@@ -148,14 +148,18 @@ public class Time extends Observable implements ActionListener {
 		if(getSecondes() < 10) {
 			secondes = "0" + getSecondes();
 		}
-		return heures + " : " + minutes + " : " + secondes;
+		return heures + ":" + minutes + ":" + secondes;
 	}
 	
 	/** rafraichir_time **/
 	/** fonction : Rafraichir le temps du timer **/
 	private void rafraichir_timer() {
 		/* Depassement */
-		if(temps >= 86400 || (temps <=0 & avance == false)) {
+		if(temps >= 86400 & avance==true) {
+			timer.stop();
+			temps = 86400;
+		}
+		if(temps <= 0 & avance==false) {
 			timer.stop();
 			temps = 0;
 		}		

@@ -39,6 +39,8 @@ public class SimulateurAeroport extends JPanel {
 	/** paintComponent **/
 	/** fonction : Construction du simulateur **/
 	protected void paintComponent(Graphics g) {
+		
+		/* Appel du constructeur de la classe mere */
 		super.paintComponent(g);
 		
 		/*Translation*/
@@ -121,7 +123,9 @@ public class SimulateurAeroport extends JPanel {
 		
 		/* Runway */
 		for(Runway r: plateforme.get_aeroport().get_runways()) {
-			g2.setColor(Color.BLACK);
+			
+			/* Configuration de l'affichage */
+			g2.setColor(Color.WHITE);
 			Stroke dashed = new BasicStroke(1,BasicStroke.CAP_BUTT,BasicStroke.JOIN_BEVEL,0,new float[]{8},0);
 			g2.setStroke(dashed);
 			
@@ -133,6 +137,13 @@ public class SimulateurAeroport extends JPanel {
 			
 			/* Creation des runways */
 			g2.drawLine(plateforme.get_echelle().adapter(x1), plateforme.get_echelle().adapter(plateforme.get_echelle().inverser(y1)), plateforme.get_echelle().adapter(x2), plateforme.get_echelle().adapter(plateforme.get_echelle().inverser(y2)));
+			
+			/* Creation des pistes */
+			int largeur_piste = 60;
+			g.setColor(new Color(0,0,0,0.1f)); //Création d'une nouvelle couleur en RGBA (A pour alpha qui détermine l'opacité (+ alpha faible et + c'est transparent))
+			int x3[]={plateforme.get_echelle().adapter(x1),plateforme.get_echelle().adapter(x2),plateforme.get_echelle().adapter(x2),plateforme.get_echelle().adapter(x1)};
+			int y3[]={plateforme.get_echelle().adapter(plateforme.get_echelle().inverser(y1+largeur_piste)),plateforme.get_echelle().adapter(plateforme.get_echelle().inverser(y2+largeur_piste)),plateforme.get_echelle().adapter(plateforme.get_echelle().inverser(y2-largeur_piste)),plateforme.get_echelle().adapter(plateforme.get_echelle().inverser(y1-largeur_piste))};				
+			g.fillPolygon(x3, y3, 4);
 		}
 	}
 	

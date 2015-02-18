@@ -2,10 +2,15 @@
 /* Programme principal */
 /* author :            */
 
+import javax.swing.SwingUtilities;
+
 public class Test_Plateforme {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		new Plateforme();
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				new Plateforme();
+			}
+		});
 	}
 }

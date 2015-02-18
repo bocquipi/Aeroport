@@ -72,7 +72,7 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 		
 		/* panel3 */
 		JPanel panel3 = new JPanel();
-		panel3.setLayout(new GridLayout(1,2));
+		panel3.setLayout(new GridLayout(1,6));
 		
 		JButton rewind = new JButton("Rewind"); 
 		panel3.add(rewind); 
@@ -84,7 +84,13 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 		panel3.add(stop); 
 		
 		JButton restart = new JButton("Restart"); 
-		panel3.add(restart); 					
+		panel3.add(restart);
+		
+		JButton retour = new JButton("Retour rapide"); /* Cedric */
+		panel3.add(retour);  
+		
+		JButton avance = new JButton("Avance rapide"); /* Cedric */
+		panel3.add(avance); 
 		
 		/* conteneur <- panels */
 		conteneur.add(panel1); 
@@ -96,19 +102,28 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 		play.addActionListener(new ActionPlay());
 		stop.addActionListener(new ActionStop());
 		restart.addActionListener(new ActionRestart());
+		retour.addActionListener(new ActionRetour()); /* Cedric */
+		avance.addActionListener(new ActionAvance()); /* Cedric */
 		
 		/* Dimensionnement et affichage de la fenetre */
 		this.pack();
 		this.setSize(800, 300);
 		this.setVisible(false);
 	}
-	
+
 	/** stateChanged **/
 	/** fonction : Mise a jour au changement d'etat du slider **/
 	public void stateChanged(ChangeEvent e) {
-		// TODO Auto-generated method stub
+		int valeur= 0;
+		if(slider.getValue()%5 >= 2.5)
+			valeur = slider.getValue() + (5-(slider.getValue()%5));
+		if(slider.getValue()%5 < 2.5)
+			valeur =slider.getValue() - (slider.getValue()%5);
+		slider.setValue(valeur);
+		plateforme.get_time().setTemps(valeur);
+		label.setText(plateforme.get_time().afficher_time());
 	}
-
+	
 	/** update **/
 	/** fonction : Mise a jour au changement d'etat de l'afficheur **/
 	public void update(Observable Time, Object arg) {
@@ -152,6 +167,26 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 			plateforme.get_time().setTemps(0);
 			label.setText(plateforme.get_time().afficher_time());
 			plateforme.get_time().stop_timer(); 
+		}
+	}
+	
+	/* Cedric */
+	
+	/* Class ActionRetour */
+	/* fonction : timer en mode retour rapide */
+	class ActionRetour implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			plateforme.get_time().setAvance(false);
+			plateforme.get_time().start_timer();
+		}
+	}
+	
+	/* Class ActionAvance */
+	/* fonction : timer en mode ravance rapide */
+	class ActionAvance implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			plateforme.get_time().setAvance(true);
+			plateforme.get_time().start_timer();
 		}
 	}
 }
