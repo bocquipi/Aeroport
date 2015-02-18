@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
 
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 public class Time extends Observable implements ActionListener {
@@ -175,13 +176,23 @@ public class Time extends Observable implements ActionListener {
 		}
 	}
 	
-	@Override
+	/* Listener de la classe Time */
+	/* Fonction : Mise a jour du temps et du simulateur de vols */
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		rafraichir_timer();
-		setChanged(); //Changement de l'objet Time
-		notifyObservers(); //Appel de update et statechanged
-		plateforme.get_fenetre().get_simulateur_vol().repaint(); //Mise a jour du SimulateurVol
-		System.out.println("actionPerformed");
-	}
+		
+		new Thread() {
+			public void run() {
+				rafraichir_timer();
+				setChanged(); //Changement de l'objet Time
+				notifyObservers(); //Appel de update et statechanged
+				SwingUtilities.invokeLater(
+						new Runnable() {
+							public void run() {
+								plateforme.get_fenetre().get_simulateur_vol().repaint(); //Mise a jour du SimulateurVol
+							}
+						}
+				);
+			}
+		}.start();
+	} 
 }

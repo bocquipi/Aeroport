@@ -6,6 +6,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 
 import javax.swing.JPanel;
@@ -65,15 +67,22 @@ public class SimulateurVol extends JPanel {
 		int x;
 		int y;
 		
+		/* Image : representation des vols */
+		Image depart = Toolkit.getDefaultToolkit().getImage("depart.png");
+		Image arrive = Toolkit.getDefaultToolkit().getImage("arrive.png");
+		
 		/* Recuperation des vols */
 		for(Vol v : plateforme.get_aeroport().get_trafic().get_liste_vols()) {
 			if((temps >= v.getTemps_depart_vol()) && (temps <= v.getTemps_fin_vol())) {
-				g2.setColor(Color.BLUE);
 				Point p = v.getTrajectoire_vol().get((temps - v.getTemps_depart_vol())/(plateforme.get_time().getPas()));
 				x = p.get_coordonnees_point().getX();
 				y = plateforme.get_echelle().inverser(p.get_coordonnees_point().getY());
-				g2.fillOval(x, y, 10, 10);
-				
+				if(v.getType_vol().equals("DEP")) {
+					g2.drawImage(depart, x, y, 50, 50, this);
+				}
+				else {
+					g2.drawImage(arrive, x, y, 50, 50, this);
+				}
 			}
 		}
 	}

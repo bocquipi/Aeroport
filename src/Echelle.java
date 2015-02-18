@@ -12,7 +12,7 @@ public class Echelle {
 	private double y_translation;
 	double zoom;
 	int index_zoom;
-	double tableau_zoom[] = {1, 0.5, 0.4, 0.3, 0.2, 0.1, 0.01, 0.001};
+	double tableau_zoom[] = {0.5, 0.4, 0.3, 0.2, 0.1, 0.09, 0.08, 0.07, 0.06, 0.05};
 	
 	/** Constructeur de la classe Echelle **/
 	public Echelle(Plateforme plateforme) {
@@ -21,7 +21,7 @@ public class Echelle {
 		y = 0;
 		x_translation = 0;
 		y_translation = 0;
-		index_zoom = 5; //Index par defaut
+		index_zoom = 4; //Index par defaut
 		zoom = tableau_zoom[index_zoom]; //Zoom par defaut = 0.1;
 	}
 	
