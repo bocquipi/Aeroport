@@ -3,7 +3,6 @@
 /* author :            */
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -28,14 +27,6 @@ public class SimulateurVol extends JPanel {
 		this.plateforme = plateforme;
 		this.affinetransform = new AffineTransform();
 	    this.setOpaque(false);
-	    /* Taille de la fenetre */
-		Dimension tailleEcran = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		int hauteur = (int)tailleEcran.getHeight();
-		int largeur = (int)tailleEcran.getWidth();
-	    this.setMinimumSize(new Dimension(hauteur,largeur));
-	    this.setPreferredSize(new Dimension(hauteur, largeur));
-	    this.setBounds(0, 0, hauteur, largeur);
-	    this.setBackground(Color.WHITE);
 	}
 	
 	/** paintComponent **/

@@ -15,7 +15,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -25,6 +24,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.SwingUtilities;
 
 public class Fenetre extends JFrame {
 
@@ -70,7 +70,7 @@ public class Fenetre extends JFrame {
 		this.plateforme = plateforme;
 		
 		/* Icone de la fenetre */
-		Image icone = Toolkit.getDefaultToolkit().getImage("air_control.png");
+		Image icone = Toolkit.getDefaultToolkit().getImage("icone.png");
 		this.setIconImage(icone);
 		
 		/* Taille de la fenetre */
@@ -85,7 +85,7 @@ public class Fenetre extends JFrame {
 	    
 	    /* Boite de dialogue */
 		dialogue = new Dialogue(null, "Gestion de fichiers", true);
-
+		
 		/* MenuBar */
 		menuBar = new JMenuBar();
 		this.setJMenuBar(menuBar);
@@ -139,21 +139,24 @@ public class Fenetre extends JFrame {
 	    gbc.gridheight = 1;
 	    gbc.gridwidth = 1;
 	    gbc.fill = GridBagConstraints.BOTH;
-	    gbc.weightx = 0.9;
-	    gbc.weighty = 1;
+	    gbc.weightx = 95;
 	    
 	    /* LayeredPane layer */
 	    layer = new JLayeredPane();
 	    layer.setOpaque(false);
-	    layer.setSize(new Dimension(hauteur, largeur));
+	    layer.setPreferredSize(new Dimension(hauteur, largeur));
 	    conteneur.add(layer, gbc);
 	    
 	    /* Panel pSimulateurAeroport */
 	    pSimulateurAeroport = new SimulateurAeroport(plateforme);
+	    pSimulateurAeroport.setSize(layer.getSize());
+	    pSimulateurAeroport.setBounds(0, 0, largeur, hauteur);
 	    layer.add(pSimulateurAeroport, 1);
 	    
 	    /* Panel pSimulateurVol */
 	    pSimulateurVol = new SimulateurVol(plateforme);
+	    pSimulateurVol.setPreferredSize(layer.getSize());
+	    pSimulateurVol.setBounds(0, 0, largeur, hauteur);
 	    layer.add(pSimulateurVol, 0);
 	    
 	    /* Positionnement de la case initiale */
@@ -164,8 +167,7 @@ public class Fenetre extends JFrame {
 	    gbc.gridheight = 1;
 	    gbc.gridwidth = 1;
 	    gbc.fill = GridBagConstraints.BOTH;
-	    gbc.weightx = 0.1;
-	    gbc.weighty = 1;
+	    gbc.weightx = 5;
 	    
 	    /* Panel pInformations */
 	    pInformations = new Informations(plateforme.get_aeroport(), plateforme.get_echelle());
@@ -242,27 +244,44 @@ public class Fenetre extends JFrame {
 	class ActionChargerAeroport implements ActionListener {
 		
 	    public void actionPerformed(ActionEvent ae) {
-	    	try {
-				repertoire_courant = new File(".").getCanonicalFile();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				System.out.println("Erreur au niveau de la recuperation du nom du fichier");
-				e.printStackTrace();
-			}
-	    	System.out.println("Repertoire courant : " + repertoire_courant);
-	    	filechooser.showOpenDialog(null);
-	    	System.out.println("Fichier choisi : " + filechooser.getSelectedFile());
-	    	plateforme.get_aeroport().set_nom_fichier_aeroport(filechooser.getSelectedFile().toString());
-	    	plateforme.get_aeroport().charger_fichier_aeroport(plateforme.get_aeroport());
-	    	/* TEST */
-	    	//plateforme.get_aeroport().test_programme_aeroport(plateforme.get_aeroport());
-	    	//plateforme.get_aeroport().test_valeur_coordonnees_aeroport();
 	    	
-			/* Mise a jour de l'echelle */
-	    	plateforme.get_echelle().calculer_translation();
-	    	
-			/* Mise a jour du simulateur */
-			get_simulateur_aeroport().repaint();
+	    	new Thread() {
+				public void run() {
+					
+					try {
+						repertoire_courant = new File(".").getCanonicalFile();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						System.out.println("Erreur au niveau de la recuperation du nom du fichier");
+						e.printStackTrace();
+					}
+			    	System.out.println("Repertoire courant : " + repertoire_courant);
+			    	filechooser.showOpenDialog(null);
+			    	System.out.println("Fichier choisi : " + filechooser.getSelectedFile());
+			    	plateforme.get_aeroport().set_nom_fichier_aeroport(filechooser.getSelectedFile().toString());
+			    	
+			    	/* Chargement du fichier trafic */
+			    	plateforme.get_aeroport().charger_fichier_aeroport(plateforme.get_aeroport());
+			    	
+			    	/* TEST */
+			    	//plateforme.get_aeroport().test_programme_aeroport(plateforme.get_aeroport());
+			    	//plateforme.get_aeroport().test_valeur_coordonnees_aeroport();
+			    	
+					/* Mise a jour de l'echelle */
+			    	plateforme.get_echelle().calculer_translation();
+					
+					SwingUtilities.invokeLater(
+							new Runnable() {
+								public void run() {
+									/* Mise a jour du simulateur */
+									plateforme.get_fenetre().get_simulateur_aeroport().repaint();
+								}
+								
+							}
+					);
+					
+				}
+			}.start();
 	    }
 	}
 	
@@ -271,23 +290,32 @@ public class Fenetre extends JFrame {
 	class ActionChargerTrafic implements ActionListener {
 		
 	    public void actionPerformed(ActionEvent ae) {
-	    	try {
-				repertoire_courant = new File(".").getCanonicalFile();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				System.out.println("Erreur au niveau de la recuperation du nom du fichier");
-				e.printStackTrace();
-			}
-	    	System.out.println("Repertoire courant : " + repertoire_courant);
-	    	filechooser.showOpenDialog(null);
-	    	System.out.println("Fichier choisi : " + filechooser.getSelectedFile());
-	    	plateforme.get_aeroport().get_trafic().set_nom_fichier_trafic(filechooser.getSelectedFile().toString());
-	    	/* TEST */
-	    	//plateforme.get_aeroport().get_trafic().calcul_nombre_vols();
-	    	plateforme.get_aeroport().get_trafic().charger_fichier_trafic(plateforme.get_aeroport().get_trafic());
-	    	/* TEST */
-	    	//plateforme.get_aeroport().get_trafic().test_programme_trafic(plateforme.get_aeroport().get_trafic());
-	    }  
+	    	
+	    	new Thread(){
+	    		public void run(){
+	    			try {
+	    				repertoire_courant = new File(".").getCanonicalFile();
+	    			} catch (IOException e) {
+	    				// TODO Auto-generated catch block
+	    				System.out.println("Erreur au niveau de la recuperation du nom du fichier");
+	    				e.printStackTrace();
+	    			}
+	    	    	System.out.println("Repertoire courant : " + repertoire_courant);
+	    	    	filechooser.showOpenDialog(null);
+	    	    	System.out.println("Fichier choisi : " + filechooser.getSelectedFile());
+	    	    	plateforme.get_aeroport().get_trafic().set_nom_fichier_trafic(filechooser.getSelectedFile().toString());
+	    	    	
+	    	    	/* TEST : Calcul du nombre de vols */
+	    	    	//plateforme.get_aeroport().get_trafic().calcul_nombre_vols();
+	    	    	
+	    	    	/* Chargement du fichier trafic */
+	    	    	plateforme.get_aeroport().get_trafic().charger_fichier_trafic(plateforme.get_aeroport().get_trafic());
+	    	    	
+	    	    	/* TEST : Recuperation du fichier texte aeroport */
+	    	    	//plateforme.get_aeroport().get_trafic().test_programme_trafic(plateforme.get_aeroport().get_trafic());
+	    		}
+	    	}.start();
+	    } 
 	}
 	
 	/** Classe inner pour les listeners **/
@@ -317,13 +345,11 @@ public class Fenetre extends JFrame {
 		@Override
 		public void mousePressed(MouseEvent e) {
 			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
 		} 
 	}
 	
@@ -333,13 +359,25 @@ public class Fenetre extends JFrame {
 
 		@Override
 		public void mouseDragged(MouseEvent e) {
-			// TODO Auto-generated method stub
-			if (contains(e.getX(),e.getY())) {
-				/* Position du curseur de la souris */
-				plateforme.get_echelle().setX_translation((int)(e.getPoint().getX()));
-				plateforme.get_echelle().setY_translation((int)(e.getPoint().getY()));
-				repaint();
-			}
+			
+			new Thread() {
+				public void run() {
+					
+					if (contains(e.getX(),e.getY())) {
+						/* Position du curseur de la souris */
+						plateforme.get_echelle().setX_translation((int)(e.getLocationOnScreen().getX()));
+						plateforme.get_echelle().setY_translation((int)(e.getLocationOnScreen().getY()));
+					}
+					
+					SwingUtilities.invokeLater(
+							new Runnable() {
+								public void run() {
+									repaint();
+								}
+							}
+					);
+				}
+			}.start();
 		}
 
 		@Override
@@ -355,25 +393,37 @@ public class Fenetre extends JFrame {
 
 		@Override
 		public void mouseWheelMoved(MouseWheelEvent e) {
-			// TODO Auto-generated method stub
-			int index_zoom = plateforme.get_echelle().get_index_zoom();
-			double tableau_zoom[] = plateforme.get_echelle().get_tableau_zoom();
-			int wheelRotation = e.getWheelRotation();
-			/* Zoom + */
-			if(wheelRotation == 1) {
-				if(index_zoom != (tableau_zoom.length-1) ) {
-					index_zoom++;
+			
+			new Thread() {
+				public void run() {
+					
+					int index_zoom = plateforme.get_echelle().get_index_zoom();
+					double tableau_zoom[] = plateforme.get_echelle().get_tableau_zoom();
+					int wheelRotation = e.getWheelRotation();
+					/* Zoom + */
+					if(wheelRotation == 1) {
+						if(index_zoom != (tableau_zoom.length-1) ) {
+							index_zoom++;
+						}
+					}
+					/* Zoom - */
+					else {
+						if(index_zoom != 0) {
+							index_zoom--;
+						}
+					}
+					plateforme.get_echelle().set_index_zoom(index_zoom);
+					plateforme.get_echelle().set_zoom(tableau_zoom[index_zoom]);
+					
+					SwingUtilities.invokeLater(
+							new Runnable() {
+								public void run() {
+									repaint();
+								}
+							}
+					);
 				}
-			}
-			/* Zoom - */
-			else {
-				if(index_zoom != 0) {
-					index_zoom--;
-				}
-			}
-			plateforme.get_echelle().set_index_zoom(index_zoom);
-			plateforme.get_echelle().set_zoom(tableau_zoom[index_zoom]);
-			repaint();
-		}
+			}.start();
+		} 
 	}
 }
