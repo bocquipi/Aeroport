@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
+import java.awt.geom.AffineTransform;
 
 import javax.swing.JPanel;
 
@@ -18,6 +19,7 @@ public class SimulateurAeroport extends JPanel {
 
 	/** Declaration des variables privees **/
 	private Plateforme plateforme;
+	private AffineTransform affinetransform;
 	
 	/* utilisation du pattern Singleton */
 	
@@ -43,11 +45,14 @@ public class SimulateurAeroport extends JPanel {
 		/* Appel du constructeur de la classe mere */
 		super.paintComponent(g);
 		
-		/*Translation*/
-		translate(g);
-		
 		/* Graphics -> Graphics2D */
 		Graphics2D g2 = (Graphics2D) g;
+		
+		/* Dimensionnement de l'affichage */
+		affinetransform = g2.getTransform();
+		affinetransform.translate(plateforme.get_echelle().getX_translation(), plateforme.get_echelle().getY_translation());
+		affinetransform.scale(plateforme.get_echelle().get_zoom(), plateforme.get_echelle().get_zoom());
+		g2.setTransform(affinetransform);
 		
 		/* Variables locales */
 		int x1;
@@ -59,20 +64,21 @@ public class SimulateurAeroport extends JPanel {
 		int point = 5;
 		for(Point p : plateforme.get_aeroport().get_points()) {
 			if (p.get_type_point()==0) {
-				g.setColor(Color.BLUE); //Stand ou Aire de parking
+				g2.setColor(Color.BLUE); //Stand ou Aire de parking
 			}
 			if (p.get_type_point()==1) {
-				g.setColor(Color.BLACK); //Deicing ou Zone de degel
+				g2.setColor(Color.BLACK); //Deicing ou Zone de degel
 			}
 			if(p.get_type_point()==2) {
-				g.setColor(Color.GRAY); //Runway_Point ou Point d'intersection d'une piste
+				g2.setColor(Color.GRAY); //Runway_Point ou Point d'intersection d'une piste
 			}
 			
 			/* Recuperation des coordonnees */
 			x1 = p.get_coordonnees_point().getX();
-			y1 = p.get_coordonnees_point().getY();
+			y1 = plateforme.get_echelle().inverser(p.get_coordonnees_point().getY());
+			
 			/* Creation du point */
-			g.fillOval(plateforme.get_echelle().adapter(x1), plateforme.get_echelle().adapter(plateforme.get_echelle().inverser(y1)), point, point);
+			g2.fillOval(x1, y1, point, point);
 		}
 		
 		/* Lines */
@@ -87,13 +93,13 @@ public class SimulateurAeroport extends JPanel {
 				
 				/* Categorie des lines */
 //				if(l.get_categorie_line()=='H') {
-//					g.setColor(Color.GREEN);
+//					g2.setColor(Color.GREEN);
 //				}
 //				if(l.get_categorie_line()=='M') {
-//					g.setColor(Color.GRAY);
+//					g2.setColor(Color.GRAY);
 //				}
 //				if(l.get_categorie_line()=='L') {
-//					g.setColor(Color.MAGENTA);				
+//					g2.setColor(Color.MAGENTA);				
 //				}
 								
 				/* Direction des lines (simple ou double) */				
@@ -112,44 +118,40 @@ public class SimulateurAeroport extends JPanel {
 				
 				/* Recuperation des coordonnees */
 				x1 = l.get_coordonnees_line().get(i).getX();
-				y1 = l.get_coordonnees_line().get(i).getY();
+				y1 = plateforme.get_echelle().inverser(l.get_coordonnees_line().get(i).getY());
 				x2 = l.get_coordonnees_line().get(j).getX();
-				y2 = l.get_coordonnees_line().get(j).getY();
+				y2 = plateforme.get_echelle().inverser(l.get_coordonnees_line().get(j).getY());
 				
 				/* Creation des lines */
-				g2.drawLine(plateforme.get_echelle().adapter(x1), plateforme.get_echelle().adapter(plateforme.get_echelle().inverser(y1)), plateforme.get_echelle().adapter(x2), plateforme.get_echelle().adapter(plateforme.get_echelle().inverser(y2)));
+				g2.drawLine(x1, y1, x2, y2);
 			}
 		}
 		
 		/* Runway */
 		for(Runway r: plateforme.get_aeroport().get_runways()) {
 			
+			/* Recuperation des coordonnees */
+			x1 = r.get_coordonnees_extremites().get(0).getX();
+			y1 = plateforme.get_echelle().inverser(r.get_coordonnees_extremites().get(0).getY());
+			x2 = r.get_coordonnees_extremites().get(1).getX();
+			y2 = plateforme.get_echelle().inverser(r.get_coordonnees_extremites().get(1).getY());
+			
 			/* Configuration de l'affichage */
 			g2.setColor(Color.WHITE);
 			Stroke dashed = new BasicStroke(1,BasicStroke.CAP_BUTT,BasicStroke.JOIN_BEVEL,0,new float[]{8},0);
 			g2.setStroke(dashed);
 			
-			/* Recuperation des coordonnees */
-			x1 = r.get_coordonnees_extremites().get(0).getX();
-			y1 = r.get_coordonnees_extremites().get(0).getY();
-			x2 = r.get_coordonnees_extremites().get(1).getX();
-			y2 = r.get_coordonnees_extremites().get(1).getY();
-			
 			/* Creation des runways */
-			g2.drawLine(plateforme.get_echelle().adapter(x1), plateforme.get_echelle().adapter(plateforme.get_echelle().inverser(y1)), plateforme.get_echelle().adapter(x2), plateforme.get_echelle().adapter(plateforme.get_echelle().inverser(y2)));
+			g2.drawLine(x1, y1, x2, y2);
+			
+			/* Configuration de l'affichage */
+			int largeur_piste = 60;
+			g.setColor(new Color(0,0,0,0.1f)); //Creation d'une nouvelle couleur en RGBA (A determine l'opacite)
 			
 			/* Creation des pistes */
-			int largeur_piste = 60;
-			g.setColor(new Color(0,0,0,0.1f)); //Création d'une nouvelle couleur en RGBA (A pour alpha qui détermine l'opacité (+ alpha faible et + c'est transparent))
-			int x3[]={plateforme.get_echelle().adapter(x1),plateforme.get_echelle().adapter(x2),plateforme.get_echelle().adapter(x2),plateforme.get_echelle().adapter(x1)};
-			int y3[]={plateforme.get_echelle().adapter(plateforme.get_echelle().inverser(y1+largeur_piste)),plateforme.get_echelle().adapter(plateforme.get_echelle().inverser(y2+largeur_piste)),plateforme.get_echelle().adapter(plateforme.get_echelle().inverser(y2-largeur_piste)),plateforme.get_echelle().adapter(plateforme.get_echelle().inverser(y1-largeur_piste))};				
+			int x3[] = {x1, x2, x2, x1};
+			int y3[] = {y1+largeur_piste, y2+largeur_piste, y2-largeur_piste , y1-largeur_piste};				
 			g.fillPolygon(x3, y3, 4);
 		}
-	}
-	
-	/** translate **/
-	/** fonction : Translation au niveau de l'affichage du simulateur **/
-	public void translate (Graphics g) {
-		g.translate(plateforme.get_echelle().getX_translation(), plateforme.get_echelle().getY_translation());
 	}
 }
