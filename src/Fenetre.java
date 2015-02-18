@@ -60,11 +60,15 @@ public class Fenetre extends JFrame {
 	private JMenu boite_dialogue; /* JMenu (Boite de dialogue) */
 	private JMenuItem ouvrir_boite_dialogue; /* JMenuItem (Boite de dialogue) */
 	private JMenuItem fermer_boite_dialogue;
+	
+	//private InfiniteProgressPanel attente = new InfiniteProgressPanel();
 
 	/* utilisation du pattern Singleton */
 	
 	/** Constructeur de la classe Fenetre **/
 	public Fenetre(Plateforme plateforme) {
+		
+	    //this.setGlassPane(attente);
 		
 		/* Plateforme */
 		this.plateforme = plateforme;
@@ -245,6 +249,8 @@ public class Fenetre extends JFrame {
 		
 	    public void actionPerformed(ActionEvent ae) {
 	    	
+	    	//attente.start();
+	    	
 	    	new Thread() {
 				public void run() {
 					
@@ -269,6 +275,8 @@ public class Fenetre extends JFrame {
 			    	
 					/* Mise a jour de l'echelle */
 			    	plateforme.get_echelle().calculer_translation();
+			    	
+			    	//attente.stop();
 					
 					SwingUtilities.invokeLater(
 							new Runnable() {
