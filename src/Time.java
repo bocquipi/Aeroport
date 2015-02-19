@@ -19,7 +19,10 @@ public class Time extends Observable implements ActionListener {
 	private int minutes;
 	private int heures;
 	private int delay;
+	private int index_pas;
+	private int tableau_pas[] = {1, 5, 10, 30, 60, 1800, 3600};
 	private int pas;
+	private int index_pas_defaut;
 	private boolean avance;
 	
 	/** Constructeur de la classe Echelle **/
@@ -31,7 +34,9 @@ public class Time extends Observable implements ActionListener {
 		minutes = 0;
 		heures = 0;
 		delay = 1000; //Par defaut : vitesse = 1s
-		pas = 5; //Par defaut : pas = 5s
+		index_pas = 1; //Index par defaut
+		index_pas_defaut = 1; //Index par defaut
+		pas = tableau_pas[index_pas]; //Par defaut : pas = 5s
 		avance = true;
 		create_timer();
 		addObserver(this.plateforme.get_afficheur_time());
@@ -96,6 +101,29 @@ public class Time extends Observable implements ActionListener {
 		this.pas = pas;
 	}
 
+	/** Getter/Setter de index_pas **/
+	public int get_index_pas() {
+		return index_pas;
+	}
+	
+	public void set_index_pas(int index_pas) {
+		this.index_pas = index_pas;
+	}
+	
+	/** Getter/Setter de index_pas_defaut **/
+	public int getIndex_pas_defaut() {
+		return index_pas_defaut;
+	}
+
+	public void setIndex_pas_defaut(int index_pas_defaut) {
+		this.index_pas_defaut = index_pas_defaut;
+	}
+	
+	/** Getter de tableau_pas **/
+	public int[] get_tableau_pas() {
+		return tableau_pas;
+	}
+	
 	/** Getter/Setter de avance **/
 	public boolean getAvance() {
 		return avance;

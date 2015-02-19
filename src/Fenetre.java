@@ -61,14 +61,12 @@ public class Fenetre extends JFrame {
 	private JMenuItem ouvrir_boite_dialogue; /* JMenuItem (Boite de dialogue) */
 	private JMenuItem fermer_boite_dialogue;
 	
-	//private InfiniteProgressPanel attente = new InfiniteProgressPanel();
+	private InfiniteProgressPanel pAttente = new InfiniteProgressPanel(); /* Panel de chargement */
 
 	/* utilisation du pattern Singleton */
 	
 	/** Constructeur de la classe Fenetre **/
 	public Fenetre(Plateforme plateforme) {
-		
-	    //this.setGlassPane(attente);
 		
 		/* Plateforme */
 		this.plateforme = plateforme;
@@ -76,6 +74,9 @@ public class Fenetre extends JFrame {
 		/* Icone de la fenetre */
 		Image icone = Toolkit.getDefaultToolkit().getImage("icone.png");
 		this.setIconImage(icone);
+		
+		/* Titre de la fenetre */
+		this.setTitle("Aeroport <sans nom>");
 		
 		/* Taille de la fenetre */
 		Dimension tailleEcran = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
@@ -150,6 +151,11 @@ public class Fenetre extends JFrame {
 	    layer.setOpaque(false);
 	    layer.setPreferredSize(new Dimension(hauteur, largeur));
 	    conteneur.add(layer, gbc);
+	    
+	    /* Panel pAttente */
+		//this.setGlassPane(pAttente);
+	    pAttente.setBounds(0, 0, largeur, hauteur);
+	    layer.add(pAttente, 1);
 	    
 	    /* Panel pSimulateurAeroport */
 	    pSimulateurAeroport = new SimulateurAeroport(plateforme);
@@ -249,8 +255,6 @@ public class Fenetre extends JFrame {
 		
 	    public void actionPerformed(ActionEvent ae) {
 	    	
-	    	//attente.start();
-	    	
 	    	new Thread() {
 				public void run() {
 					
@@ -266,28 +270,34 @@ public class Fenetre extends JFrame {
 			    	System.out.println("Fichier choisi : " + filechooser.getSelectedFile());
 			    	plateforme.get_aeroport().set_nom_fichier_aeroport(filechooser.getSelectedFile().toString());
 			    	
+			    	/* Lancement du panel pAttente */
+			    	pAttente.start();
+			    	
 			    	/* Chargement du fichier trafic */
 			    	plateforme.get_aeroport().charger_fichier_aeroport(plateforme.get_aeroport());
 			    	
 			    	/* TEST */
 			    	//plateforme.get_aeroport().test_programme_aeroport(plateforme.get_aeroport());
 			    	//plateforme.get_aeroport().test_valeur_coordonnees_aeroport();
-			    	
-					/* Mise a jour de l'echelle */
+					
+			    	/* Mise a jour de l'echelle */
 			    	plateforme.get_echelle().calculer_translation();
 			    	
-			    	//attente.stop();
-					
+			    	/* Mise a jour graphique */
 					SwingUtilities.invokeLater(
 							new Runnable() {
 								public void run() {
-									/* Mise a jour du simulateur */
+									
+							    	/* Mise a jour du simulateur */
 									plateforme.get_fenetre().get_simulateur_aeroport().repaint();
-								}
-								
+								}	
 							}
 					);
+					/* Arret du panel pAttente */
+					pAttente.stop();
 					
+					/* Changement du nom de la fenetre */
+					plateforme.get_fenetre().setTitle("Aeroport - " + plateforme.get_aeroport().get_nom_aeroport());
 				}
 			}.start();
 	    }

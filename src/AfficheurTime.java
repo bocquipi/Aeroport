@@ -5,14 +5,17 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Hashtable;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -31,8 +34,21 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 	private JSlider slider;
 	private JLabel label;
 	
+	/* Image (Boutons) */
+	private ImageIcon iPlay = new ImageIcon("play.png");
+	private ImageIcon iPause = new ImageIcon("pause.png");
+	private ImageIcon iAvanceRap = new ImageIcon("avance_rapide.png");
+	private ImageIcon iRewind = new ImageIcon("rewind.png");
+	private ImageIcon iRestart = new ImageIcon("restart.png");
+	
 	/** Constructeur de la classe Echelle **/
 	public AfficheurTime(Plateforme plateforme) {
+		
+		/* Taille maximale de la fenetre */
+		this.setMaximumSize(new Dimension(400, 300));
+		
+		/* Titre de la fenetre */
+		this.setTitle("Timer");
 		
 		/* Plateforme */
 		this.plateforme = plateforme;
@@ -67,29 +83,36 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 		slider.setMinorTickSpacing(60);
 		slider.addChangeListener(this);
 		
+		/* echelle du slider */
+		Hashtable <Integer, JLabel> echelle_slider = new Hashtable <Integer, JLabel>();
+		echelle_slider.put( new Integer(0), new JLabel("0h") );
+		echelle_slider.put( new Integer(86400/24*6), new JLabel("6h") );
+		echelle_slider.put( new Integer(86400/24*12), new JLabel("12h") );
+		echelle_slider.put( new Integer(86400/24*18), new JLabel("18h") );
+		echelle_slider.put( new Integer(86400), new JLabel("24h") );
+		slider.setLabelTable(echelle_slider);
+		slider.setPaintLabels(true);
+		
 		/* panel2 <- slider1 */
 		panel2.add(slider);		
 		
 		/* panel3 */
 		JPanel panel3 = new JPanel();
-		panel3.setLayout(new GridLayout(1,6));
+		panel3.setLayout(new GridLayout(1,5));
 		
-		JButton rewind = new JButton("Rewind"); 
-		panel3.add(rewind); 
+		JButton rewind = new JButton(iRewind); 
+		panel3.add(rewind); 						
 		
-		JButton play = new JButton("Play"); 
-		panel3.add(play); 						
+		JButton pause = new JButton(iPause); 
+		panel3.add(pause); 
 		
-		JButton stop = new JButton("Stop"); 
-		panel3.add(stop); 
+		JButton play = new JButton(iPlay); 
+		panel3.add(play); 
 		
-		JButton restart = new JButton("Restart"); 
+		JButton restart = new JButton(iRestart); 
 		panel3.add(restart);
 		
-		JButton retour = new JButton("Retour rapide"); /* Cedric */
-		panel3.add(retour);  
-		
-		JButton avance = new JButton("Avance rapide"); /* Cedric */
+		JButton avance = new JButton(iAvanceRap);
 		panel3.add(avance); 
 		
 		/* conteneur <- panels */
@@ -100,15 +123,14 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 		/* Listeners */
 		rewind.addActionListener(new ActionRewind());
 		play.addActionListener(new ActionPlay());
-		stop.addActionListener(new ActionStop());
+		pause.addActionListener(new ActionPause());
 		restart.addActionListener(new ActionRestart());
-		retour.addActionListener(new ActionRetour()); /* Cedric */
-		avance.addActionListener(new ActionAvance()); /* Cedric */
+		avance.addActionListener(new ActionAvance());
 		
 		/* Dimensionnement et affichage de la fenetre */
 		this.pack();
-		this.setSize(800, 300);
 		this.setVisible(false);
+		this.setResizable(false);
 	}
 
 	/** stateChanged **/
@@ -137,8 +159,30 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 	/* fonction : timer en mode rewind */
 	class ActionRewind implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			plateforme.get_time().setAvance(false);
-			plateforme.get_time().start_timer();
+			
+			int index_pas;
+			int tableau_pas[] = plateforme.get_time().get_tableau_pas();
+			
+			if(plateforme.get_time().getAvance() == true) {
+				
+				index_pas = plateforme.get_time().getIndex_pas_defaut();
+				plateforme.get_time().set_index_pas(index_pas);
+				plateforme.get_time().setPas(tableau_pas[index_pas]);
+				plateforme.get_time().setAvance(false);
+				plateforme.get_time().start_timer();
+			}
+			else {
+				index_pas = plateforme.get_time().get_index_pas();
+				
+				/* Augmentation du pas */
+				if(index_pas != (tableau_pas.length-1) ) {
+						index_pas++;
+				}
+				
+				plateforme.get_time().set_index_pas(index_pas);
+				plateforme.get_time().setPas(tableau_pas[index_pas]);
+				plateforme.get_time().start_timer();
+			}
 		}
 	}		
    
@@ -146,14 +190,19 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 	/* fonction : timer en mode play */
 	class ActionPlay implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			
+			int index_pas = plateforme.get_time().getIndex_pas_defaut();
+			int tableau_pas[] = plateforme.get_time().get_tableau_pas();
 			plateforme.get_time().setAvance(true);
+			plateforme.get_time().set_index_pas(index_pas);
+			plateforme.get_time().setPas(tableau_pas[index_pas]);
 			plateforme.get_time().start_timer();
 		}
 	}
    
 	/* Class ActionStop */
 	/* fonction : stop le timer */
-	class ActionStop implements ActionListener {		   
+	class ActionPause implements ActionListener {		   
 		public void actionPerformed(ActionEvent e) {
 			plateforme.get_time().stop_timer();
 		}
@@ -166,27 +215,39 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 			slider.setValue(0);
 			plateforme.get_time().setTemps(0);
 			label.setText(plateforme.get_time().afficher_time());
-			plateforme.get_time().stop_timer(); 
-		}
-	}
-	
-	/* Cedric */
-	
-	/* Class ActionRetour */
-	/* fonction : timer en mode retour rapide */
-	class ActionRetour implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-			plateforme.get_time().setAvance(false);
-			plateforme.get_time().start_timer();
+			plateforme.get_time().stop_timer();
+			plateforme.get_time().setAvance(true);
 		}
 	}
 	
 	/* Class ActionAvance */
-	/* fonction : timer en mode ravance rapide */
+	/* fonction : timer en mode avance rapide */
 	class ActionAvance implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			plateforme.get_time().setAvance(true);
-			plateforme.get_time().start_timer();
+			
+			int index_pas;
+			int tableau_pas[] = plateforme.get_time().get_tableau_pas();
+			
+			if(plateforme.get_time().getAvance() == false) {
+				
+				index_pas = plateforme.get_time().getIndex_pas_defaut();
+				plateforme.get_time().set_index_pas(index_pas);
+				plateforme.get_time().setPas(tableau_pas[index_pas]);
+				plateforme.get_time().setAvance(true);
+				plateforme.get_time().start_timer();
+			}
+			else {
+				index_pas = plateforme.get_time().get_index_pas();
+				
+				/* Augmentation du pas */
+				if(index_pas != (tableau_pas.length-1) ) {
+						index_pas++;
+				}
+				
+				plateforme.get_time().set_index_pas(index_pas);
+				plateforme.get_time().setPas(tableau_pas[index_pas]);
+				plateforme.get_time().start_timer();
+			}
 		}
 	}
 }

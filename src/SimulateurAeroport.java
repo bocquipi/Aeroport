@@ -63,7 +63,7 @@ public class SimulateurAeroport extends JPanel {
 				g2.setColor(Color.BLACK); //Deicing ou Zone de degel
 			}
 			if(p.get_type_point()==2) {
-				g2.setColor(Color.GRAY); //Runway_Point ou Point d'intersection d'une piste
+				g2.setColor(Color.RED); //Runway_Point ou Point d'intersection d'une piste
 			}
 			
 			/* Recuperation des coordonnees */
@@ -77,31 +77,33 @@ public class SimulateurAeroport extends JPanel {
 		/* Lines */
 		for(Line l : plateforme.get_aeroport().get_lines()) {
 			for(int i=0, j=1;j<l.get_coordonnees_line().size();i++,j++) {
+				
+				/* Categorie des lines */
+				if(l.get_categorie_line()=='H') {
+					g2.setColor(Color.GREEN);
+				}
+				if(l.get_categorie_line()=='M') {
+					g2.setColor(Color.GRAY);
+				}
+				if(l.get_categorie_line()=='L') {
+					g2.setColor(Color.MAGENTA);				
+				}
+				
+				/* Nom des pistes (Basique ou Taxiway) */
 				if(l.get_nom_line().equals("_")) {
 					g2.setColor(Color.BLACK); //Piste basique
 				}
 				else {
 					g2.setColor(Color.GRAY); //Taxiway
 				}
-				
-				/* Categorie des lines */
-//				if(l.get_categorie_line()=='H') {
-//					g2.setColor(Color.GREEN);
-//				}
-//				if(l.get_categorie_line()=='M') {
-//					g2.setColor(Color.GRAY);
-//				}
-//				if(l.get_categorie_line()=='L') {
-//					g2.setColor(Color.MAGENTA);				
-//				}
 								
 				/* Direction des lines (simple ou double) */				
-//				if(l.get_direction_line()=='S') {
-//					g2.setStroke(new BasicStroke(1));
-//				}					
-//				if(l.get_direction_line()=='D') {
-//					g2.setStroke(new BasicStroke(2));
-//				}
+				if(l.get_direction_line()=='S') {
+					g2.setStroke(new BasicStroke(1));
+				}					
+				if(l.get_direction_line()=='D') {
+					g2.setStroke(new BasicStroke(2));
+				}
                 		
 				/* Vitesse de roulage des lines */
 				if(l.get_vitesse_roulage() <= 0) {

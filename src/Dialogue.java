@@ -24,7 +24,7 @@ public class Dialogue extends JDialog {
 	private JLabel icone;
 	private JTextField nom_fichier_aeroport;
 	private JTextField nom_fichier_trafic;
-	private ImageIcon image = new ImageIcon("air_control.jpg");
+	private ImageIcon image = new ImageIcon("air_control.png");
 	
 	/** Constructeur de la classe Dialogue **/
 	public Dialogue(JFrame parent, String title, boolean modal) {

@@ -57,22 +57,36 @@ public class SimulateurVol extends JPanel {
 		/* Declaration de variables locales */
 		int x;
 		int y;
+		int x_centre;
+		int y_centre;
+		int index;
+		int taille = 100;
+		Point p;
 		
 		/* Image : representation des vols */
 		Image depart = Toolkit.getDefaultToolkit().getImage("depart.png");
 		Image arrive = Toolkit.getDefaultToolkit().getImage("arrive.png");
 		
-		/* Recuperation des vols */
+		/* Parcours de la liste des vols */
 		for(Vol v : plateforme.get_aeroport().get_trafic().get_liste_vols()) {
-			if((temps >= v.getTemps_depart_vol()) && (temps <= v.getTemps_fin_vol())) {
-				Point p = v.getTrajectoire_vol().get((temps - v.getTemps_depart_vol())/(plateforme.get_time().getPas()));
-				x = p.get_coordonnees_point().getX();
-				y = plateforme.get_echelle().inverser(p.get_coordonnees_point().getY());
+			
+			/* Recuperation des vols affichables */
+			if((temps >= v.getTemps_depart_vol()) && (temps < v.getTemps_fin_vol())) {
+				index = (temps - v.getTemps_depart_vol())/(plateforme.get_time().getPas()); //Calcul de l'index
+				p = v.getTrajectoire_vol().get(index); //Recuperation du point de la trajectoire du vol
+				x = p.get_coordonnees_point().getX(); //Recuperation de x
+				y = plateforme.get_echelle().inverser(p.get_coordonnees_point().getY()); //Recuperation et inversion de y
+				
+				/* Calcul du centre de l'image */
+				x_centre = x - (taille/2);
+				y_centre = y - (taille/2);
+				
+				/* Affichage du vol en fonction du type (DEP ou ARR) */
 				if(v.getType_vol().equals("DEP")) {
-					g2.drawImage(depart, x, y, 50, 50, this);
+					g2.drawImage(depart, x_centre, y_centre, taille, taille, this);
 				}
 				else {
-					g2.drawImage(arrive, x, y, 50, 50, this);
+					g2.drawImage(arrive, x_centre, y_centre, taille, taille, this);
 				}
 			}
 		}
