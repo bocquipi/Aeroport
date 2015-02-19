@@ -62,6 +62,11 @@ public class Fenetre extends JFrame {
 	private JMenuItem fermer_boite_dialogue;
 	
 	private InfiniteProgressPanel pAttente = new InfiniteProgressPanel(); /* Panel de chargement */
+	
+	private int oldX; /* Variables de recuperation de la position du curseur sur la fenetre */
+	private int oldY;
+	private int newX;
+	private int newY;
 
 	/* utilisation du pattern Singleton */
 	
@@ -265,11 +270,24 @@ public class Fenetre extends JFrame {
 						System.out.println("Erreur au niveau de la recuperation du nom du fichier");
 						e.printStackTrace();
 					}
-			    	System.out.println("Repertoire courant : " + repertoire_courant);
-			    	filechooser.showOpenDialog(null);
-			    	System.out.println("Fichier choisi : " + filechooser.getSelectedFile());
-			    	plateforme.get_aeroport().set_nom_fichier_aeroport(filechooser.getSelectedFile().toString());
-			    	
+					/* Creation d'un filtre pour le choix du fichier (.txt) */
+					filechooser.setFileFilter(new javax.swing.filechooser.FileFilter() {
+						public boolean accept(File f) {
+							return f.getName().toLowerCase().endsWith(".txt") || f.isDirectory();
+						}
+						public String getDescription() {
+							return "Fichier texte";
+						}
+					});
+					
+					/* TEST : Affichage du repertoire courant */
+				    System.out.println("Repertoire courant : " + repertoire_courant);
+				    filechooser.showOpenDialog(null);
+				    	
+				    /* TEST : Affichage du fichier selectionnée */
+				    System.out.println("Fichier choisi : " + filechooser.getSelectedFile());
+				    plateforme.get_aeroport().set_nom_fichier_aeroport(filechooser.getSelectedFile().toString());
+
 			    	/* Lancement du panel pAttente */
 			    	pAttente.start();
 			    	
@@ -282,6 +300,10 @@ public class Fenetre extends JFrame {
 					
 			    	/* Mise a jour de l'echelle */
 			    	plateforme.get_echelle().calculer_translation();
+			    	
+			    	/* Mise a jour de la translation de SimulateurAeroport */
+			    	plateforme.get_fenetre().get_simulateur_aeroport().setNewTranslationX((int) plateforme.get_echelle().getX_translation());
+			    	plateforme.get_fenetre().get_simulateur_aeroport().setNewTranslationY((int) plateforme.get_echelle().getY_translation());
 			    	
 			    	/* Mise a jour graphique */
 					SwingUtilities.invokeLater(
@@ -344,8 +366,17 @@ public class Fenetre extends JFrame {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			// TODO Auto-generated method stub
-
+			/* Si Timer en mode STOP */
+			
+			/* Recuperation valeur du curseur */
+			e.getLocationOnScreen().getX();
+			e.getLocationOnScreen().getY();
+			
+			/* Creation d'une zone de verification */
+			
+			/* Analyse */
+			/* Si un VOL dans la Zone -> Affichage */
+			/* Changement d'etat de l'image du VOL (VERT) */
 		}
 
 		@Override
@@ -362,7 +393,8 @@ public class Fenetre extends JFrame {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			// TODO Auto-generated method stub
+			oldX = (int) e.getLocationOnScreen().getX();
+			oldY = (int) e.getLocationOnScreen().getY();
 		}
 
 		@Override
@@ -383,8 +415,14 @@ public class Fenetre extends JFrame {
 					
 					if (contains(e.getX(),e.getY())) {
 						/* Position du curseur de la souris */
-						plateforme.get_echelle().setX_translation((int)(e.getLocationOnScreen().getX()));
-						plateforme.get_echelle().setY_translation((int)(e.getLocationOnScreen().getY()));
+						newX = (int) e.getLocationOnScreen().getX();
+						newY = (int) e.getLocationOnScreen().getY();
+						/* Calcul de la nouvelle translation */
+						plateforme.get_fenetre().get_simulateur_aeroport().setNewTranslationX(plateforme.get_fenetre().get_simulateur_aeroport().getNewTranslationX() + (newX - oldX));
+						plateforme.get_fenetre().get_simulateur_aeroport().setNewTranslationY(plateforme.get_fenetre().get_simulateur_aeroport().getNewTranslationY() + (newY - oldY));
+						/* Mise a jour des anciennes valeurs de X et Y */
+						oldX = newX;
+						oldY = newY;
 					}
 					
 					SwingUtilities.invokeLater(

@@ -19,6 +19,8 @@ public class SimulateurAeroport extends JPanel {
 	/** Declaration des variables privees **/
 	private Plateforme plateforme;
 	private AffineTransform affinetransform;
+	private int newTranslationX;
+	private int newTranslationY;
 	
 	/* utilisation du pattern Singleton */
 	
@@ -28,6 +30,8 @@ public class SimulateurAeroport extends JPanel {
 		super();
 		this.plateforme = plateforme;
 		this.affinetransform = new AffineTransform();
+		this.newTranslationX = 0;
+		this.newTranslationY = 0;
 		this.setOpaque(true);
 	}
 	
@@ -43,7 +47,7 @@ public class SimulateurAeroport extends JPanel {
 		
 		/* Dimensionnement de l'affichage */
 		affinetransform = g2.getTransform();
-		affinetransform.translate(plateforme.get_echelle().getX_translation(), plateforme.get_echelle().getY_translation());
+		affinetransform.translate(newTranslationX, newTranslationY);
 		affinetransform.scale(plateforme.get_echelle().get_zoom(), plateforme.get_echelle().get_zoom());
 		g2.setTransform(affinetransform);
 		
@@ -148,5 +152,23 @@ public class SimulateurAeroport extends JPanel {
 			int y3[] = {y1+largeur_piste, y2+largeur_piste, y2-largeur_piste , y1-largeur_piste};				
 			g.fillPolygon(x3, y3, 4);
 		}
+	}
+	
+	/** Getter/Setter de newTranslationX **/
+	public int getNewTranslationX() {
+		return newTranslationX;
+	}
+
+	public void setNewTranslationX(int newTranslationX) {
+		this.newTranslationX = newTranslationX;
+	}
+
+	/** Getter/Setter de newTranslationX **/
+	public int getNewTranslationY() {
+		return newTranslationY;
+	}
+
+	public void setNewTranslationY(int newTranslationY) {
+		this.newTranslationY = newTranslationY;
 	}
 }
