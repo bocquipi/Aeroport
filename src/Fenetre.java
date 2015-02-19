@@ -15,6 +15,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -158,7 +159,6 @@ public class Fenetre extends JFrame {
 	    conteneur.add(layer, gbc);
 	    
 	    /* Panel pAttente */
-		//this.setGlassPane(pAttente);
 	    pAttente.setBounds(0, 0, largeur, hauteur);
 	    layer.add(pAttente, 1);
 	    
