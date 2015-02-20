@@ -12,6 +12,8 @@ import java.util.Scanner;
 public class Trafic {
 
 	/** Declaration des variables privees **/
+	private Plateforme plateforme;
+	private Collision collision;
 	private ArrayList<Vol> liste_vols;
 	private int nombre_vols;
 	private String nom_fichier_trafic;
@@ -19,10 +21,17 @@ public class Trafic {
 	/* utilisation du pattern Singleton */
 	
 	/** Constructeur de la classe Trafic **/
-	public Trafic(){
-		liste_vols = new ArrayList<Vol>();
+	public Trafic(Plateforme plateforme){
+		this.plateforme = plateforme;
+		this.collision = new Collision(this.plateforme);
+		this.liste_vols = new ArrayList<Vol>();
 		set_nombre_vols(0);
 		set_nom_fichier_trafic("inconnu");
+	}
+	
+	/** Getter de liste_vols **/
+	public Collision get_collision(){
+		return collision;
 	}
 	
 	/** Getter de liste_vols **/

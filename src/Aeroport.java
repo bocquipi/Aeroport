@@ -13,6 +13,7 @@ import java.util.Scanner;
 public class Aeroport {
 	
 	/** Declaration des variables privees **/
+	private Plateforme plateforme;
 	private String nom_aeroport;
 	private ArrayList<Point> points; 
 	private ArrayList<Line> lines;
@@ -24,12 +25,13 @@ public class Aeroport {
 	
 	/** Constructeur de la classe Aeroport **/
 	public Aeroport(Plateforme plateforme){
+		this.plateforme = plateforme;
 		set_nom_aeroport("inconnu");
 		points = new ArrayList<Point>();
 		lines = new ArrayList<Line>();
 		runways = new ArrayList<Runway>();
 		set_nom_fichier_aeroport("inconnu");
-		trafic = new Trafic();
+		trafic = new Trafic(this.plateforme);
 	}
 
 	/** Getter/Setter de nom_aeroport **/
