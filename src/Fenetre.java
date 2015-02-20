@@ -266,7 +266,6 @@ public class Fenetre extends JFrame {
 					try {
 						repertoire_courant = new File(".").getCanonicalFile();
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						System.out.println("Erreur au niveau de la recuperation du nom du fichier");
 						e.printStackTrace();
 					}
