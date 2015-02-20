@@ -3,11 +3,8 @@
 /* author :            */
 
 import javax.swing.SwingUtilities;
-//import javax.swing.UIManager;
-//import javax.swing.plaf.metal.DefaultMetalTheme;
-//import javax.swing.plaf.metal.MetalLookAndFeel;
-//import javax.swing.plaf.nimbus.NimbusLookAndFeel;
-//import javax.swing.plaf.synth.SynthLookAndFeel;
+import javax.swing.UIManager;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 public class Test_Plateforme {
 
@@ -15,10 +12,7 @@ public class Test_Plateforme {
 		try {
 			
 			/** Look & Feel (Style de l'interface) **/
-			//UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			//UIManager.setLookAndFeel(new MetalLookAndFeel());
-			//UIManager.setLookAndFeel(new NimbusLookAndFeel());
-			//UIManager.setLookAndFeel(new SynthLookAndFeel());
+			UIManager.setLookAndFeel(new NimbusLookAndFeel());
 			
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
