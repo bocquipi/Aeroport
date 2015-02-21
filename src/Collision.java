@@ -37,6 +37,11 @@ public class Collision {
 		this.liste_vols_collisions = new ArrayList[nb_collisions_max];
 	}
 	
+	/** Getter de liste_collisions **/
+	public Hashtable<Integer, ArrayList<Vol>> getListe_collisions() {
+		return liste_collisions;
+	}
+	
 	/** recherche_vols_actifs **/
 	/** fonction : recherche des vols actifs pour un temps donnes **/
 	public void recherche_vols_actifs() {

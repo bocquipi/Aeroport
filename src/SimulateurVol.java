@@ -81,6 +81,9 @@ public class SimulateurVol extends JPanel {
 				x_centre = x - (taille/2);
 				y_centre = y - (taille/2);
 				
+				/* Collision */
+				
+				/* Pas de collision */
 				/* Affichage du vol en fonction du type (DEP ou ARR) */
 				if(v.getType_vol().equals("DEP")) {
 					g2.drawImage(depart, x_centre, y_centre, taille, taille, this);
