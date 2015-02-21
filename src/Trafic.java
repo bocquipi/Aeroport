@@ -71,63 +71,58 @@ public class Trafic {
 	/**				creation du trafic de la plateforme aeroportuaire **/
 	public void charger_fichier_trafic(Trafic trafic) {
 		
-		new Thread() {
-			public void run() {
-				
-				/* Declaration des variables locales */
-				BufferedReader fe = null;
-				String tampon;
-				String type;
-				String identifiant;
-				String categorie;
-				String point_depart;
-				String qfu;
-				int temps_depart;
-				String temps_limite;
-				String trajectoire = " ";
-				
-				/* Ouverture du fichier */
-				try {
-					fe = new BufferedReader(new FileReader(nom_fichier_trafic));
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch bloc;
-					System.out.println("Erreur au niveau de l'ouverture du fichier "+nom_fichier_trafic);
-					e.printStackTrace();
-				}
-				
-				/* Lecture du fichier */
-				try {
-					while((tampon = fe.readLine()) != null) {
-						Scanner s = new Scanner(tampon);
-						s.useDelimiter(" ");
-						type = s.next();
-						identifiant = s.next();
-						categorie =	s.next();
-						point_depart = s.next();
-						qfu = s.next();
-						temps_depart = s.nextInt();
-						temps_limite = s.next();
-						s.useDelimiter("\n");
-						trajectoire = s.next();
-						trafic.get_liste_vols().add(new Vol(type, identifiant, categorie, point_depart, qfu, temps_depart, temps_limite, trajectoire));
-						s.close();
-					}				
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					System.out.println("Erreur au niveau de la lecture du fichier "+nom_fichier_trafic);
-					e1.printStackTrace();
-				}
-				
-				/* Fermeture du fichier */
-				try {
-					fe.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					System.out.println("Erreur au niveau de la fermeture du fichier "+nom_fichier_trafic);
-					e.printStackTrace();
-				}
-			}
-		}.start();
+		/* Declaration des variables locales */
+		BufferedReader fe = null;
+		String tampon;
+		String type;
+		String identifiant;
+		String categorie;
+		String point_depart;
+		String qfu;
+		int temps_depart;
+		String temps_limite;
+		String trajectoire = " ";
+		
+		/* Ouverture du fichier */
+		try {
+			fe = new BufferedReader(new FileReader(nom_fichier_trafic));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch bloc;
+			System.out.println("Erreur au niveau de l'ouverture du fichier "+nom_fichier_trafic);
+			e.printStackTrace();
+		}
+		
+		/* Lecture du fichier */
+		try {
+			while((tampon = fe.readLine()) != null) {
+				Scanner s = new Scanner(tampon);
+				s.useDelimiter(" ");
+				type = s.next();
+				identifiant = s.next();
+				categorie =	s.next();
+				point_depart = s.next();
+				qfu = s.next();
+				temps_depart = s.nextInt();
+				temps_limite = s.next();
+				s.useDelimiter("\n");
+				trajectoire = s.next();
+				trafic.get_liste_vols().add(new Vol(type, identifiant, categorie, point_depart, qfu, temps_depart, temps_limite, trajectoire));
+				s.close();
+			}				
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			System.out.println("Erreur au niveau de la lecture du fichier "+nom_fichier_trafic);
+			e1.printStackTrace();
+		}
+		
+		/* Fermeture du fichier */
+		try {
+			fe.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Erreur au niveau de la fermeture du fichier "+nom_fichier_trafic);
+			e.printStackTrace();
+		}
 	}
 	
 	/* TEST */

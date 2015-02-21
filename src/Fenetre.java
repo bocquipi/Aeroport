@@ -58,6 +58,9 @@ public class Fenetre extends JFrame {
 	private JMenuItem ouvrir_timer; /* JMenuItem (Timer) */
 	private JMenuItem fermer_timer;
 	
+	private JMenu menu_collision; /* JMenu (Collision) */
+	private JMenuItem detection_collision; /* JMenuItem (Detection collision) */
+	
 	private JMenu boite_dialogue; /* JMenu (Boite de dialogue) */
 	private JMenuItem ouvrir_boite_dialogue; /* JMenuItem (Boite de dialogue) */
 	private JMenuItem fermer_boite_dialogue;
@@ -104,9 +107,11 @@ public class Fenetre extends JFrame {
 		/* Menus primaires */
 		fichier = new JMenu("Fichier");
 		menu_timer = new JMenu("Timer");
+		menu_collision = new JMenu("Collision");
 		boite_dialogue = new JMenu("Boite de dialogue");
 		menuBar.add(fichier);
 		menuBar.add(menu_timer);
+		menuBar.add(menu_collision);
 	    menuBar.add(boite_dialogue);
 	    
 	    /* Menus secondaires */
@@ -125,11 +130,15 @@ public class Fenetre extends JFrame {
 	    boite_dialogue.add(ouvrir_boite_dialogue);
 	    boite_dialogue.add(fermer_boite_dialogue);
 	    
-	    /* MenuItems boite_dialogue */
+	    /* MenuItems timer */
 	    ouvrir_timer = new JMenuItem("Ouvrir");
 		fermer_timer = new JMenuItem("Fermer");
 		menu_timer.add(ouvrir_timer);
 		menu_timer.add(fermer_timer);
+		
+		/* MenuItems collision */
+	    detection_collision = new JMenuItem("Detection");
+		menu_collision.add(detection_collision);
 	    
 	    /* Conteneur */
 	    conteneur = new Container();
@@ -196,6 +205,7 @@ public class Fenetre extends JFrame {
 	    fermer_boite_dialogue.addActionListener(new ActionFermerBD());
 	    ouvrir_timer.addActionListener(new ActionOuvrirTimer());
 	    fermer_timer.addActionListener(new ActionFermerTimer());
+	    detection_collision.addActionListener(new ActionDetectionCollision());
 	    /* MouseListener */
 		this.addMouseListener(new ActionMouseListener());
 		this.addMouseMotionListener(new ActionMouseMotion());
@@ -233,6 +243,19 @@ public class Fenetre extends JFrame {
 		
 	    public void actionPerformed(ActionEvent ae) {
 	    	plateforme.get_afficheur_time().setVisible(false);
+	    }  
+	}
+	
+	/* Class ActionDetectionCollision */
+	/* fonction : detecter les collisions de la plateforme aeroportuaire */
+	class ActionDetectionCollision implements ActionListener {
+		
+	    public void actionPerformed(ActionEvent ae) {
+	    	new Thread() {
+				public void run() {
+					plateforme.get_aeroport().get_trafic().get_collision().detection_collision(); //Analyse des collisions
+				}
+			}.start();
 	    }  
 	}
 	
@@ -283,7 +306,7 @@ public class Fenetre extends JFrame {
 				    System.out.println("Repertoire courant : " + repertoire_courant);
 				    filechooser.showOpenDialog(null);
 				    	
-				    /* TEST : Affichage du fichier selectionnée */
+				    /* TEST : Affichage du fichier selectionnee */
 				    System.out.println("Fichier choisi : " + filechooser.getSelectedFile());
 				    plateforme.get_aeroport().set_nom_fichier_aeroport(filechooser.getSelectedFile().toString());
 
@@ -314,6 +337,7 @@ public class Fenetre extends JFrame {
 								}	
 							}
 					);
+					
 					/* Arret du panel pAttente */
 					pAttente.stop();
 					
@@ -339,8 +363,21 @@ public class Fenetre extends JFrame {
 	    				System.out.println("Erreur au niveau de la recuperation du nom du fichier");
 	    				e.printStackTrace();
 	    			}
+	    			/* Creation d'un filtre pour le choix du fichier (.txt) */
+					filechooser.setFileFilter(new javax.swing.filechooser.FileFilter() {
+						public boolean accept(File f) {
+							return f.getName().toLowerCase().endsWith(".txt") || f.isDirectory();
+						}
+						public String getDescription() {
+							return "Fichier texte";
+						}
+					});
+					
+					/* TEST : Affichage du repertoire courant */
 	    	    	System.out.println("Repertoire courant : " + repertoire_courant);
 	    	    	filechooser.showOpenDialog(null);
+	    	    	
+	    	    	/* TEST : Affichage du fichier selectionnee */
 	    	    	System.out.println("Fichier choisi : " + filechooser.getSelectedFile());
 	    	    	plateforme.get_aeroport().get_trafic().set_nom_fichier_trafic(filechooser.getSelectedFile().toString());
 	    	    	
@@ -354,7 +391,7 @@ public class Fenetre extends JFrame {
 	    	    	//plateforme.get_aeroport().get_trafic().test_programme_trafic(plateforme.get_aeroport().get_trafic());
 	    		}
 	    	}.start();
-	    } 
+	    }
 	}
 	
 	/** Classe inner pour les listeners **/

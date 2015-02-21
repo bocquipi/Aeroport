@@ -22,6 +22,5 @@ public class Test_Plateforme {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 		}
-		
 	}
 }
