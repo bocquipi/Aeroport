@@ -87,27 +87,26 @@ public class SimulateurVol extends JPanel {
 				x_centre = x - (taille/2);
 				y_centre = y - (taille/2);
 			
-				/* Verification de collisions */
-				Iterator<ArrayList<Vol>> iterator_valeur = plateforme.get_aeroport().get_trafic().get_collision().getListe_collisions().values().iterator();
-				Iterator<Integer> iterator_cle = plateforme.get_aeroport().get_trafic().get_collision().getListe_collisions().keySet().iterator();
-				while((iterator_valeur.hasNext()) && (iterator_cle.hasNext())) {
-					if(temps == iterator_cle.next()) {
-						/* Affichage de la collision */
-						vols_collision = iterator_valeur.next();
-						if((v.getIdentifiant_vol() == vols_collision.get(0).getIdentifiant_vol())
-								|| (v.getIdentifiant_vol() == vols_collision.get(1).getIdentifiant_vol())) {
-							g2.drawImage(collision, x_centre, y_centre, taille, taille, this);
-							System.out.println("Collision");
-						}
-					}
-				}
-				
 				/* Affichage du vol en fonction du type (DEP ou ARR) */
 				if(v.getType_vol().equals("DEP")) {
 					g2.drawImage(depart, x_centre, y_centre, taille, taille, this);
 				}
 				else {
 					g2.drawImage(arrive, x_centre, y_centre, taille, taille, this);
+				}
+				
+				/* Verification de collisions */
+				Iterator<ArrayList<Vol>> iterator_valeur = plateforme.get_aeroport().get_trafic().get_collision().getListe_collisions().values().iterator();
+				Iterator<Integer> iterator_cle = plateforme.get_aeroport().get_trafic().get_collision().getListe_collisions().keySet().iterator();
+				while((iterator_valeur.hasNext()) && (iterator_cle.hasNext())) {
+					vols_collision = iterator_valeur.next();
+					if(temps == iterator_cle.next()) {
+						/* Affichage de la collision */
+						if((v.getIdentifiant_vol().equals(vols_collision.get(0).getIdentifiant_vol()))
+								|| (v.getIdentifiant_vol().equals(vols_collision.get(1).getIdentifiant_vol()))) {
+							g2.drawImage(collision, x_centre, y_centre, taille, taille, this);
+						}
+					}
 				}
 			}
 		}
