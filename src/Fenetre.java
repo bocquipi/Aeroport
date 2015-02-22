@@ -15,9 +15,9 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -402,17 +402,63 @@ public class Fenetre extends JFrame {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			/* Si Timer en mode STOP */
 			
-			/* Recuperation valeur du curseur */
-			e.getLocationOnScreen().getX();
-			e.getLocationOnScreen().getY();
+			/* Declaration des variables locales */
+			ArrayList<Vol> vols_plateforme = new ArrayList<Vol>();
+			Vol v;
+			Point p;
+			int x;
+			int y;
+			int x_c;
+			int y_c;
+			int index;
 			
-			/* Creation d'une zone de verification */
+			/* Recuperation du temps */
+			int temps = plateforme.get_time().getTemps();
 			
-			/* Analyse */
-			/* Si un VOL dans la Zone -> Affichage */
-			/* Changement d'etat de l'image du VOL (VERT) */
+			/* Timer en mode STOP */
+			if(plateforme.get_time().getTimer().isRunning() != true) {
+				
+				/* Recuperation valeur du curseur */
+				x_c = (int) e.getLocationOnScreen().getX();
+				y_c = (int) e.getLocationOnScreen().getY();
+				
+				System.out.println(x_c);
+				System.out.println(y_c);
+				
+				/* Analyse */
+				/* Parcours de la liste des vols */
+				for(int i = 0 ; i < plateforme.get_aeroport().get_trafic().get_liste_vols().size() ; i++) {
+					
+					/* Recuperation des vols affichables */
+					v = plateforme.get_aeroport().get_trafic().get_liste_vols().get(i);
+					if((temps >= v.getTemps_depart_vol()) && (temps < v.getTemps_fin_vol())) {
+						vols_plateforme.add(v);
+					}
+				}
+				
+				/* Test du MouseCLicked */
+				for(Vol vol : vols_plateforme) {
+					index = (temps - vol.getTemps_depart_vol())/(plateforme.get_time().getPas()); //Calcul de l'index
+					p = vol.getTrajectoire_vol().get(index); //Recuperation du point de la trajectoire du vol
+					x = p.get_coordonnees_point().getX(); //Recuperation de x
+					y = plateforme.get_echelle().inverser(p.get_coordonnees_point().getY()); //Recuperation et inversion de y
+					x = x + plateforme.get_fenetre().get_simulateur_aeroport().getNewTranslationX();
+					y = y + plateforme.get_fenetre().get_simulateur_aeroport().getNewTranslationY();
+					x = (int) (x*plateforme.get_echelle().get_zoom());
+					y = (int) (y*plateforme.get_echelle().get_zoom());
+					System.out.println(x);
+					System.out.println(y);
+					/* Creation d'une zone de verification */
+					if((x > x_c - 10) && (x < x_c + 10)  && (y > y_c - 10)  && (y < y_c + 10)) {
+						System.out.println(vol.getIdentifiant_vol());
+					}
+				}
+				
+				/* Analyse */
+				/* Si un VOL dans la Zone -> Affichage */
+				/* Changement d'etat de l'image du VOL (VERT) */
+			}
 		}
 
 		@Override

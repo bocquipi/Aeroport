@@ -21,13 +21,15 @@ public class SimulateurVol extends JPanel {
 	/** Declaration des variables privees **/
 	private Plateforme plateforme;
 	private AffineTransform affinetransform;
-	
+	private int	nombre_vols_display;
+
 	/** Constructeur de la classe SimulateurAeroport **/
 	public SimulateurVol(Plateforme plateforme) {
 
 		super();
 		this.plateforme = plateforme;
 		this.affinetransform = new AffineTransform();
+		this.nombre_vols_display = 0;
 	    this.setOpaque(false);
 	}
 	
@@ -66,6 +68,9 @@ public class SimulateurVol extends JPanel {
 		int index;
 		int taille = 100;
 		Point p;
+		
+		/* RAZ du nombre de vols sur la plateforme aeroportuaire */
+		setNombre_vols_display(0);
 		
 		/* Image : representation des vols */
 		Image depart = Toolkit.getDefaultToolkit().getImage("depart.png");
@@ -108,6 +113,9 @@ public class SimulateurVol extends JPanel {
 						}
 					}
 				}
+				
+				/* Calcul du nombre de vols sur la plateforme aeroportuaire */
+				setNombre_vols_display(nombre_vols_display++);
 			}
 		}
 		
@@ -136,6 +144,15 @@ public class SimulateurVol extends JPanel {
 //				}
 //			}
 //		}
+	}
+	
+	/** Getter/Setter de nombre_vols_display **/
+	public int getNombre_vols_display() {
+		return nombre_vols_display;
+	}
+
+	public void setNombre_vols_display(int nombre_vols_display) {
+		this.nombre_vols_display = nombre_vols_display;
 	}
 	
 	/** test_affichage_avion **/
