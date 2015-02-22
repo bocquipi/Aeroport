@@ -8,6 +8,8 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.JPanel;
 
@@ -41,7 +43,7 @@ public class SimulateurVol extends JPanel {
 		
 		/* Dimensionnement de l'affichage */
 		affinetransform = g2.getTransform();
-		affinetransform.translate(plateforme.get_echelle().getX_translation(), plateforme.get_echelle().getY_translation());
+		affinetransform.translate(plateforme.get_fenetre().get_simulateur_aeroport().getNewTranslationX(), plateforme.get_fenetre().get_simulateur_aeroport().getNewTranslationY());
 		affinetransform.scale(plateforme.get_echelle().get_zoom(), plateforme.get_echelle().get_zoom());
 		g2.setTransform(affinetransform);
 		
@@ -55,6 +57,8 @@ public class SimulateurVol extends JPanel {
 		//System.out.println("Affichage avion");
 		
 		/* Declaration de variables locales */
+		Vol v;
+		ArrayList<Vol> vols_collision;
 		int x;
 		int y;
 		int x_centre;
@@ -66,11 +70,13 @@ public class SimulateurVol extends JPanel {
 		/* Image : representation des vols */
 		Image depart = Toolkit.getDefaultToolkit().getImage("depart.png");
 		Image arrive = Toolkit.getDefaultToolkit().getImage("arrive.png");
+		Image collision = Toolkit.getDefaultToolkit().getImage("collision.png");
 		
 		/* Parcours de la liste des vols */
-		for(Vol v : plateforme.get_aeroport().get_trafic().get_liste_vols()) {
+		for(int i = 0 ; i < plateforme.get_aeroport().get_trafic().get_liste_vols().size() ; i++) {
 			
 			/* Recuperation des vols affichables */
+			v = plateforme.get_aeroport().get_trafic().get_liste_vols().get(i);
 			if((temps >= v.getTemps_depart_vol()) && (temps < v.getTemps_fin_vol())) {
 				index = (temps - v.getTemps_depart_vol())/(plateforme.get_time().getPas()); //Calcul de l'index
 				p = v.getTrajectoire_vol().get(index); //Recuperation du point de la trajectoire du vol
@@ -80,10 +86,22 @@ public class SimulateurVol extends JPanel {
 				/* Calcul du centre de l'image */
 				x_centre = x - (taille/2);
 				y_centre = y - (taille/2);
+			
+				/* Verification de collisions */
+				Iterator<ArrayList<Vol>> iterator_valeur = plateforme.get_aeroport().get_trafic().get_collision().getListe_collisions().values().iterator();
+				Iterator<Integer> iterator_cle = plateforme.get_aeroport().get_trafic().get_collision().getListe_collisions().keySet().iterator();
+				while((iterator_valeur.hasNext()) && (iterator_cle.hasNext())) {
+					if(temps == iterator_cle.next()) {
+						/* Affichage de la collision */
+						vols_collision = iterator_valeur.next();
+						if((v.getIdentifiant_vol() == vols_collision.get(0).getIdentifiant_vol())
+								|| (v.getIdentifiant_vol() == vols_collision.get(1).getIdentifiant_vol())) {
+							g2.drawImage(collision, x_centre, y_centre, taille, taille, this);
+							System.out.println("Collision");
+						}
+					}
+				}
 				
-				/* Collision */
-				
-				/* Pas de collision */
 				/* Affichage du vol en fonction du type (DEP ou ARR) */
 				if(v.getType_vol().equals("DEP")) {
 					g2.drawImage(depart, x_centre, y_centre, taille, taille, this);
@@ -93,6 +111,32 @@ public class SimulateurVol extends JPanel {
 				}
 			}
 		}
+		
+		/* Exception */
+		/* Exception in thread "AWT-EventQueue-0" java.util.ConcurrentModificationException */
+//		/* Parcours de la liste des vols */
+//		for(Vol v : plateforme.get_aeroport().get_trafic().get_liste_vols()) {
+//			
+//			/* Recuperation des vols affichables */
+//			if((temps >= v.getTemps_depart_vol()) && (temps < v.getTemps_fin_vol())) {
+//				index = (temps - v.getTemps_depart_vol())/(plateforme.get_time().getPas()); //Calcul de l'index
+//				p = v.getTrajectoire_vol().get(index); //Recuperation du point de la trajectoire du vol
+//				x = p.get_coordonnees_point().getX(); //Recuperation de x
+//				y = plateforme.get_echelle().inverser(p.get_coordonnees_point().getY()); //Recuperation et inversion de y
+//				
+//				/* Calcul du centre de l'image */
+//				x_centre = x - (taille/2);
+//				y_centre = y - (taille/2);
+//				
+//				/* Affichage du vol en fonction du type (DEP ou ARR) */
+//				if(v.getType_vol().equals("DEP")) {
+//					g2.drawImage(depart, x_centre, y_centre, taille, taille, this);
+//				}
+//				else {
+//					g2.drawImage(arrive, x_centre, y_centre, taille, taille, this);
+//				}
+//			}
+//		}
 	}
 	
 	/** test_affichage_avion **/

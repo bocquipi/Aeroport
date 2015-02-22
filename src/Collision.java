@@ -6,8 +6,10 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList; 
-import java.util.Enumeration;
-import java.util.Hashtable;
+//import java.util.Enumeration;
+//import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 
 public class Collision {
 	
@@ -15,7 +17,8 @@ public class Collision {
 	private Plateforme plateforme;
 	private ArrayList<ArrayList<Vol>> liste_temps;
 	private ArrayList<Vol> liste_vols_temps[];
-	private Hashtable<Integer, ArrayList<Vol>> liste_collisions;
+	//private Hashtable<Integer, ArrayList<Vol>> liste_collisions;
+	private LinkedHashMap<Integer, ArrayList<Vol>> liste_collisions;
 	private ArrayList<Vol> liste_vols_collisions[];
 	private static final int nb_collisions_max = 200;
 	private int pas;
@@ -33,13 +36,17 @@ public class Collision {
 		this.nb_collisions = 0;
 		this.liste_temps = new ArrayList<ArrayList<Vol>>(temps_total/pas);
 		this.liste_vols_temps = new ArrayList[temps_total/pas];
-		this.liste_collisions = new Hashtable<Integer, ArrayList<Vol>>();
+		//this.liste_collisions = new Hashtable<Integer, ArrayList<Vol>>();
+		this.liste_collisions = new LinkedHashMap<Integer, ArrayList<Vol>>();
 		this.liste_vols_collisions = new ArrayList[nb_collisions_max];
 	}
 	
 	/** Getter de liste_collisions **/
-	public Hashtable<Integer, ArrayList<Vol>> getListe_collisions() {
-		return liste_collisions;
+//	public Hashtable<Integer, ArrayList<Vol>> getListe_collisions() {
+//		return liste_collisions;
+//	}
+	public LinkedHashMap<Integer, ArrayList<Vol>> getListe_collisions() {
+	return liste_collisions;
 	}
 	
 	/** recherche_vols_actifs **/
@@ -107,7 +114,6 @@ public class Collision {
 				}
 			}
 		}
-		System.out.println("Collision = " + nb_collisions);
 		/* Enregistrement des collisions dans un fichier texte */
 		enregistrer_collision();
 	}
@@ -130,11 +136,17 @@ public class Collision {
 		/* Ecriture dans le fichier */
 		try {
 			
-			/* Declaration des variables locales */ 
-			Enumeration<ArrayList<Vol>> enumeration_valeur = liste_collisions.elements();
-			Enumeration<Integer> enumeration_cle = liste_collisions.keys();
+			/* Declaration des variables locales */
+			//Enumeration<ArrayList<Vol>> enumeration_valeur = liste_collisions.elements();
+			//Enumeration<Integer> enumeration_cle = liste_collisions.keys();
+			Iterator<ArrayList<Vol>> iterator_valeur = liste_collisions.values().iterator();
+			Iterator<Integer> iterator_cle = liste_collisions.keySet().iterator();
+			
 			ArrayList<Vol> liste_tampon;
 			int temps;
+			int heures;
+			int minutes;
+			int secondes;
 			String tampon;
 			
 			/* Presentation du fichier */
@@ -146,11 +158,24 @@ public class Collision {
 			fs.newLine();
 			
 			/* Affichage des collisions */
-			while((enumeration_valeur.hasMoreElements()) && (enumeration_cle.hasMoreElements())) {
-				liste_tampon = enumeration_valeur.nextElement();
-				temps = enumeration_cle.nextElement();
+//			while((enumeration_valeur.hasMoreElements()) && (enumeration_cle.hasMoreElements())) {
+//				liste_tampon = enumeration_valeur.nextElement();
+//				temps = enumeration_cle.nextElement();
+//				heures = temps/3600;
+//				minutes = (temps%3600)/60;
+//				secondes = (temps%3600)%60;
+//				tampon = liste_tampon.get(0).getIdentifiant_vol() + " et " + liste_tampon.get(1).getIdentifiant_vol();
+//				fs.write(heures + ":" + minutes + ":" + secondes + " - " + tampon);
+//				fs.newLine();
+//			}
+			while((iterator_valeur.hasNext()) && (iterator_cle.hasNext())) {
+				liste_tampon = iterator_valeur.next();
+				temps = iterator_cle.next();
+				heures = temps/3600;
+				minutes = (temps%3600)/60;
+				secondes = (temps%3600)%60;
 				tampon = liste_tampon.get(0).getIdentifiant_vol() + " et " + liste_tampon.get(1).getIdentifiant_vol();
-				fs.write(temps + " : " + tampon);
+				fs.write(heures + ":" + minutes + ":" + secondes + " - " + tampon);
 				fs.newLine();
 			}
 			
@@ -172,5 +197,11 @@ public class Collision {
 			System.out.println("Erreur au niveau de la fermeture du fichier " + nom_fichier_collision);
 			e.printStackTrace();
 		}
+	}
+
+	/** trier_collision **/
+	/** fonction : trier les collisions par ordre temporelle **/
+	public void trier_collision() {
+
 	}
 }

@@ -61,19 +61,21 @@ public class SimulateurAeroport extends JPanel {
 		int point = 20;
 		
 		for(int i = 0; i < plateforme.get_aeroport().get_points().size() ; i++) {
-			if (plateforme.get_aeroport().get_points().get(i).get_type_point() == 0) {
-				g2.setColor(Color.BLUE); //Stand ou Aire de parking
-			}
-			if (plateforme.get_aeroport().get_points().get(i).get_type_point() == 0) {
-				g2.setColor(Color.BLACK); //Deicing ou Zone de degel
-			}
-			if(plateforme.get_aeroport().get_points().get(i).get_type_point() == 0) {
-				g2.setColor(Color.RED); //Runway_Point ou Point d'intersection d'une piste
-			}
 			
 			/* Recuperation des coordonnees */
 			x1 = plateforme.get_aeroport().get_points().get(i).get_coordonnees_point().getX();
 			y1 = plateforme.get_echelle().inverser(plateforme.get_aeroport().get_points().get(i).get_coordonnees_point().getY());
+			
+			/* Choix du type de point */
+			if (plateforme.get_aeroport().get_points().get(i).get_type_point() == 0) {
+				g2.setColor(Color.BLUE); //Stand ou Aire de parking
+			}
+			if (plateforme.get_aeroport().get_points().get(i).get_type_point() == 1) {
+				g2.setColor(Color.BLACK); //Deicing ou Zone de degel
+			}
+			if(plateforme.get_aeroport().get_points().get(i).get_type_point() == 2) {
+				g2.setColor(Color.RED); //Runway_Point ou Point d'intersection d'une piste
+			}
 			
 			/* Creation du point */
 			g2.fillOval(x1, y1, point, point);
@@ -83,13 +85,13 @@ public class SimulateurAeroport extends JPanel {
 		/* Exception in thread "AWT-EventQueue-0" java.util.ConcurrentModificationException */
 		/* Analyse : Modification par affinetransform */
 //		for(Point p : plateforme.get_aeroport().get_points()) {
-//			if (p.get_type_point()==0) {
+//			if (p.get_type_point() == 0) {
 //				g2.setColor(Color.BLUE); //Stand ou Aire de parking
 //			}
-//			if (p.get_type_point()==1) {
+//			if (p.get_type_point() == 1) {
 //				g2.setColor(Color.BLACK); //Deicing ou Zone de degel
 //			}
-//			if(p.get_type_point()==2) {
+//			if(p.get_type_point() == 2) {
 //				g2.setColor(Color.RED); //Runway_Point ou Point d'intersection d'une piste
 //			}
 //			
