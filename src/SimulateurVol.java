@@ -72,6 +72,9 @@ public class SimulateurVol extends JPanel {
 		/* RAZ du nombre de vols sur la plateforme aeroportuaire */
 		setNombre_vols_display(0);
 		
+		/* RAZ de la JList dans Informations */
+		plateforme.get_fenetre().get_informations().get_listeModel().clear();
+		
 		/* Image : representation des vols */
 		Image depart = Toolkit.getDefaultToolkit().getImage("depart.png");
 		Image arrive = Toolkit.getDefaultToolkit().getImage("arrive.png");
@@ -99,6 +102,9 @@ public class SimulateurVol extends JPanel {
 				else {
 					g2.drawImage(arrive, x_centre, y_centre, taille, taille, this);
 				}
+				
+				/* Remplissage de la JList dans Informations */
+				plateforme.get_fenetre().get_informations().get_listeModel().addElement(v);;
 				
 				/* Verification de collisions */
 				Iterator<ArrayList<Vol>> iterator_valeur = plateforme.get_aeroport().get_trafic().get_collision().getListe_collisions().values().iterator();

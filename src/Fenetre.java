@@ -2,10 +2,9 @@
 /* Vue                 */
 /* author :            */
 
+import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -25,6 +24,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 public class Fenetre extends JFrame {
@@ -132,7 +132,9 @@ public class Fenetre extends JFrame {
 	    
 	    /* MenuItems timer */
 	    ouvrir_timer = new JMenuItem("Ouvrir");
+	    ouvrir_timer.setAccelerator(KeyStroke.getKeyStroke('t'));
 		fermer_timer = new JMenuItem("Fermer");
+		//fermer_timer.setAccelerator(KeyStroke.getKeyStroke('f'));
 		menu_timer.add(ouvrir_timer);
 		menu_timer.add(fermer_timer);
 		
@@ -143,29 +145,31 @@ public class Fenetre extends JFrame {
 	    /* Conteneur */
 	    conteneur = new Container();
 	    conteneur = this.getContentPane();
-	    conteneur.setLayout(new GridBagLayout());
+	    //conteneur.setLayout(new GridBagLayout());
+	    conteneur.setLayout(new BorderLayout());
 	    
 	    /* GridBagConstraints */
-	    GridBagConstraints gbc = new GridBagConstraints();
+	    //GridBagConstraints gbc = new GridBagConstraints();
 	    
 	    //x correspond au colonne
 	    //y correspond au ligne
 	    
 	    /* Positionnement de la case initiale */
-	    gbc.gridx = 0;
-	    gbc.gridy = 0;
+	    //gbc.gridx = 0;
+	    //gbc.gridy = 0;
 	    
 	    /* Contrainte de la case */
-	    gbc.gridheight = 1;
-	    gbc.gridwidth = 1;
-	    gbc.fill = GridBagConstraints.BOTH;
-	    gbc.weightx = 95;
+	    //gbc.gridheight = 5;
+	    //gbc.gridwidth = 1;
+	    //gbc.fill = GridBagConstraints.BOTH;
+	    //gbc.weightx = 90;
 	    
 	    /* LayeredPane layer */
 	    layer = new JLayeredPane();
 	    layer.setOpaque(false);
 	    layer.setPreferredSize(new Dimension(hauteur, largeur));
-	    conteneur.add(layer, gbc);
+	    //conteneur.add(layer, gbc);
+	    conteneur.add(layer, BorderLayout.CENTER);
 	    
 	    /* Panel pAttente */
 	    pAttente.setBounds(0, 0, largeur, hauteur);
@@ -179,23 +183,25 @@ public class Fenetre extends JFrame {
 	    
 	    /* Panel pSimulateurVol */
 	    pSimulateurVol = new SimulateurVol(plateforme);
-	    pSimulateurVol.setPreferredSize(layer.getSize());
+	    pSimulateurVol.setSize(layer.getSize());
 	    pSimulateurVol.setBounds(0, 0, largeur, hauteur);
 	    layer.add(pSimulateurVol, 0);
 	    
 	    /* Positionnement de la case initiale */
-	    gbc.gridx = 1;
-	    gbc.gridy = 0;
+	    //gbc.gridx = 1;
+	    //gbc.gridy = 0;
 	    
 	    /* Contrainte de la case */
-	    gbc.gridheight = 1;
-	    gbc.gridwidth = 1;
-	    gbc.fill = GridBagConstraints.BOTH;
-	    gbc.weightx = 5;
+	    //gbc.gridheight = 5;
+	    //gbc.gridwidth = 1;
+	    //gbc.fill = GridBagConstraints.BOTH;
+	    //gbc.weightx = 10;
 	    
 	    /* Panel pInformations */
-	    pInformations = new Informations(plateforme.get_aeroport(), plateforme.get_echelle());
-	    conteneur.add(pInformations, gbc);
+	    pInformations = new Informations(plateforme);
+	    //pInformations.setPreferredSize(new Dimension(hauteur, largeur));
+	    //conteneur.add(pInformations, gbc);
+	    conteneur.add(pInformations, BorderLayout.EAST);
 	    
 	    /* Listeners */
 	    /* JMenuItem */
@@ -224,6 +230,11 @@ public class Fenetre extends JFrame {
 	/** Getter de pSimulateurAeroport **/
 	public SimulateurVol get_simulateur_vol() {
 		return pSimulateurVol;
+	}
+	
+	/** Getter de pInformations **/
+	public Informations get_informations() {
+		return pInformations;
 	}
 	
 	/** Classe inner pour les listeners **/
@@ -325,7 +336,7 @@ public class Fenetre extends JFrame {
 			    	
 			    	/* Mise a jour de la translation de SimulateurAeroport */
 			    	plateforme.get_fenetre().get_simulateur_aeroport().setNewTranslationX((int) plateforme.get_echelle().getX_translation());
-			    	plateforme.get_fenetre().get_simulateur_aeroport().setNewTranslationY((int) plateforme.get_echelle().getY_translation());
+			    	plateforme.get_fenetre().get_simulateur_aeroport().setNewTranslationY((int) plateforme.get_echelle().getY_translation()*2);
 			    	
 			    	/* Mise a jour graphique */
 					SwingUtilities.invokeLater(
@@ -538,13 +549,13 @@ public class Fenetre extends JFrame {
 					int index_zoom = plateforme.get_echelle().get_index_zoom();
 					double tableau_zoom[] = plateforme.get_echelle().get_tableau_zoom();
 					int wheelRotation = e.getWheelRotation();
-					/* Zoom + */
+					/* Zoom - */
 					if(wheelRotation == 1) {
 						if(index_zoom != (tableau_zoom.length-1) ) {
 							index_zoom++;
 						}
 					}
-					/* Zoom - */
+					/* Zoom + */
 					else {
 						if(index_zoom != 0) {
 							index_zoom--;
