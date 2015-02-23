@@ -14,8 +14,10 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+
 import java.io.File;
 import java.io.IOException;
+
 import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
@@ -159,7 +161,7 @@ public class Fenetre extends JFrame {
 	    //gbc.gridy = 0;
 	    
 	    /* Contrainte de la case */
-	    //gbc.gridheight = 5;
+	    //gbc.gridheight = 1;
 	    //gbc.gridwidth = 1;
 	    //gbc.fill = GridBagConstraints.BOTH;
 	    //gbc.weightx = 90;
@@ -192,12 +194,15 @@ public class Fenetre extends JFrame {
 	    //gbc.gridy = 0;
 	    
 	    /* Contrainte de la case */
-	    //gbc.gridheight = 5;
+	    //gbc.gridheight = 1;
 	    //gbc.gridwidth = 1;
 	    //gbc.fill = GridBagConstraints.BOTH;
 	    //gbc.weightx = 10;
 	    
 	    /* Panel pInformations */
+	    pInformations = new Informations(plateforme);
+	    //conteneur.add(pInformations, gbc);
+	    conteneur.add(pInformations, BorderLayout.EAST);
 	    pInformations = new Informations(plateforme);
 	    //pInformations.setPreferredSize(new Dimension(hauteur, largeur));
 	    //conteneur.add(pInformations, gbc);
@@ -549,13 +554,13 @@ public class Fenetre extends JFrame {
 					int index_zoom = plateforme.get_echelle().get_index_zoom();
 					double tableau_zoom[] = plateforme.get_echelle().get_tableau_zoom();
 					int wheelRotation = e.getWheelRotation();
-					/* Zoom - */
+					/* Zoom + */
 					if(wheelRotation == 1) {
 						if(index_zoom != (tableau_zoom.length-1) ) {
 							index_zoom++;
 						}
 					}
-					/* Zoom + */
+					/* Zoom - */
 					else {
 						if(index_zoom != 0) {
 							index_zoom--;

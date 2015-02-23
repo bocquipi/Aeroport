@@ -8,8 +8,6 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -27,8 +25,7 @@ public class Informations extends JPanel{
 
 	/** Declaration des variables privees **/
 	private Plateforme plateforme;
-	static final int WIDTH = 30;
-	static final int HEIGHT = 30;
+	@SuppressWarnings("unused")
 	private JLabel titre_vol, titre_temps, titre_zoom, infos, vol, vide, sec, valeur_zoom, 
 	valeur_pas, type_vol, categorie_vol, id_vol, qfu_vol, ptdep_vol, heuredep_vol, heurelimite_vol, vol_type;
 	private JButton ouvrir, fermer, zoom_avant, zoom_arriere, play_pause;
@@ -39,7 +36,8 @@ public class Informations extends JPanel{
 	private JList<DefaultListModel<Vol>> liste_vol_tempsreel;
 	private ArrayList<Vol> liste_vols; 
     private DefaultListModel<Vol> listModel;   
-    private JSlider slider;
+    @SuppressWarnings("unused")
+	private JSlider slider;
 
 	/** Constructeur de la classe Informations **/
 	public Informations(Plateforme plateforme) {
@@ -364,7 +362,7 @@ public class Informations extends JPanel{
 		return listModel;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void remplir_liste(){
        
 	    liste_vol_tempsreel = new JList(listModel);
