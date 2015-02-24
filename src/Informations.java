@@ -179,13 +179,13 @@ public class Informations extends JPanel implements Observer, ChangeListener {
         titre_vol.setForeground(Color.BLACK);
         titre_vol.setFont(police);
         titre_vol.setBorder(title);
-        titre_vol.setAlignmentX(CENTER_ALIGNMENT);
+        titre_vol.setHorizontalAlignment(SwingConstants.CENTER);
         
         titre_infos = new JLabel("Informations sur un vol");
         titre_infos.setForeground(Color.BLACK);
         titre_infos.setFont(police);
         titre_infos.setBorder(title);
-        titre_infos.setAlignmentX(CENTER_ALIGNMENT);
+        titre_infos.setHorizontalAlignment(SwingConstants.CENTER);
         
         /* Onglet 2 */
         //Panel de gestion du temps
@@ -193,15 +193,14 @@ public class Informations extends JPanel implements Observer, ChangeListener {
         titre_temps.setForeground(Color.BLACK);
         titre_temps.setFont(police);
         titre_temps.setBorder(title);
-        titre_temps.setAlignmentX(CENTER_ALIGNMENT);
+        titre_temps.setHorizontalAlignment(SwingConstants.CENTER);
         
         //Panel de gestion du zoom
-        valeur_zoom = new JLabel("Valeur du zoom :");  /*+ .getZoom() */
         titre_zoom = new JLabel("Gestion du zoom");
         titre_zoom.setForeground(Color.BLACK);
         titre_zoom.setFont(police);
-        titre_temps.setBorder(title);
-        titre_zoom.setAlignmentX(CENTER_ALIGNMENT);
+        titre_zoom.setBorder(title);
+        titre_zoom.setHorizontalAlignment(SwingConstants.CENTER);
         
         /** Composants **/
 
@@ -231,8 +230,11 @@ public class Informations extends JPanel implements Observer, ChangeListener {
         
         /* JButton */
         //Panel de gestion du zoom
+        valeur_zoom = new JLabel("Valeur du zoom :");
         zoom_arriere = new JButton(iMoins);
         zoom_avant = new JButton(iPlus);
+        
+        //Panel de gestion du temps
         ouvrir = new JButton("OUVRIR");
         fermer = new JButton("FERMER");
         play = new JButton(iPlay);
