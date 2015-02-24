@@ -14,10 +14,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-
 import java.io.File;
 import java.io.IOException;
-
 import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
@@ -28,6 +26,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 
 public class Fenetre extends JFrame {
 
@@ -226,6 +225,9 @@ public class Fenetre extends JFrame {
 	    /* Affichage de la fenetre */
 	    this.pack();
 	    this.setVisible(true);
+	    
+	    /* Fermeture */
+	    this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
 	
 	/** Getter de pSimulateurAeroport **/

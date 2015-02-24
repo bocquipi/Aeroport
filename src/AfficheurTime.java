@@ -8,6 +8,8 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Hashtable;
@@ -21,6 +23,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.WindowConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -49,6 +52,10 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 		
 		/* Titre de la fenetre */
 		this.setTitle("Timer");
+		
+		/* Icone de la fenetre */
+		Image horloge = Toolkit.getDefaultToolkit().getImage("horloge.png");
+		this.setIconImage(horloge);
 		
 		/* Plateforme */
 		this.plateforme = plateforme;
@@ -131,6 +138,9 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 		this.pack();
 		this.setVisible(false);
 		this.setResizable(false);
+		
+		/* Fermeture */
+	    this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
 
 	/** stateChanged **/
