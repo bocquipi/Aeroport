@@ -67,7 +67,7 @@ public class Fenetre extends JFrame {
 	private JMenuItem ouvrir_boite_dialogue; /* JMenuItem (Boite de dialogue) */
 	private JMenuItem fermer_boite_dialogue;
 	
-	private InfiniteProgressPanel pAttente = new InfiniteProgressPanel(); /* Panel de chargement */
+	private InfiniteProgressPanel pAttente; /* Panel de chargement */
 	
 	private int oldX; /* Variables de recuperation de la position du curseur sur la fenetre */
 	private int oldY;
@@ -174,6 +174,7 @@ public class Fenetre extends JFrame {
 	    conteneur.add(layer, BorderLayout.CENTER);
 	    
 	    /* Panel pAttente */
+	    pAttente = new InfiniteProgressPanel();
 	    pAttente.setBounds(0, 0, largeur, hauteur);
 	    layer.add(pAttente, 1);
 	    

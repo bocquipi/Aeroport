@@ -1,3 +1,7 @@
+/* Projet JAVA         */
+/* Vue                 */
+/* author :            */
+
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;

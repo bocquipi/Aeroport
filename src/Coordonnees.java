@@ -1,3 +1,6 @@
+/* Projet JAVA         */
+/* Modele              */
+/* author :            */
 
 public class Coordonnees {
 

@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -15,10 +16,7 @@ import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-
-//import sun.reflect.annotation.TypeAnnotation.LocationInfo.Location;
-
-public class Informations extends JPanel{
+public class Informations extends JPanel {
 
 	/** Serialization **/
 	private static final long serialVersionUID = 1L;
@@ -26,7 +24,7 @@ public class Informations extends JPanel{
 	/** Declaration des variables privees **/
 	private Plateforme plateforme;
 	@SuppressWarnings("unused")
-	private JLabel titre_vol, titre_temps, titre_zoom, infos, vol, vide, sec, valeur_zoom, 
+	private JLabel titre_vol, titre_temps, titre_zoom, titre_infos, vol, vide, sec, valeur_zoom, 
 	valeur_pas, type_vol, categorie_vol, id_vol, qfu_vol, ptdep_vol, heuredep_vol, heurelimite_vol, vol_type;
 	private JButton ouvrir, fermer, zoom_avant, zoom_arriere, play_pause;
 	private JTextField secondes;
@@ -45,111 +43,108 @@ public class Informations extends JPanel{
 		/* Plateforme */
 		this.plateforme = plateforme;
 		
-		/** Creation des Panels **/
-		tab1 = new JPanel();
-		liste_avion = new JPanel();
-		info_vol = new JPanel();
-		
-		tab2 = new JPanel();
-		outil_temps = new JPanel();
-		//outil_temps.setBorder(BorderFactory.createLineBorder(Color.black));
-		outil_zoom = new JPanel();
-		//outil_zoom.setBorder(BorderFactory.createLineBorder(Color.black));
-		
-		titre_tps = new JPanel();
-		ouvrir_timer = new JPanel();
-		echelle_temps = new JPanel();
-		gestion_secondes = new JPanel();
-		
-		titre_z = new JPanel();
-		boutons_zoom =  new JPanel();
-		echelle_zoom = new JPanel();
-		affiche_zoom = new JPanel();
-		panel_vide2 = new JPanel();
-		panel_vide1 = new JPanel();
-		
-		liste_avion.setBackground(Color.LIGHT_GRAY);
-		info_vol.setBackground(Color.LIGHT_GRAY);
-		
-		titre_tps.setBackground(Color.LIGHT_GRAY);
-		ouvrir_timer.setBackground(Color.LIGHT_GRAY);
-		echelle_temps.setBackground(Color.LIGHT_GRAY);
-		gestion_secondes.setBackground(Color.LIGHT_GRAY);
-		panel_vide1.setBackground(Color.LIGHT_GRAY);
-		
-		titre_z.setBackground(Color.LIGHT_GRAY);
-		boutons_zoom.setBackground(Color.LIGHT_GRAY);
-		echelle_zoom.setBackground(Color.LIGHT_GRAY);
-		affiche_zoom.setBackground(Color.LIGHT_GRAY);
-		panel_vide2.setBackground(Color.LIGHT_GRAY);
-		
-		
-		/** Creation des Onglets */
-		
+		/* Creation du support d'onglets */
 		onglets = new JTabbedPane(JTabbedPane.TOP);
 		
+		/* Panels principaux */
 		
-        /** Initialisation du container. */
+		tab1 = new JPanel(); //Onglet1
 		tab1.setLayout(new GridLayout(2,1));
+		liste_avion = new JPanel();
 		liste_avion.setLayout(new GridLayout(3,1));
+		liste_avion.setBackground(Color.LIGHT_GRAY);
+		info_vol = new JPanel();
 		info_vol.setLayout(new GridLayout(7,2));
+		info_vol.setBackground(Color.LIGHT_GRAY);
 		
+		tab2 = new JPanel(); //Onglet2
+		outil_temps = new JPanel();
 		outil_temps.setLayout(new GridLayout(5, 1));
-		titre_tps.setLayout(new GridLayout (1 ,1));
-		ouvrir_timer.setLayout(new GridLayout (3,2,20,0));
-		echelle_temps.setLayout(new GridLayout (3,1));
-		gestion_secondes.setLayout(new GridLayout (3,3,7,0));
-		panel_vide1.setLayout(new GridLayout());
-		
+		outil_zoom = new JPanel();
 		outil_zoom.setLayout(new GridLayout(5, 1));
-		titre_z.setLayout(new GridLayout (1 ,1));
-		boutons_zoom.setLayout(new GridLayout (3,2,20,0));
-		echelle_zoom.setLayout(new GridLayout (3,1));
-		affiche_zoom.setLayout(new GridLayout ());
-		panel_vide1.setLayout(new GridLayout());
-		
-		
-		/** Dimensionnement des panels */
-		titre_tps.setPreferredSize(new Dimension(300,100));
-		ouvrir_timer.setPreferredSize(new Dimension(300,100));
-		echelle_temps.setPreferredSize(new Dimension(300,100));
-		gestion_secondes.setPreferredSize(new Dimension(300,100));
-		panel_vide1.setPreferredSize(new Dimension(300,100));
-		
-		
-        /** Creation et initialisation d'une serie de composants. 
-         *  Generation des JLabel */
-		
-        titre_vol = new JLabel("Liste des vols en temps reel  :");
-        titre_vol.setForeground(Color.BLACK);
-        Font p = new Font("Arial",Font.BOLD,15);
-        titre_vol.setFont(p);
-        
-        titre_temps = new JLabel("    Application gestion du temps");
-        titre_temps.setForeground(Color.BLACK);
-        Font police = new Font("Arial",Font.BOLD,15);
-        titre_temps.setFont(police);
-        
-        /** border titre simple */
-        titre_temps.setBorder(BorderFactory.createRaisedBevelBorder());
-         
-        /** tentative border speciale de JPanel titre*/
-        Border loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
-        TitledBorder title = BorderFactory.createTitledBorder(loweredetched);
-        title.setTitleJustification(TitledBorder.RIGHT);
-		titre_temps.setBorder(title);
 
-        titre_zoom = new JLabel("Application de gestion du zoom");
-        titre_zoom.setAlignmentX(CENTER_ALIGNMENT);
-        titre_zoom.setForeground(Color.BLACK);
-        Font police1 = new Font("Arial",Font.BOLD,15);
-        titre_zoom.setFont(police1);
-        titre_zoom.setBorder(BorderFactory.createLineBorder(Color.black));
+		/* Onglet2 */
+		
+		titre_tps = new JPanel(); //panel outil_temps
+		titre_tps.setLayout(new GridLayout(1 ,1));
+		titre_tps.setPreferredSize(new Dimension(300,100));
+		titre_tps.setBackground(Color.LIGHT_GRAY);
+		ouvrir_timer = new JPanel();
+		ouvrir_timer.setLayout(new GridLayout(3,2,20,0));
+		ouvrir_timer.setPreferredSize(new Dimension(300,100));
+		ouvrir_timer.setBackground(Color.LIGHT_GRAY);
+		echelle_temps = new JPanel();
+		echelle_temps.setLayout(new GridLayout(3,1));
+		echelle_temps.setPreferredSize(new Dimension(300,100));
+		echelle_temps.setBackground(Color.LIGHT_GRAY);
+		gestion_secondes = new JPanel();
+		gestion_secondes.setLayout(new GridLayout(3,3,7,0));
+		gestion_secondes.setPreferredSize(new Dimension(300,100));
+		gestion_secondes.setBackground(Color.LIGHT_GRAY);
+		panel_vide1 = new JPanel();
+		panel_vide1.setLayout(new GridLayout());
+		panel_vide1.setPreferredSize(new Dimension(300,100));
+		panel_vide1.setBackground(Color.LIGHT_GRAY);
+		
+		titre_z = new JPanel(); //panel outil_zoom
+		titre_z.setLayout(new GridLayout(1 ,1));
+		titre_z.setBackground(Color.LIGHT_GRAY);
+		boutons_zoom =  new JPanel();
+		boutons_zoom.setLayout(new GridLayout(3,2,20,0));
+		boutons_zoom.setBackground(Color.LIGHT_GRAY);
+		echelle_zoom = new JPanel();
+		echelle_zoom.setLayout(new GridLayout(3,1));
+		echelle_zoom.setBackground(Color.LIGHT_GRAY);
+		affiche_zoom = new JPanel();
+		affiche_zoom.setLayout(new GridLayout());
+		affiche_zoom.setBackground(Color.LIGHT_GRAY);
+		panel_vide2 = new JPanel();
+		panel_vide2.setLayout(new GridLayout());
+		panel_vide2.setBackground(Color.LIGHT_GRAY);
+		
+		/* Creation d'une bordure */
+		Border loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+		TitledBorder title = BorderFactory.createTitledBorder(loweredetched);
+		title.setTitleJustification(TitledBorder.RIGHT);
+		title.setTitlePosition(TitledBorder.CENTER);
+		/* Creation d'une police d'ecriture */
+		Font police = new Font("Verdana",Font.BOLD,15);
+		
+        /* Creation des titres */
+		/* Onglet 1 */
+        titre_vol = new JLabel("Liste des vols");
+        titre_vol.setForeground(Color.BLACK);
+        titre_vol.setFont(police);
+        titre_vol.setBorder(title);
+        titre_vol.setAlignmentX(CENTER_ALIGNMENT);
         
-        valeur_zoom = new JLabel("Valeur du zoom :" /*+ .getZoom() */);
-        valeur_pas = new JLabel("Pas du timer :" /*+ .getPas() */);
-        infos = new JLabel("Informations sur le vol : " /* + indice du vol */);
-        infos = new JLabel("Informations sur le vol : ");
+        titre_infos = new JLabel("Informations sur un vol");
+        titre_infos.setForeground(Color.BLACK);
+        titre_infos.setFont(police);
+        titre_infos.setBorder(title);
+        titre_infos.setAlignmentX(CENTER_ALIGNMENT);
+        
+        /* Onglet 2 */
+        /* Panel Time */
+        titre_temps = new JLabel("Gestion du temps");
+        titre_temps.setForeground(Color.BLACK);
+        titre_temps.setFont(police);
+        titre_temps.setBorder(title);
+        titre_temps.setAlignmentX(CENTER_ALIGNMENT);
+        
+        /* Panel Zoom */
+        valeur_zoom = new JLabel("Valeur du zoom :");  /*+ .getZoom() */
+        titre_zoom = new JLabel("Gestion du zoom");
+        titre_zoom.setForeground(Color.BLACK);
+        titre_zoom.setFont(police);
+        titre_temps.setBorder(title);
+        titre_zoom.setAlignmentX(CENTER_ALIGNMENT);
+        
+        
+        new JSeparator(SwingConstants.HORIZONTAL);
+        
+        valeur_pas = new JLabel("Pas du timer :" ); /*+ .getPas() */
+        
         sec = new JLabel("secondes");
         vol = new JLabel("            ");
         secondes = new JTextField("            ");
@@ -245,7 +240,7 @@ public class Informations extends JPanel{
         
         liste_avion.add(titre_vol);
         liste_avion.add(liste_vol_tempsreel);
-        liste_avion.add(vide[13]);
+        liste_avion.add(titre_infos);
         
         /** Affichage des informations des vols */
         

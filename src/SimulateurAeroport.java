@@ -73,9 +73,9 @@ public class SimulateurAeroport extends JPanel {
 			if (plateforme.get_aeroport().get_points().get(i).get_type_point() == 1) {
 				g2.setColor(Color.BLACK); //Deicing ou Zone de degel
 			}
-			if(plateforme.get_aeroport().get_points().get(i).get_type_point() == 2) {
-				g2.setColor(Color.RED); //Runway_Point ou Point d'intersection d'une piste
-			}
+//			if(plateforme.get_aeroport().get_points().get(i).get_type_point() == 2) {
+//				g2.setColor(Color.RED); //Runway_Point ou Point d'intersection d'une piste
+//			}
 			
 			/* Creation du point */
 			g2.fillOval(x1, y1, point, point);

@@ -198,10 +198,4 @@ public class Collision {
 			e.printStackTrace();
 		}
 	}
-
-	/** trier_collision **/
-	/** fonction : trier les collisions par ordre temporelle **/
-	public void trier_collision() {
-
-	}
 }
