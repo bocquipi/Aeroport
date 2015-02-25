@@ -16,7 +16,11 @@ public class SimulateurAeroport extends JPanel {
 	/** Serialisation **/
 	private static final long serialVersionUID = 1L;
 
-	/** Declaration des variables privees **/
+	/** Declaration des variables privees
+	 * 
+	 * @see Plateforme
+	 * @see Echelle
+	 */
 	private Plateforme plateforme;
 	private AffineTransform affinetransform;
 	private int newTranslationX;
@@ -24,7 +28,13 @@ public class SimulateurAeroport extends JPanel {
 	
 	/* utilisation du pattern Singleton */
 	
-	/** Constructeur de la classe SimulateurAeroport **/
+	/** Constructeur de la classe SimulateurAeroport
+	 * 
+	 * @param plateforme
+	 * 
+	 * @see Plateforme
+	 * @see Echelle
+	 */
 	public SimulateurAeroport(Plateforme plateforme) {
 		
 		super();
@@ -57,7 +67,11 @@ public class SimulateurAeroport extends JPanel {
 		int x2;
 		int y2;
 		
-		/* Points */
+		/** Points
+		 * 
+		 * @see Point
+		 * @see Plateforme
+		 */
 		int point = 20;
 		
 		for(int i = 0; i < plateforme.get_aeroport().get_points().size() ; i++) {
@@ -103,7 +117,11 @@ public class SimulateurAeroport extends JPanel {
 //			g2.fillOval(x1, y1, point, point);
 //		}
 		
-		/* Lines */
+		/** Lines
+		 * 
+		 * @see Line
+		 * @see Plateforme
+		 */
 		for(int i = 0; i < plateforme.get_aeroport().get_lines().size() ; i++) {
 			for(int j = 0, k = 1 ; k < plateforme.get_aeroport().get_lines().get(i).get_coordonnees_line().size() ; j++, k++) {
 				
@@ -201,7 +219,11 @@ public class SimulateurAeroport extends JPanel {
 //			}
 //		}
 		
-		/* Runway */
+		/** Runway
+		 * 
+		 * @see Plateforme
+		 * @see Aeroport
+		 */
 		for(Runway r: plateforme.get_aeroport().get_runways()) {
 			
 			/* Recuperation des coordonnees */
@@ -229,20 +251,36 @@ public class SimulateurAeroport extends JPanel {
 		}
 	}
 	
-	/** Getter/Setter de newTranslationX **/
+	/** Getter de newTranslationX
+	 * 
+	 * @return la nouvelle translation en abscisse.
+	 */
 	public int getNewTranslationX() {
 		return newTranslationX;
 	}
 
+	/** Setter de newTranslationX
+	 * 
+	 * @param newTranslationX
+	 * 		rentre la nouvelle translation en abscisse.
+	 */
 	public void setNewTranslationX(int newTranslationX) {
 		this.newTranslationX = newTranslationX;
 	}
 
-	/** Getter/Setter de newTranslationX **/
+	/** Getter de newTranslationY
+	 * 
+	 * @return la nouvelle translation en ordonnee
+	 */
 	public int getNewTranslationY() {
 		return newTranslationY;
 	}
 
+	/** Setter de newTranslationY
+	 * 
+	 * @param newTranslationY
+	 * 		rentre la nouvelle translation en ordonnee
+	 */
 	public void setNewTranslationY(int newTranslationY) {
 		this.newTranslationY = newTranslationY;
 	}

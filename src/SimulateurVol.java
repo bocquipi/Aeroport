@@ -18,12 +18,21 @@ public class SimulateurVol extends JPanel {
 	/** Serialisation **/
 	private static final long serialVersionUID = 1L;
 
-	/** Declaration des variables privees **/
+	/** Declaration des variables privees
+	 * 
+	 * @see Plateforme
+	 */
 	private Plateforme plateforme;
 	private AffineTransform affinetransform;
 	private int	nombre_vols_display;
 
-	/** Constructeur de la classe SimulateurAeroport **/
+	/** Constructeur de la classe SimulateurAeroport
+	 * 
+	 * @param plateforme
+	 * 		passage de la plateforme en parametre.
+	 * 
+	 * @see Plateforme
+	 */
 	public SimulateurVol(Plateforme plateforme) {
 
 		super();
@@ -33,8 +42,11 @@ public class SimulateurVol extends JPanel {
 	    this.setOpaque(false);
 	}
 	
-	/** paintComponent **/
-	/** fonction : Construction du simulateur **/
+	/** paintComponent
+	 * fonction : Construction du simulateur
+	 * 
+	 * @see Plateforme
+	 */
 	protected void paintComponent(Graphics g) {
 		
 		/* Appel du constructeur de la classe mere */
@@ -52,13 +64,21 @@ public class SimulateurVol extends JPanel {
 		/* Test : Affichage de la trajectoire d'un avion */ 
 		//test_affichage_avion(g2);
 		
-		/* Recuperation du temps */
+		/** Recuperation du temps
+		 * 
+		 * @see Plateforme
+		 * @see Time
+		 */
 		int temps = plateforme.get_time().getTemps();
 		
 		/* Test : Affichage du temps toutes les secondes */
 		//System.out.println("Affichage avion");
 		
-		/* Declaration de variables locales */
+		/** Declaration de variables locales
+		 * 
+		 * @see Vol
+		 * @see Point
+		 */
 		Vol v;
 		ArrayList<Vol> vols_collision;
 		int x;
@@ -72,7 +92,10 @@ public class SimulateurVol extends JPanel {
 		/* RAZ du nombre de vols sur la plateforme aeroportuaire */
 		setNombre_vols_display(0);
 		
-		/* RAZ de la JList dans Informations */
+		/** RAZ de la JList dans Informations
+		 * 
+		 * @see Informations
+		 */
 		plateforme.get_fenetre().get_informations().get_listeModel().clear();
 		
 		/* Image : representation des vols */
@@ -80,7 +103,13 @@ public class SimulateurVol extends JPanel {
 		Image arrive = Toolkit.getDefaultToolkit().getImage("arrive.png");
 		Image collision = Toolkit.getDefaultToolkit().getImage("collision.png");
 		
-		/* Parcours de la liste des vols */
+		/** Parcours de la liste des vols
+		 * 
+		 * @see Plateforme
+		 * @see Coordonnees
+		 * @see Time
+		 * @see Vol
+		 */
 		for(int i = 0 ; i < plateforme.get_aeroport().get_trafic().get_liste_vols().size() ; i++) {
 			
 			/* Recuperation des vols affichables */
@@ -103,10 +132,17 @@ public class SimulateurVol extends JPanel {
 					g2.drawImage(arrive, x_centre, y_centre, taille, taille, this);
 				}
 				
-				/* Remplissage de la JList dans Informations */
+				/** Remplissage de la JList dans Informations
+				 * 
+				 * @see Informations
+				 * @see Plateforme
+				 */
 				plateforme.get_fenetre().get_informations().get_listeModel().addElement(v);;
 				
-				/* Verification de collisions */
+				/** Verification de collisions
+				 * 
+				 * @see Vol
+				 */
 				Iterator<ArrayList<Vol>> iterator_valeur = plateforme.get_aeroport().get_trafic().get_collision().getListe_collisions().values().iterator();
 				Iterator<Integer> iterator_cle = plateforme.get_aeroport().get_trafic().get_collision().getListe_collisions().keySet().iterator();
 				while((iterator_valeur.hasNext()) && (iterator_cle.hasNext())) {
@@ -152,17 +188,30 @@ public class SimulateurVol extends JPanel {
 //		}
 	}
 	
-	/** Getter/Setter de nombre_vols_display **/
+	/** Getter de nombre_vols_display
+	 * 
+	 * @return le nombre de vols a l'ecran.
+	 */
 	public int getNombre_vols_display() {
 		return nombre_vols_display;
 	}
 
+	/** Setter de nombre_vols_display
+	 * 
+	 * @param nombre_vols_display
+	 * 		rentre le nombre de vols a l'ecran
+	 */
 	public void setNombre_vols_display(int nombre_vols_display) {
 		this.nombre_vols_display = nombre_vols_display;
 	}
 	
-	/** test_affichage_avion **/
-	/** fonction : Translation au niveau de l'affichage du simulateur **/
+	/** test_affichage_avion
+	 * fonction : Translation au niveau de l'affichage du simulateur
+	 * 
+	 * @see Plateforme
+	 * @see Aeroport
+	 * @see Vol
+	 */
 	public void test_affichage_avion (Graphics g2) {
 		if(plateforme.get_aeroport().get_trafic().get_liste_vols().size() != 0){
 			Vol v = plateforme.get_aeroport().get_trafic().get_liste_vols().get(0);

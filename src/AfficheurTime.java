@@ -1,6 +1,6 @@
-/* Projet JAVA         */
-/* Vue                 */
-/* author :            */
+/** Projet JAVA         */
+/** Vue                 */
+/** @author :           */
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -8,8 +8,6 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Hashtable;
@@ -23,7 +21,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
-import javax.swing.WindowConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -32,44 +29,48 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 	/** Serialisation **/
 	private static final long serialVersionUID = 1L;
 
-	/** Declaration des variables privees **/
+	/** Declaration des variables privees
+	 * 
+	 * @see Plateforme
+	 */
 	private Plateforme plateforme;
 	private JSlider slider;
 	private JLabel label;
 	
-	/* Image (Boutons) */
+	/** Image (Boutons) */
 	private ImageIcon iPlay = new ImageIcon("play.png");
 	private ImageIcon iPause = new ImageIcon("pause.png");
 	private ImageIcon iAvanceRap = new ImageIcon("avance_rapide.png");
 	private ImageIcon iRewind = new ImageIcon("rewind.png");
 	private ImageIcon iRestart = new ImageIcon("restart.png");
 	
-	/** Constructeur de la classe Echelle **/
+	/** Constructeur de la classe Echelle
+	 * 
+	 * @param plateforme
+	 * 
+	 * @see Plateforme
+	 */
 	public AfficheurTime(Plateforme plateforme) {
 		
-		/* Taille maximale de la fenetre */
+		/** Taille maximale de la fenetre */
 		this.setMaximumSize(new Dimension(400, 300));
 		
-		/* Titre de la fenetre */
+		/** Titre de la fenetre */
 		this.setTitle("Timer");
 		
-		/* Icone de la fenetre */
-		Image horloge = Toolkit.getDefaultToolkit().getImage("horloge.png");
-		this.setIconImage(horloge);
-		
-		/* Plateforme */
+		/** Plateforme */
 		this.plateforme = plateforme;
 		
-		/* Conteneur */
+		/** Conteneur */
 		Container conteneur = this.getContentPane();
 		conteneur.setLayout(new GridLayout(3,1));
 		
-		/* panel1 */
+		/** panel1 */
 		JPanel panel1 = new JPanel();
 		panel1.setLayout(new BorderLayout());
 		panel1.setBorder(BorderFactory.createLineBorder(Color.BLUE));
 		
-		/* label1 */
+		/** label1 */
 		label = new JLabel();
 		label.setText("00:00:00");
 		label.setHorizontalAlignment(JLabel.CENTER);
@@ -77,20 +78,20 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 		Font font = new Font("Verdana",Font.BOLD,40);
 		label.setFont(font);
 		
-		/* panel1 <- label1 */
+		/** panel1 <- label1 */
 		panel1.add(label);	
 		
-		/* panel2 */
+		/** panel2 */
 		JPanel panel2 = new JPanel();
 		panel2.setLayout(new GridLayout(1,1));
 		
-		/* slider */
+		/** slider */
 		slider = new JSlider(0, 86400,0);
 		slider.setMajorTickSpacing(3600);
 		slider.setMinorTickSpacing(60);
 		slider.addChangeListener(this);
 		
-		/* echelle du slider */
+		/** echelle du slider */
 		Hashtable <Integer, JLabel> echelle_slider = new Hashtable <Integer, JLabel>();
 		echelle_slider.put( new Integer(0), new JLabel("0h") );
 		echelle_slider.put( new Integer(86400/24*6), new JLabel("6h") );
@@ -100,10 +101,10 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 		slider.setLabelTable(echelle_slider);
 		slider.setPaintLabels(true);
 		
-		/* panel2 <- slider1 */
+		/** panel2 <- slider1 */
 		panel2.add(slider);		
 		
-		/* panel3 */
+		/** panel3 */
 		JPanel panel3 = new JPanel();
 		panel3.setLayout(new GridLayout(1,5));
 		
@@ -122,29 +123,29 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 		JButton avance = new JButton(iAvanceRap);
 		panel3.add(avance); 
 		
-		/* conteneur <- panels */
+		/** conteneur <- panels */
 		conteneur.add(panel1); 
 		conteneur.add(panel2); 
 		conteneur.add(panel3);
 		
-		/* Listeners */
+		/** Listeners */
 		rewind.addActionListener(new ActionRewind());
 		play.addActionListener(new ActionPlay());
 		pause.addActionListener(new ActionPause());
 		restart.addActionListener(new ActionRestart());
 		avance.addActionListener(new ActionAvance());
 		
-		/* Dimensionnement et affichage de la fenetre */
+		/** Dimensionnement et affichage de la fenetre */
 		this.pack();
 		this.setVisible(false);
 		this.setResizable(false);
-		
-		/* Fermeture */
-	    this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
 
-	/** stateChanged **/
-	/** fonction : Mise a jour au changement d'etat du slider **/
+	/** stateChanged
+	 * fonction : Mise a jour au changement d'etat du slider
+	 * 
+	 * @param e
+	 */
 	public void stateChanged(ChangeEvent e) {
 		int valeur= 0;
 		if(slider.getValue()%5 >= 2.5)
@@ -156,8 +157,14 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 		label.setText(plateforme.get_time().afficher_time());
 	}
 	
-	/** update **/
-	/** fonction : Mise a jour au changement d'etat de l'afficheur **/
+	/** update 
+	 * fonction : Mise a jour au changement d'etat de l'objet Time
+	 * 
+	 * @param Time
+	 * @param arg
+	 * 
+	 * @see Plateforme
+	 */
 	public void update(Observable Time, Object arg) {
 		slider.setValue(plateforme.get_time().getTemps());
 		label.setText(plateforme.get_time().afficher_time());
@@ -165,8 +172,12 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 	
 	/** Classe inner pour les listeners **/
 	
-	/* Class ActionRewind */
-	/* fonction : timer en mode rewind */
+	/** Class ActionRewind
+	 * fonction : timer en mode rewind
+	 * 
+	 * @see Plateforme
+	 * @see Time
+	 */
 	class ActionRewind implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			
@@ -184,7 +195,7 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 			else {
 				index_pas = plateforme.get_time().get_index_pas();
 				
-				/* Augmentation du pas */
+				/** Augmentation du pas */
 				if(index_pas != (tableau_pas.length-1) ) {
 						index_pas++;
 				}
@@ -196,8 +207,12 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 		}
 	}		
    
-	/* Class ActionPlay */
-	/* fonction : timer en mode play */
+	/** Class ActionPlay
+	 * fonction : timer en mode play
+	 * 
+	 * @see Plateforme
+	 * @see Time
+	 */
 	class ActionPlay implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			
@@ -210,16 +225,24 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 		}
 	}
    
-	/* Class ActionStop */
-	/* fonction : stop le timer */
+	/** Class ActionStop
+	/* fonction : stop le timer
+	 * 
+	 * @see Plateforme
+	 * @see Time
+	 */
 	class ActionPause implements ActionListener {		   
 		public void actionPerformed(ActionEvent e) {
 			plateforme.get_time().stop_timer();
 		}
 	}	
    
-	/* Class ActionRestart */
-	/* fonction : restart le timer */
+	/** Class ActionRestart
+	 * fonction : restart le timer
+	 * 
+	 * @see Plateforme
+	 * @see Time
+	 */
 	class ActionRestart implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			slider.setValue(0);
@@ -230,8 +253,12 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 		}
 	}
 	
-	/* Class ActionAvance */
-	/* fonction : timer en mode avance rapide */
+	/** Class ActionAvance
+	/* fonction : timer en mode avance rapide
+	 * 
+	 * @see Plateforme
+	 * @see Time
+	 */
 	class ActionAvance implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			
@@ -249,7 +276,7 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 			else {
 				index_pas = plateforme.get_time().get_index_pas();
 				
-				/* Augmentation du pas */
+				/** Augmentation du pas */
 				if(index_pas != (tableau_pas.length-1) ) {
 						index_pas++;
 				}

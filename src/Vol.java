@@ -72,15 +72,16 @@ public class Vol {
 		return trajectoire_vol;
 	}
 	
-	/** Getter/Setter de type_vol
+	/** Getter de type_vol
 	 *
-	 * @return le type du vol dans une string.
+	 * @return le type du vol.
 	 */
 	public String getType_vol() {
 		return type_vol;
 	}
 	
-	/**
+	/**Setter de type_vol
+	 * 
 	 * @param type_vol
 	 * 			rentre le nouveau type du vol.
 	 */
@@ -88,14 +89,15 @@ public class Vol {
 		this.type_vol = type_vol;
 	}
 
-	/** Getter/Setter de trajectoire_vol
+	/** Getter de trajectoire_vol
 	 *
 	 * @return l'identifiant du vol.
 	 */
 	public String getIdentifiant_vol() {
 		return identifiant_vol;
 	}
-	/**
+	/**Setter de trajectoire_vol
+	 * 
 	 * @param identifiant_vol
 	 * 			rentre le nouveau type du vol.
 	 */
@@ -103,14 +105,15 @@ public class Vol {
 		this.identifiant_vol = identifiant_vol;
 	}
 
-	/** Getter/Setter de trajectoire_vol
+	/** Getter de trajectoire_vol
 	 *
 	 * @return la categorie de l'avion.
 	 */
 	public String getCategorie_avion() {
 		return categorie_avion;
 	}
-	/**
+	/**Setter de trajectoire_vol
+	 * 
 	 * @param categorie_avion
 	 * 			rentre la nouvelle categorie de l'avion.	
 	 */
@@ -118,14 +121,15 @@ public class Vol {
 		this.categorie_avion = categorie_avion;
 	}
 
-	/** Getter/Setter de trajectoire_vol
+	/** Getter de trajectoire_vol
 	 *
 	 * @return le point de depart du vol.
 	 */
 	public String getPoint_depart_vol() {
 		return point_depart_vol;
 	}
-	/**
+	/**Setter de trajectoire_vol
+	 * 
 	 * @param point_depart_vol
 	 * 			rentre le nouveau point de depart du vol.
 	 */
@@ -133,14 +137,15 @@ public class Vol {
 		this.point_depart_vol = point_depart_vol;
 	}
 
-	/** Getter/Setter de trajectoire_vol
+	/** Getter de trajectoire_vol
 	 *
 	 * @return le qfu de la piste.
 	 */
 	public String getQfu_piste() {
 		return qfu_piste;
 	}
-	/**
+	/**Setter de trajectoire_vol
+	 * 
 	 * @param qfu_piste
 	 * 			rentre le nouveau qfu de la piste.
 	 */
@@ -148,14 +153,15 @@ public class Vol {
 		this.qfu_piste = qfu_piste;
 	}
 
-	/** Getter/Setter de trajectoire_vol 
+	/** Getter de trajectoire_vol
 	 *
 	 * @return l'heure de depart du vol.
 	 */
 	public int getTemps_depart_vol() {
 		return temps_depart_vol;
 	}
-	/**
+	/**Setter de trajectoire_vol
+	 * 
 	 * @param temps_depart_vol
 	 * 			rentre la nouvelle heure de depart du vol.
 	 */
@@ -163,23 +169,32 @@ public class Vol {
 		this.temps_depart_vol = temps_depart_vol;
 	}
 	
-	/* Getter/Setter de temps_fin_vol */
+	/** Getter de temps_fin_vol
+	 * 
+	 * @return l'heure limite de sortie du vol
+	 */
 	public int getTemps_fin_vol() {
 		return temps_fin_vol;
 	}
 	
+	/**Setter de temps_fin_vol
+	 * 
+	 * @param temps_fin_vol
+	 * 			rentre la nouvelle heure limite de sortie du vol
+	 */
 	public void setTemps_fin_vol(int temps_fin_vol) {
 		this.temps_fin_vol = temps_fin_vol;
 	}
 	
-	/** Getter/Setter de trajectoire_vol
+	/** Getter de trajectoire_vol
 	 *
 	 * @return l'heure limite ou l'avion doit etre parti.
 	 */
 	public int getTemps_limite_vol() {
 		return temps_limite_vol;
 	}
-	/**
+	/**Setter de trajectoire_vol
+	 * 
 	 * @param temps_limite_vol
 	 * 			rentre le nouveau temps limite du vol.
 	 */
@@ -187,8 +202,11 @@ public class Vol {
 		this.temps_limite_vol = temps_limite_vol;
 	}
 	
-	/* traiter_temps_fin */
-	/* fonction : traitement du temps de la derniere position du vol */
+	/** traiter_temps_fin 
+	* fonction : traitement du temps de la derniere position du vol.
+	* 
+	* @return l'heure limite a laquelle le vol doit etre parti.
+	*/
 	public int traiter_temps_fin() {
 		
 		int pas = 5; //Option : Recuperation du pas dans Time
@@ -196,7 +214,7 @@ public class Vol {
 	}
 	
 	/** traiter_temps_limite
-	 * fonction :
+	 * fonction : Differencie les vols caracterise par un temps limite des vols sans temps limite.
 	 *
 	 * @param temps_limite
 	 * @return le temps limite du vol si ce dernier existe.
@@ -211,9 +229,9 @@ public class Vol {
 		}
 	}
 	
-	/** remplir_trajectoire **/
-	/** fonction : afficher la trajectoire d'un vol **/
-	/**
+	/** remplir_trajectoire
+	 * fonction : afficher la trajectoire d'un vol
+	 *
 	 * @param trajectoire
 	 * 			remplit l'arraylist trajectoire_vol a partir de la string contenant l'ensemble des coordonnees
 	 * 			du vol.
@@ -240,8 +258,10 @@ public class Vol {
 		}
 	}
 	
-	/** toString **/
-	/** fonction : surcharge de toString pour l'affichage des caracteristiques d'un vol **/
+	/** toString
+	 * fonction : surcharge de toString pour l'affichage des caracteristiques d'un vol
+	 * 
+	 */
 	public String toString(){
 		return type_vol + " " + identifiant_vol + " "  + categorie_avion + " " 
 				+ point_depart_vol + " " + qfu_piste + " " + temps_depart_vol + " " + temps_limite_vol;

@@ -4,7 +4,14 @@
 
 public class Plateforme {
 	
-	/** Declaration des variables privees **/
+	/** Declaration des variables privees
+	 * 
+	 * @see Plateforme
+	 * @see Fenetre
+	 * @see Echelle
+	 * @see Time
+	 * @see AfficheurTime
+	 */
 	private Aeroport aeroport;
 	private Fenetre fenetre;
 	private Echelle echelle;
@@ -22,27 +29,42 @@ public class Plateforme {
 		fenetre = new Fenetre(this);
 	}
 	
-	/** Getter de aeroport **/
+	/** Getter de aeroport
+	 * 
+	 * @return l'aeroport.
+	 */
 	public Aeroport get_aeroport() {
 		return aeroport;
 	}
 	
-	/** Getter de fenetre **/
+	/** Getter de fenetre
+	 * 
+	 * @return la fenetre.
+	 */
 	public Fenetre get_fenetre() {
 		return fenetre;
 	}
 	
-	/** Getter de echelle **/
+	/** Getter de echelle
+	 * 
+	 * @return le zoom actuel.
+	 */
 	public Echelle get_echelle() {
 		return echelle;
 	}
 	
-	/** Getter de time **/
+	/** Getter de time
+	 * 
+	 * @return le temps actuel.
+	 */
 	public Time get_time() {
 		return time;
 	}
 	
-	/** Getter de afficheur_time **/
+	/** Getter de afficheur_time
+	 * 
+	 * @return l'afficheur de la gestion du temps.
+	 */
 	public AfficheurTime get_afficheur_time() {
 		return afficheur_time;
 	}

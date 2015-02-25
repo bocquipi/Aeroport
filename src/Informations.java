@@ -24,7 +24,11 @@ public class Informations extends JPanel implements Observer, ChangeListener {
 	/** Serialisation **/
 	private static final long serialVersionUID = 1L;
 
-	/** Declaration des variables privees **/
+	/** Declaration des variables privees
+	 * 
+	 * @see Plateforme
+	 * @see Vol
+	 */
 	private Plateforme plateforme;
 	
 	/* JLabel */
@@ -59,7 +63,13 @@ public class Informations extends JPanel implements Observer, ChangeListener {
 	private ImageIcon iMoins = new ImageIcon("moins.png");
 	private ImageIcon iPlus = new ImageIcon("plus.png");
 
-	/** Constructeur de la classe Informations **/
+	/** Constructeur de la classe Informations
+	 * 
+	 * @param plateforme
+	 *		passage de la plateforme en parametre.
+	 *
+	 * @see Plateforme
+	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Informations(Plateforme plateforme) {
 		
@@ -354,7 +364,10 @@ public class Informations extends JPanel implements Observer, ChangeListener {
         panel_vide2.add(valeur_zoom);
 	}
 	
-	/** Getter de liste_vol_tempsreel **/
+	/** Getter de liste_vol_tempsreel
+	 * 
+	 * @return la liste des vols en temps reel.
+	 */
 	public DefaultListModel<Vol> get_listeModel() {
 		return listModel;
 	}
@@ -379,8 +392,13 @@ public class Informations extends JPanel implements Observer, ChangeListener {
 	
 	/** Classe inner pour les listeners **/
 	
-	/* Class ActionFermerTimer */
-	/* fonction : fermer le timer */
+	/** Class ActionUnzoom
+	 * fonction : zoom vers l'arriere.
+	 * 
+	 * @see Plateforme
+	 * @see Echelle
+	 *
+	 */
 	class ActionFermerTimer implements ActionListener {
 		
 	    public void actionPerformed(ActionEvent ae) {
@@ -388,8 +406,12 @@ public class Informations extends JPanel implements Observer, ChangeListener {
 	    }  
 	}
 
-	/* Class ActionFermerTimer */
-	/* fonction : fermer le timer */
+	/** Class ActionZooom
+	 * fonction : zoom vers l'avant.
+	 * 
+	 * @see Plateforme
+	 * @see Echelle
+	 */
 	class ActionZoom implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			
@@ -452,16 +474,24 @@ public class Informations extends JPanel implements Observer, ChangeListener {
 		}
 	}		
 	
-	/* Class ActionOpen */
-	/* fonction : ouvrir le timer */
+	/** Class ActionOpen
+	 * fonction : ouvrir le timer.
+	 * 
+	 * @see AfficheurTime
+	 * @see Plateforme
+	 */
 	class ActionOpen implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 	    	plateforme.get_afficheur_time().setVisible(true);
 	    }  
 	}	
 	
-	/* Class ActionClose */
-	/* fonction : fermer le timer */
+	/** Class ActionClose
+	 * fonction : fermer le timer.
+	 * 
+	 * @see AfficheurTime
+	 * @see Plateforme
+	 */
 	class ActionClose implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			plateforme.get_afficheur_time().setVisible(false);

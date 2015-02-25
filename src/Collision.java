@@ -13,7 +13,11 @@ import java.util.LinkedHashMap;
 
 public class Collision {
 	
-	/** Declaration des variables privees **/
+	/** Declaration des variables privees
+	 * 
+	 * @see Vol
+	 * @see Plateforme
+	 */
 	private Plateforme plateforme;
 	private ArrayList<ArrayList<Vol>> liste_temps;
 	private ArrayList<Vol> liste_vols_temps[];
@@ -26,7 +30,12 @@ public class Collision {
 	private int nb_collisions;
 	private String nom_fichier_collision = "collision.txt";
 	
-	/** Constructeur de la classe Collision **/
+	/** Constructeur de la classe Collision
+	 * 
+	 * @param plateforme
+	 * 
+	 * @see Plateforme
+	 */
 	@SuppressWarnings("unchecked") //Warning : this.liste_vols_collision = new ArrayList[temps_total/pas];
 									//Warning : this.liste_vols_collisions = new ArrayList[2];
 	public Collision(Plateforme plateforme){
