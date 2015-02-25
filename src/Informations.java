@@ -21,7 +21,7 @@ import javax.swing.event.ChangeListener;
 
 public class Informations extends JPanel implements Observer, ChangeListener {
 
-	/** Serialization **/
+	/** Serialisation **/
 	private static final long serialVersionUID = 1L;
 
 	/** Declaration des variables privees **/
@@ -44,10 +44,10 @@ public class Informations extends JPanel implements Observer, ChangeListener {
 	/* JPanel */
 	private JPanel tab1, tab2, liste_avion, info_vol, outil_temps, outil_zoom, ouvrir_timer, 
 					echelle_temps, gestion_secondes, titre_tps, titre_z, boutons_zoom, affiche_zoom, 
-						echelle_zoom, panel_vide1,panel_vide2;
+						panel_vide1,panel_vide2;
 	
 	/* JList */
-	private JList<DefaultListModel<Vol>> liste_vol_tempsreel = new JList<DefaultListModel<Vol>>();
+	private JList<DefaultListModel<Vol>> liste_vol_tempsreel;
     private DefaultListModel<Vol> listModel;   
     
     /* Slider */
@@ -60,6 +60,7 @@ public class Informations extends JPanel implements Observer, ChangeListener {
 	private ImageIcon iPlus = new ImageIcon("plus.png");
 
 	/** Constructeur de la classe Informations **/
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Informations(Plateforme plateforme) {
 		
 		/* Plateforme */
@@ -93,7 +94,7 @@ public class Informations extends JPanel implements Observer, ChangeListener {
 		
 		/* Onglet 1 */
 		liste_avion = new JPanel();
-		liste_avion.setLayout(new GridLayout(2,1));
+		liste_avion.setLayout(new GridLayout(3,1));
 		liste_avion.setBackground(Color.LIGHT_GRAY);
 		tab1.add(liste_avion);
 		info_vol = new JPanel();
@@ -108,7 +109,7 @@ public class Informations extends JPanel implements Observer, ChangeListener {
 		outil_temps.setBackground(Color.LIGHT_GRAY);
 		tab2.add(outil_temps);
 		outil_zoom = new JPanel();
-		outil_zoom.setLayout(new GridLayout(5, 1));
+		outil_zoom.setLayout(new GridLayout(4, 1));
 		tab2.add(outil_zoom);
         
         /** Panels tertiaires **/
@@ -131,7 +132,7 @@ public class Informations extends JPanel implements Observer, ChangeListener {
 		echelle_temps.setBackground(Color.LIGHT_GRAY);
 		outil_temps.add(echelle_temps);
 		gestion_secondes = new JPanel();
-		gestion_secondes.setLayout(new GridLayout(3,3,7,0));
+		gestion_secondes.setLayout(new GridLayout(2,2,5,1));
 		gestion_secondes.setPreferredSize(new Dimension(300,100));
 		gestion_secondes.setBackground(Color.LIGHT_GRAY);
 		outil_temps.add(gestion_secondes);
@@ -150,10 +151,6 @@ public class Informations extends JPanel implements Observer, ChangeListener {
 		boutons_zoom.setLayout(new GridLayout(3,2,20,0));
 		boutons_zoom.setBackground(Color.LIGHT_GRAY);
 		outil_zoom.add(boutons_zoom);
-		echelle_zoom = new JPanel();
-		echelle_zoom.setLayout(new GridLayout(3,1));
-		echelle_zoom.setBackground(Color.LIGHT_GRAY);
-		outil_zoom.add(echelle_zoom);
 		affiche_zoom = new JPanel();
 		affiche_zoom.setLayout(new GridLayout());
 		affiche_zoom.setBackground(Color.LIGHT_GRAY);
@@ -207,7 +204,9 @@ public class Informations extends JPanel implements Observer, ChangeListener {
         /* Onglet 1 */
         /* DefaultListModel */
         listModel = new DefaultListModel<Vol>();
-	
+        liste_vol_tempsreel = new JList(listModel);
+		JScrollPane scroll_pane = new JScrollPane(liste_vol_tempsreel);
+        
         /* Onglet 2 */
         
         /* JLabel */
@@ -217,16 +216,14 @@ public class Informations extends JPanel implements Observer, ChangeListener {
         secondes = new JTextField("   ");
         
         //Panel de gestion des vols
-        type_vol = new JLabel ("Type du vol :");
-        vol_type = new JLabel ("verge");
-        vol_type.setForeground(Color.BLUE);
-        vol_type.setFont(police);
-        id_vol = new JLabel ("Identifiant du vol :");
-        qfu_vol = new JLabel ("Qfu de la piste :");
-        categorie_vol = new JLabel ("Categorie du vol :");
-        ptdep_vol = new JLabel ("Point de depart du vol :");
-        heuredep_vol = new JLabel ("Heure de depart :");
-        heurelimite_vol = new JLabel ("Heure limite du vol :");
+        type_vol = new JLabel("Type du vol :");
+        vol_type = new JLabel();
+        id_vol = new JLabel("Identifiant du vol :");
+        qfu_vol = new JLabel("Qfu de la piste :");
+        categorie_vol = new JLabel("Categorie du vol :");
+        ptdep_vol = new JLabel("Point de depart du vol :");
+        heuredep_vol = new JLabel("Heure de depart :");
+        heurelimite_vol = new JLabel("Heure limite du vol :");
         
         /* JButton */
         //Panel de gestion du zoom
@@ -282,7 +279,7 @@ public class Informations extends JPanel implements Observer, ChangeListener {
         /** Liste des avions */
         
         liste_avion.add(titre_vol);
-        liste_avion.add(liste_vol_tempsreel);
+        liste_avion.add(scroll_pane);
         
         /** Affichage des informations des vols */
         
@@ -292,22 +289,22 @@ public class Informations extends JPanel implements Observer, ChangeListener {
         separation[0].add(vol_type);
         info_vol.add(separation[1]);
         separation[1].add(id_vol);
-        separation[1].add(vide[31]);
+        separation[1].add(vide[17]);
         info_vol.add(separation[2]);
         separation[2].add(categorie_vol);
-        separation[2].add(vide[32]);
+        separation[2].add(vide[18]);
         info_vol.add(separation[3]);
         separation[3].add(qfu_vol);
-        separation[3].add(vide[33]);
+        separation[3].add(vide[19]);
         info_vol.add(separation[4]);
         separation[4].add(ptdep_vol);
-        separation[4].add(vide[34]);
+        separation[4].add(vide[20]);
         info_vol.add(separation[5]);
         separation[5].add(heuredep_vol);
-        separation[5].add(vide[35]);
+        separation[5].add(vide[21]);
         info_vol.add(separation[6]);
         separation[6].add(heurelimite_vol);
-        separation[6].add(vide[36]);
+        separation[6].add(vide[22]);
             
         /** Application de gestion du timer de la plateforme aeroportuaire */
         
@@ -332,12 +329,7 @@ public class Informations extends JPanel implements Observer, ChangeListener {
         gestion_secondes.add(secondes);
         gestion_secondes.add(sec);
         gestion_secondes.add(play);
-        gestion_secondes.add(vide[7]);
-        gestion_secondes.add(vide[8]);
-        gestion_secondes.add(vide[9]);
-        gestion_secondes.add(vide[10]);
-        gestion_secondes.add(vide[11]);
-        gestion_secondes.add(vide[12]);
+        gestion_secondes.add(pause);
         
         /* ligne 5 */ 
         panel_vide1.add(valeur_pas);	
@@ -348,22 +340,17 @@ public class Informations extends JPanel implements Observer, ChangeListener {
         titre_z.add(titre_zoom);
         
         /* Ligne 2 */
-        boutons_zoom.add(vide[14]);
-        boutons_zoom.add(vide[15]);
+        boutons_zoom.add(vide[9]);
+        boutons_zoom.add(vide[10]);
         boutons_zoom.add(zoom_avant);
         boutons_zoom.add(zoom_arriere);
-        boutons_zoom.add(vide[16]);
-        boutons_zoom.add(vide[17]);
+        boutons_zoom.add(vide[11]);
+        boutons_zoom.add(vide[12]);
         
         /* Ligne 3 */
-        echelle_zoom.add(vide[18]);
-        echelle_zoom.add(pause);
-        echelle_zoom.add(vide[19]);
+        affiche_zoom.add(vide[16]);
         
-        /* Ligne 4 */
-        affiche_zoom.add(vide[27]);
-        
-        /* Ligne 5 */ 
+        /* Ligne 4 */ 
         panel_vide2.add(valeur_zoom);
 	}
 	
