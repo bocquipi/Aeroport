@@ -1,6 +1,6 @@
-/* Projet JAVA         */
-/* Vue                 */
-/* author :            */
+/** Projet JAVA         */
+/** Vue                 */
+/** @author : PB        */
 
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -82,7 +82,7 @@ public class Fenetre extends JFrame {
 		this.plateforme = plateforme;
 		
 		/* Icone de la fenetre */
-		Image icone = Toolkit.getDefaultToolkit().getImage("icone.png");
+		Image icone = Toolkit.getDefaultToolkit().getImage("images/icone.png");
 		this.setIconImage(icone);
 		
 		/* Titre de la fenetre */

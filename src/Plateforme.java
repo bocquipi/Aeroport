@@ -1,6 +1,6 @@
-/* Projet JAVA         */
-/* Controleur          */
-/* author :            */
+/** Projet JAVA           */
+/** Controleur            */
+/** author : PB - CC - AP */
 
 public class Plateforme {
 	

@@ -1,6 +1,6 @@
 /** Projet JAVA         */
 /** Vue                 */
-/** @author :           */
+/** @author : PB - CC   */
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -38,11 +38,11 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 	private JLabel label;
 	
 	/** Image (Boutons) */
-	private ImageIcon iPlay = new ImageIcon("play.png");
-	private ImageIcon iPause = new ImageIcon("pause.png");
-	private ImageIcon iAvanceRap = new ImageIcon("avance_rapide.png");
-	private ImageIcon iRewind = new ImageIcon("rewind.png");
-	private ImageIcon iRestart = new ImageIcon("restart.png");
+	private ImageIcon iPlay = new ImageIcon("images/play.png");
+	private ImageIcon iPause = new ImageIcon("images/pause.png");
+	private ImageIcon iAvanceRap = new ImageIcon("images/avance_rapide.png");
+	private ImageIcon iRewind = new ImageIcon("images/rewind.png");
+	private ImageIcon iRestart = new ImageIcon("images/restart.png");
 	
 	/** Constructeur de la classe Echelle
 	 * 

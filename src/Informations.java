@@ -1,6 +1,6 @@
-/* Projet JAVA         */
-/* Vue                 */
-/* author :            */
+/** Projet JAVA         */
+/** Vue                 */
+/** @author : AP        */
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -58,10 +58,10 @@ public class Informations extends JPanel implements Observer, ChangeListener {
     private JSlider slider;
     
     /* Image (Boutons) */
-    private ImageIcon iPlay = new ImageIcon("play.png");
-    private ImageIcon iPause = new ImageIcon("pause.png");
-	private ImageIcon iMoins = new ImageIcon("moins.png");
-	private ImageIcon iPlus = new ImageIcon("plus.png");
+    private ImageIcon iPlay = new ImageIcon("images/play.png");
+    private ImageIcon iPause = new ImageIcon("images/pause.png");
+	private ImageIcon iMoins = new ImageIcon("images/moins.png");
+	private ImageIcon iPlus = new ImageIcon("images/plus.png");
 
 	/** Constructeur de la classe Informations
 	 * 

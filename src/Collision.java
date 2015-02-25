@@ -1,6 +1,6 @@
-/* Projet JAVA         */
-/* Modele              */
-/* author :            */
+/** Projet JAVA         */
+/** Modele              */
+/** author : PB         */
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

@@ -1,6 +1,6 @@
-/* Projet JAVA         */
-/* Vue                 */
-/* author :            */
+/** Projet JAVA         */
+/** Vue                 */
+/** @author : PB        */
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -99,9 +99,9 @@ public class SimulateurVol extends JPanel {
 		plateforme.get_fenetre().get_informations().get_listeModel().clear();
 		
 		/* Image : representation des vols */
-		Image depart = Toolkit.getDefaultToolkit().getImage("depart.png");
-		Image arrive = Toolkit.getDefaultToolkit().getImage("arrive.png");
-		Image collision = Toolkit.getDefaultToolkit().getImage("collision.png");
+		Image depart = Toolkit.getDefaultToolkit().getImage("images/depart.png");
+		Image arrive = Toolkit.getDefaultToolkit().getImage("images/arrive.png");
+		Image collision = Toolkit.getDefaultToolkit().getImage("images/collision.png");
 		
 		/** Parcours de la liste des vols
 		 * 

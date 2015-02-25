@@ -1,6 +1,6 @@
-/* Projet JAVA         */
-/* Vue                 */
-/* author :            */
+/** Projet JAVA         */
+/** Vue                 */
+/** @author : CC - PB   */
 
 import java.awt.BasicStroke;
 import java.awt.Color;

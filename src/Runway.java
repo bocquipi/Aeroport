@@ -1,3 +1,7 @@
+/** Projet JAVA             */
+/** Modele                  */
+/** @author : PB - AP - CC  */
+
 import java.util.ArrayList;
 
 public class Runway {

@@ -1,3 +1,7 @@
+/** Projet JAVA         */
+/** Vue                 */
+/** @author : PB        */
+
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -26,7 +30,7 @@ public class Dialogue extends JDialog {
 	private JLabel icone;
 	private JTextField nom_fichier_aeroport;
 	private JTextField nom_fichier_trafic;
-	private ImageIcon image = new ImageIcon("air_control.jpg");
+	private ImageIcon image = new ImageIcon("images/air_control.jpg");
 	
 	/** Constructeur de la classe Dialogue
 	 * 

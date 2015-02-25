@@ -1,11 +1,6 @@
-/* Projet JAVA
- * La classe Vol est la classe representant un Vol de depart ou
- * d'arrivee extrait du fichier trafic.txt
- * 
- * @author : Cornette Cedric
- * 			 Bocquier Pierre
- * 			 Papin Alexis
- */
+/** Projet JAVA         */
+/** Modele              */
+/** @author : AP - PB   */
 
 import java.util.ArrayList;
 import java.util.Scanner;

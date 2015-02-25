@@ -1,6 +1,6 @@
-/* Projet JAVA         */
-/* Modele              */
-/* author :            */
+/** Projet JAVA         */
+/** Modele              */
+/** @author : PB - CC   */
 
 public class Echelle {
 

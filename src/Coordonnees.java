@@ -1,6 +1,6 @@
-/** Projet JAVA         */
-/** Modele              */
-/** @author :           */
+/** Projet JAVA             */
+/** Modele                  */
+/** @author : PB - AP - CC  */
 
 public class Coordonnees {
 

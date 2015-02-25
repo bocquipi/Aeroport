@@ -1,6 +1,6 @@
-/* Projet JAVA         */
-/* Programme principal */
-/* author :            */
+/** Projet JAVA             */
+/** Programme principal     */
+/** @author : PB - CC - AP  */
 
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
