@@ -34,7 +34,7 @@ public class Informations extends JPanel implements Observer, ChangeListener {
 	/* JLabel */
 	private JLabel titre_vol, titre_temps, titre_zoom, titre_infos, sec, valeur_zoom, valeur_pas, 
 						type_vol, categorie_vol, id_vol, qfu_vol, ptdep_vol, heuredep_vol, heurelimite_vol,
-							vol_type;
+							vol_type, vol_categorie, vol_id, vol_qfu, vol_ptdep, vol_heuredep, vol_heurelimite;
 	
 	/* JButton */
 	private JButton ouvrir, fermer, zoom_avant, zoom_arriere, play, pause;
@@ -215,8 +215,9 @@ public class Informations extends JPanel implements Observer, ChangeListener {
         /* DefaultListModel */
         listModel = new DefaultListModel<Vol>();
         liste_vol_tempsreel = new JList(listModel);
+//        liste_vol_tempsreel.addListSelectionListener(new SelectionVol());
 		JScrollPane scroll_pane = new JScrollPane(liste_vol_tempsreel);
-        
+		
         /* Onglet 2 */
         
         /* JLabel */
@@ -227,13 +228,19 @@ public class Informations extends JPanel implements Observer, ChangeListener {
         
         //Panel de gestion des vols
         type_vol = new JLabel("Type du vol :");
-        vol_type = new JLabel();
+        vol_type = new JLabel("Non sélectionné");
         id_vol = new JLabel("Identifiant du vol :");
+        vol_id = new JLabel("Non sélectionné");
         qfu_vol = new JLabel("Qfu de la piste :");
+        vol_qfu = new JLabel("Non sélectionné");
         categorie_vol = new JLabel("Categorie du vol :");
+        vol_categorie = new JLabel("Non sélectionné");
         ptdep_vol = new JLabel("Point de depart du vol :");
+        vol_ptdep = new JLabel("Non sélectionné");
         heuredep_vol = new JLabel("Heure de depart :");
+        vol_heuredep = new JLabel("Non sélectionné");
         heurelimite_vol = new JLabel("Heure limite du vol :");
+        vol_heurelimite = new JLabel("Non sélectionné");
         
         /* JButton */
         //Panel de gestion du zoom
@@ -299,22 +306,22 @@ public class Informations extends JPanel implements Observer, ChangeListener {
         separation[0].add(vol_type);
         info_vol.add(separation[1]);
         separation[1].add(id_vol);
-        separation[1].add(vide[17]);
+        separation[1].add(vol_id);
         info_vol.add(separation[2]);
         separation[2].add(categorie_vol);
-        separation[2].add(vide[18]);
+        separation[2].add(vol_categorie);
         info_vol.add(separation[3]);
         separation[3].add(qfu_vol);
-        separation[3].add(vide[19]);
+        separation[3].add(vol_qfu);
         info_vol.add(separation[4]);
         separation[4].add(ptdep_vol);
-        separation[4].add(vide[20]);
+        separation[4].add(vol_ptdep);
         info_vol.add(separation[5]);
         separation[5].add(heuredep_vol);
-        separation[5].add(vide[21]);
+        separation[5].add(vol_heuredep);
         info_vol.add(separation[6]);
         separation[6].add(heurelimite_vol);
-        separation[6].add(vide[22]);
+        separation[6].add(vol_heurelimite);
             
         /** Application de gestion du timer de la plateforme aeroportuaire */
         
@@ -442,6 +449,28 @@ public class Informations extends JPanel implements Observer, ChangeListener {
 			
 		}
 	}	
+	
+	/** Class SelectionVol
+	 * fonction : Information sur un vol selectionné.
+	 * 
+	 */
+//	class SelectionVol implements ListSelectionListener {
+//
+//		@Override
+//		public void valueChanged(ListSelectionEvent e) {
+//			if(!e.getValueIsAdjusting()) {
+//				String vol = liste_vol_tempsreel.getSelectedValue().toString();
+//				String infos_vol[] = vol.split(" ");
+//				vol_type.setText(infos_vol[0]); 
+//			    vol_id.setText(infos_vol[1]);
+//			    vol_categorie.setText(infos_vol[2]);
+//			    vol_qfu.setText(infos_vol[3]);
+//			    vol_ptdep.setText(infos_vol[4]);
+//			    vol_heuredep.setText(infos_vol[5]);
+//			    vol_heurelimite.setText(infos_vol[6]);
+//			}
+//		}
+//	}	
 	
 	/* Class ActionFermerTimer */
 	/* fonction : fermer le timer */

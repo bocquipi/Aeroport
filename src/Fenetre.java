@@ -4,6 +4,7 @@
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -44,8 +45,6 @@ public class Fenetre extends JFrame {
 	private SimulateurVol pSimulateurVol;
 	private Informations pInformations;
 	
-	private Dialogue dialogue; /* Boite de dialogue */
-	
 	private File repertoire_courant; /* File */
 	private JFileChooser filechooser;
 	
@@ -62,10 +61,9 @@ public class Fenetre extends JFrame {
 	
 	private JMenu menu_collision; /* JMenu (Collision) */
 	private JMenuItem detection_collision; /* JMenuItem (Detection collision) */
+	private JMenuItem rapport_collision; /* JMenuItem (Rapport collision) */
 	
-	private JMenu boite_dialogue; /* JMenu (Boite de dialogue) */
-	private JMenuItem ouvrir_boite_dialogue; /* JMenuItem (Boite de dialogue) */
-	private JMenuItem fermer_boite_dialogue;
+	private JMenu aide; /* JMenu (Aide) */
 	
 	private InfiniteProgressPanel pAttente; /* Panel de chargement */
 	
@@ -101,9 +99,6 @@ public class Fenetre extends JFrame {
 		/* FileChooser */
 	    repertoire_courant = null;
 		filechooser = new JFileChooser(repertoire_courant);
-	    
-	    /* Boite de dialogue */
-		dialogue = new Dialogue(null, "Gestion de fichiers", true);
 		
 		/* MenuBar */
 		menuBar = new JMenuBar();
@@ -113,11 +108,11 @@ public class Fenetre extends JFrame {
 		fichier = new JMenu("Fichier");
 		menu_timer = new JMenu("Timer");
 		menu_collision = new JMenu("Collision");
-		boite_dialogue = new JMenu("Boite de dialogue");
+		aide = new JMenu("Aide");
 		menuBar.add(fichier);
 		menuBar.add(menu_timer);
 		menuBar.add(menu_collision);
-	    menuBar.add(boite_dialogue);
+	    menuBar.add(aide);
 	    
 	    /* Menus secondaires */
 	    charger_fichier = new JMenu("Charger un fichier");
@@ -125,27 +120,27 @@ public class Fenetre extends JFrame {
 	    
 	    /* MenuItems charger_fichier */
 	    charger_aeroport = new JMenuItem("Aeroport");
+	    charger_aeroport.setAccelerator(KeyStroke.getKeyStroke('a'));
 		charger_trafic = new JMenuItem("Trafic");
+		charger_trafic.setAccelerator(KeyStroke.getKeyStroke('b'));
 	    charger_fichier.add(charger_aeroport);
 	    charger_fichier.add(charger_trafic);
-	    
-	    /* MenuItems boite_dialogue */
-	    ouvrir_boite_dialogue = new JMenuItem("Ouvrir");
-		fermer_boite_dialogue = new JMenuItem("Fermer");
-	    boite_dialogue.add(ouvrir_boite_dialogue);
-	    boite_dialogue.add(fermer_boite_dialogue);
 	    
 	    /* MenuItems timer */
 	    ouvrir_timer = new JMenuItem("Ouvrir");
 	    ouvrir_timer.setAccelerator(KeyStroke.getKeyStroke('t'));
 		fermer_timer = new JMenuItem("Fermer");
-		//fermer_timer.setAccelerator(KeyStroke.getKeyStroke('f'));
+		fermer_timer.setAccelerator(KeyStroke.getKeyStroke('f'));
 		menu_timer.add(ouvrir_timer);
 		menu_timer.add(fermer_timer);
 		
 		/* MenuItems collision */
 	    detection_collision = new JMenuItem("Detection");
+	    detection_collision.setAccelerator(KeyStroke.getKeyStroke('c'));
+	    rapport_collision = new JMenuItem("Rapport");
+	    rapport_collision.setAccelerator(KeyStroke.getKeyStroke('r'));
 		menu_collision.add(detection_collision);
+		menu_collision.add(rapport_collision);
 	    
 	    /* Conteneur */
 	    conteneur = new Container();
@@ -216,11 +211,12 @@ public class Fenetre extends JFrame {
 	    /* JMenuItem */
 	    charger_aeroport.addActionListener(new ActionChargerAeroport());
 	    charger_trafic.addActionListener(new ActionChargerTrafic());
-	    ouvrir_boite_dialogue.addActionListener(new ActionOuvrirBD());
-	    fermer_boite_dialogue.addActionListener(new ActionFermerBD());
 	    ouvrir_timer.addActionListener(new ActionOuvrirTimer());
 	    fermer_timer.addActionListener(new ActionFermerTimer());
 	    detection_collision.addActionListener(new ActionDetectionCollision());
+	    rapport_collision.addActionListener(new ActionRapportCollision());
+	    aide.addActionListener(new ActionAide());
+	    
 	    /* MouseListener */
 		this.addMouseListener(new ActionMouseListener());
 		this.addMouseMotionListener(new ActionMouseMotion());
@@ -251,6 +247,34 @@ public class Fenetre extends JFrame {
 	
 	/** Classe inner pour les listeners **/
 	
+	/* Class ActionRapportCollision */
+	/* fonction : ouvrir le rapport de collision */
+	class ActionRapportCollision implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			Desktop desk = Desktop.getDesktop();
+			try {
+				desk.open(new File("collision.txt"));
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+	}
+	
+	/* Class ActionAide */
+	/* fonction : ouvrir un fichier texte avec l'aide d'utilisation */
+	class ActionAide implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			Desktop desk = Desktop.getDesktop();
+			try {
+				desk.open(new File("aide.txt"));
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+	}
+	
 	/* Class ActionOuvrirTimer */
 	/* fonction : ouvrir le timer */
 	class ActionOuvrirTimer implements ActionListener {
@@ -279,24 +303,6 @@ public class Fenetre extends JFrame {
 					plateforme.get_aeroport().get_trafic().get_collision().detection_collision(); //Analyse des collisions
 				}
 			}.start();
-	    }  
-	}
-	
-	/* Class ActionOuvrirBD */
-	/* fonction : ouvrir la boite de dialogue */
-	class ActionOuvrirBD implements ActionListener {
-		
-	    public void actionPerformed(ActionEvent ae) {
-	    	dialogue.setVisible(true);
-	    }  
-	}
-	
-	/* Class ActionFermerBD */
-	/* fonction : fermer la boite de dialogue */
-	class ActionFermerBD implements ActionListener {
-		
-	    public void actionPerformed(ActionEvent ae) {
-	    	dialogue.setVisible(false);
 	    }  
 	}
 	
