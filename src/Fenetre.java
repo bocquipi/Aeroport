@@ -24,6 +24,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
@@ -72,6 +73,9 @@ public class Fenetre extends JFrame {
 	private int oldY;
 	private int newX;
 	private int newY;
+	
+	private boolean bAeroport = false;
+	private boolean bTrafic = false;
 
 	/* utilisation du pattern Singleton */
 	
@@ -322,13 +326,13 @@ public class Fenetre extends JFrame {
 					});
 					
 					/* TEST : Affichage du repertoire courant */
-				    System.out.println("Repertoire courant : " + repertoire_courant);
+				    //System.out.println("Repertoire courant : " + repertoire_courant);
 				    filechooser.showOpenDialog(null);
-				    	
+				    
 				    /* TEST : Affichage du fichier selectionnee */
-				    System.out.println("Fichier choisi : " + filechooser.getSelectedFile());
+				    //System.out.println("Fichier choisi : " + filechooser.getSelectedFile());
 				    plateforme.get_aeroport().set_nom_fichier_aeroport(filechooser.getSelectedFile().toString());
-
+				    
 			    	/* Lancement du panel pAttente */
 			    	pAttente.start();
 			    	
@@ -345,6 +349,9 @@ public class Fenetre extends JFrame {
 			    	/* Mise a jour de la translation de SimulateurAeroport */
 			    	plateforme.get_fenetre().get_simulateur_aeroport().setNewTranslationX((int) plateforme.get_echelle().getX_translation());
 			    	plateforme.get_fenetre().get_simulateur_aeroport().setNewTranslationY((int) plateforme.get_echelle().getY_translation()*2);
+			    	
+			    	/* Gestion des exceptions */
+			    	bAeroport = true;
 			    	
 			    	/* Mise a jour graphique */
 					SwingUtilities.invokeLater(
@@ -373,44 +380,60 @@ public class Fenetre extends JFrame {
 		
 	    public void actionPerformed(ActionEvent ae) {
 	    	
-	    	new Thread(){
-	    		public void run(){
-	    			try {
-	    				repertoire_courant = new File(".").getCanonicalFile();
-	    			} catch (IOException e) {
-	    				// TODO Auto-generated catch block
-	    				System.out.println("Erreur au niveau de la recuperation du nom du fichier");
-	    				e.printStackTrace();
-	    			}
-	    			/* Creation d'un filtre pour le choix du fichier (.txt) */
-					filechooser.setFileFilter(new javax.swing.filechooser.FileFilter() {
-						public boolean accept(File f) {
-							return f.getName().toLowerCase().endsWith(".txt") || f.isDirectory();
-						}
-						public String getDescription() {
-							return "Fichier texte";
-						}
-					});
-					
-					/* TEST : Affichage du repertoire courant */
-	    	    	System.out.println("Repertoire courant : " + repertoire_courant);
-	    	    	filechooser.showOpenDialog(null);
-	    	    	
-	    	    	/* TEST : Affichage du fichier selectionnee */
-	    	    	System.out.println("Fichier choisi : " + filechooser.getSelectedFile());
-	    	    	plateforme.get_aeroport().get_trafic().set_nom_fichier_trafic(filechooser.getSelectedFile().toString());
-	    	    	
-	    	    	/* TEST : Calcul du nombre de vols */
-	    	    	//plateforme.get_aeroport().get_trafic().calcul_nombre_vols();
-	    	    	
-	    	    	/* Chargement du fichier trafic */
-	    	    	plateforme.get_aeroport().get_trafic().charger_fichier_trafic(plateforme.get_aeroport().get_trafic());
-	    	    	
-	    	    	/* TEST : Recuperation du fichier texte aeroport */
-	    	    	//plateforme.get_aeroport().get_trafic().test_programme_trafic(plateforme.get_aeroport().get_trafic());
-	    		}
-	    	}.start();
+	    	if(bAeroport == true) {
+		    	new Thread(){
+		    		public void run(){
+		    			try {
+		    				repertoire_courant = new File(".").getCanonicalFile();
+		    			} catch (IOException e) {
+		    				// TODO Auto-generated catch block
+		    				System.out.println("Erreur au niveau de la recuperation du nom du fichier");
+		    				e.printStackTrace();
+		    			}
+		    			/* Creation d'un filtre pour le choix du fichier (.txt) */
+						filechooser.setFileFilter(new javax.swing.filechooser.FileFilter() {
+							public boolean accept(File f) {
+								return f.getName().toLowerCase().endsWith(".txt") || f.isDirectory();
+							}
+							public String getDescription() {
+								return "Fichier texte";
+							}
+						});
+						
+						/* TEST : Affichage du repertoire courant */
+		    	    	System.out.println("Repertoire courant : " + repertoire_courant);
+		    	    	filechooser.showOpenDialog(null);
+		    	    	
+		    	    	/* TEST : Affichage du fichier selectionnee */
+		    	    	System.out.println("Fichier choisi : " + filechooser.getSelectedFile());
+		    	    	plateforme.get_aeroport().get_trafic().set_nom_fichier_trafic(filechooser.getSelectedFile().toString());
+		    	    	
+		    	    	/* TEST : Calcul du nombre de vols */
+		    	    	//plateforme.get_aeroport().get_trafic().calcul_nombre_vols();
+		    	    	
+		    	    	/* Chargement du fichier trafic */
+		    	    	plateforme.get_aeroport().get_trafic().charger_fichier_trafic(plateforme.get_aeroport().get_trafic());
+		    	    	
+		    	    	/* TEST : Recuperation du fichier texte aeroport */
+		    	    	//plateforme.get_aeroport().get_trafic().test_programme_trafic(plateforme.get_aeroport().get_trafic());
+		    	    	
+		    	    	/* Gestion des exceptions */
+		    	    	bTrafic = true;
+		    		}
+		    	}.start();
+	    	}
+	    	else {
+	    		JOptionPane.showMessageDialog(plateforme.get_fenetre(), "Veuillez charger la plateforme aeroportuaire", "Erreur", JOptionPane.ERROR_MESSAGE);
+	    	}
 	    }
+	}
+	
+	/** Getter de bTrafic
+	 * 
+	 * @return la valeur de bTrafic.
+	 */
+	public boolean get_bTrafic() {
+		return bTrafic;
 	}
 	
 	/** Classe inner pour les listeners **/
@@ -439,8 +462,11 @@ public class Fenetre extends JFrame {
 			if(plateforme.get_time().getTimer().isRunning() != true) {
 				
 				/* Recuperation valeur du curseur */
-				x_c = (int) e.getLocationOnScreen().getX();
-				y_c = (int) e.getLocationOnScreen().getY();
+				x_c = (int) e.getX();
+				y_c = (int) e.getY();
+				
+				x_c = (int) (x_c - plateforme.get_fenetre().get_simulateur_aeroport().getNewTranslationX());
+				y_c = (int) (y_c -  plateforme.get_fenetre().get_simulateur_aeroport().getNewTranslationY());
 				
 				System.out.println(x_c);
 				System.out.println(y_c);
@@ -462,10 +488,16 @@ public class Fenetre extends JFrame {
 					p = vol.getTrajectoire_vol().get(index); //Recuperation du point de la trajectoire du vol
 					x = p.get_coordonnees_point().getX(); //Recuperation de x
 					y = plateforme.get_echelle().inverser(p.get_coordonnees_point().getY()); //Recuperation et inversion de y
-					x = x + plateforme.get_fenetre().get_simulateur_aeroport().getNewTranslationX();
-					y = y + plateforme.get_fenetre().get_simulateur_aeroport().getNewTranslationY();
+					//x = x + plateforme.get_fenetre().get_simulateur_aeroport().getNewTranslationX();
+					//y = y + plateforme.get_fenetre().get_simulateur_aeroport().getNewTranslationY();
+					//x = (int) (x*plateforme.get_echelle().get_zoom());
+					//y = (int) (y*plateforme.get_echelle().get_zoom());
+					x = (int) (x - plateforme.get_fenetre().get_simulateur_aeroport().getNewTranslationX());
+					y = (int) (y - plateforme.get_fenetre().get_simulateur_aeroport().getNewTranslationY());
+					
 					x = (int) (x*plateforme.get_echelle().get_zoom());
 					y = (int) (y*plateforme.get_echelle().get_zoom());
+					
 					System.out.println(x);
 					System.out.println(y);
 					/* Creation d'une zone de verification */

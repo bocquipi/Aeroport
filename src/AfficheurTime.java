@@ -19,6 +19,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
@@ -216,12 +217,17 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 	class ActionPlay implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			
-			int index_pas = plateforme.get_time().getIndex_pas_defaut();
-			int tableau_pas[] = plateforme.get_time().get_tableau_pas();
-			plateforme.get_time().setAvance(true);
-			plateforme.get_time().set_index_pas(index_pas);
-			plateforme.get_time().setPas(tableau_pas[index_pas]);
-			plateforme.get_time().start_timer();
+			if(plateforme.get_fenetre().get_bTrafic() == true) {
+				int index_pas = plateforme.get_time().getIndex_pas_defaut();
+				int tableau_pas[] = plateforme.get_time().get_tableau_pas();
+				plateforme.get_time().setAvance(true);
+				plateforme.get_time().set_index_pas(index_pas);
+				plateforme.get_time().setPas(tableau_pas[index_pas]);
+				plateforme.get_time().start_timer();
+			}
+			else {
+				JOptionPane.showMessageDialog(plateforme.get_fenetre(), "Veuillez charger la plateforme aeroportuaire et le trafic", "Erreur", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
    
