@@ -64,6 +64,7 @@ public class Fenetre extends JFrame {
 	private JMenuItem rapport_collision; /* JMenuItem (Rapport collision) */
 	
 	private JMenu aide; /* JMenu (Aide) */
+	private JMenuItem ouvrir_aide; /* JMenuItem (Ouverture de l'aide) */
 	
 	private InfiniteProgressPanel pAttente; /* Panel de chargement */
 	
@@ -142,6 +143,12 @@ public class Fenetre extends JFrame {
 		menu_collision.add(detection_collision);
 		menu_collision.add(rapport_collision);
 	    
+		/* MenuItems aide */
+	    ouvrir_aide = new JMenuItem("Ouvrir");
+	    ouvrir_aide.setAccelerator(KeyStroke.getKeyStroke('o'));
+	    aide.add(ouvrir_aide);
+	    
+	    
 	    /* Conteneur */
 	    conteneur = new Container();
 	    conteneur = this.getContentPane();
@@ -215,7 +222,7 @@ public class Fenetre extends JFrame {
 	    fermer_timer.addActionListener(new ActionFermerTimer());
 	    detection_collision.addActionListener(new ActionDetectionCollision());
 	    rapport_collision.addActionListener(new ActionRapportCollision());
-	    aide.addActionListener(new ActionAide());
+	    ouvrir_aide.addActionListener(new ActionAide());
 	    
 	    /* MouseListener */
 		this.addMouseListener(new ActionMouseListener());
