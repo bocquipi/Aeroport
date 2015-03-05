@@ -35,7 +35,7 @@ public class Informations extends JPanel implements Observer, ChangeListener {
 	private JLabel titre_vol, titre_temps, titre_zoom, titre_infos, sec, valeur_zoom, valeur_pas, 
 						type_vol, categorie_vol, id_vol, qfu_vol, ptdep_vol, heuredep_vol, heurelimite_vol,
 							vol_type, vol_categorie, vol_id, vol_qfu, vol_ptdep, vol_heuredep, vol_heurelimite;
-	
+
 	/* JButton */
 	private JButton ouvrir, fermer, zoom_avant, zoom_arriere, play, pause;
 	
@@ -215,7 +215,6 @@ public class Informations extends JPanel implements Observer, ChangeListener {
         /* DefaultListModel */
         listModel = new DefaultListModel<Vol>();
         liste_vol_tempsreel = new JList(listModel);
-//        liste_vol_tempsreel.addListSelectionListener(new SelectionVol());
 		JScrollPane scroll_pane = new JScrollPane(liste_vol_tempsreel);
 		
         /* Onglet 2 */
@@ -371,6 +370,35 @@ public class Informations extends JPanel implements Observer, ChangeListener {
         panel_vide2.add(valeur_zoom);
 	}
 	
+	/** Getter pour le JLabel */
+	public JLabel getVol_type() {
+		return vol_type;
+	}
+
+	public JLabel getVol_categorie() {
+		return vol_categorie;
+	}
+
+	public JLabel getVol_id() {
+		return vol_id;
+	}
+
+	public JLabel getVol_qfu() {
+		return vol_qfu;
+	}
+
+	public JLabel getVol_ptdep() {
+		return vol_ptdep;
+	}
+
+	public JLabel getVol_heuredep() {
+		return vol_heuredep;
+	}
+
+	public JLabel getVol_heurelimite() {
+		return vol_heurelimite;
+	}
+	
 	/** Getter de liste_vol_tempsreel
 	 * 
 	 * @return la liste des vols en temps reel.
@@ -449,28 +477,6 @@ public class Informations extends JPanel implements Observer, ChangeListener {
 			
 		}
 	}	
-	
-	/** Class SelectionVol
-	 * fonction : Information sur un vol selectionn�.
-	 * 
-	 */
-//	class SelectionVol implements ListSelectionListener {
-//
-//		@Override
-//		public void valueChanged(ListSelectionEvent e) {
-//			if(!e.getValueIsAdjusting()) {
-//				String vol = liste_vol_tempsreel.getSelectedValue().toString();
-//				String infos_vol[] = vol.split(" ");
-//				vol_type.setText(infos_vol[0]); 
-//			    vol_id.setText(infos_vol[1]);
-//			    vol_categorie.setText(infos_vol[2]);
-//			    vol_qfu.setText(infos_vol[3]);
-//			    vol_ptdep.setText(infos_vol[4]);
-//			    vol_heuredep.setText(infos_vol[5]);
-//			    vol_heurelimite.setText(infos_vol[6]);
-//			}
-//		}
-//	}	
 	
 	/* Class ActionFermerTimer */
 	/* fonction : fermer le timer */

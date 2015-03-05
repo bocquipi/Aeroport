@@ -481,6 +481,9 @@ public class Fenetre extends JFrame {
 				x_c = (int) (x_c - plateforme.get_fenetre().get_simulateur_aeroport().getNewTranslationX());
 				y_c = (int) (y_c -  plateforme.get_fenetre().get_simulateur_aeroport().getNewTranslationY());
 				
+				x_c = (int) (x_c / plateforme.get_echelle().get_zoom());
+				y_c = (int) (y_c / plateforme.get_echelle().get_zoom());
+				
 				System.out.println(x_c);
 				System.out.println(y_c);
 				
@@ -501,21 +504,18 @@ public class Fenetre extends JFrame {
 					p = vol.getTrajectoire_vol().get(index); //Recuperation du point de la trajectoire du vol
 					x = p.get_coordonnees_point().getX(); //Recuperation de x
 					y = plateforme.get_echelle().inverser(p.get_coordonnees_point().getY()); //Recuperation et inversion de y
-					//x = x + plateforme.get_fenetre().get_simulateur_aeroport().getNewTranslationX();
-					//y = y + plateforme.get_fenetre().get_simulateur_aeroport().getNewTranslationY();
-					//x = (int) (x*plateforme.get_echelle().get_zoom());
-					//y = (int) (y*plateforme.get_echelle().get_zoom());
-					x = (int) (x - plateforme.get_fenetre().get_simulateur_aeroport().getNewTranslationX());
-					y = (int) (y - plateforme.get_fenetre().get_simulateur_aeroport().getNewTranslationY());
-					
-					x = (int) (x*plateforme.get_echelle().get_zoom());
-					y = (int) (y*plateforme.get_echelle().get_zoom());
 					
 					System.out.println(x);
 					System.out.println(y);
 					/* Creation d'une zone de verification */
-					if((x > x_c - 10) && (x < x_c + 10)  && (y > y_c - 10)  && (y < y_c + 10)) {
-						System.out.println(vol.getIdentifiant_vol());
+					if((x > x_c - 20) && (x < x_c + 20)  && (y > y_c - 200)  && (y < y_c + 200)) {
+						plateforme.get_fenetre().get_informations().getVol_categorie().setText(vol.getCategorie_avion());
+						plateforme.get_fenetre().get_informations().getVol_heuredep().setText(Integer.toString(vol.getTemps_depart_vol()));;
+						plateforme.get_fenetre().get_informations().getVol_heurelimite().setText(Integer.toString(vol.getTemps_limite_vol()));;
+						plateforme.get_fenetre().get_informations().getVol_id().setText(vol.getIdentifiant_vol());
+						plateforme.get_fenetre().get_informations().getVol_ptdep().setText(vol.getPoint_depart_vol());
+						plateforme.get_fenetre().get_informations().getVol_qfu().setText(vol.getQfu_piste());
+						plateforme.get_fenetre().get_informations().getVol_type().setText(vol.getType_vol());
 					}
 				}
 				
