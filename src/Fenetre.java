@@ -274,7 +274,7 @@ public class Fenetre extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			Desktop desk = Desktop.getDesktop();
 			try {
-				desk.open(new File("aide.txt"));
+				desk.open(new File("aide.pdf"));
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
