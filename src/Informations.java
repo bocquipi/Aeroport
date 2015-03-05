@@ -32,15 +32,13 @@ public class Informations extends JPanel implements Observer, ChangeListener {
 	private Plateforme plateforme;
 	
 	/* JLabel */
-	private JLabel titre_vol, titre_temps, titre_zoom, titre_infos, sec, valeur_zoom, valeur_pas, 
+	private JLabel titre_vol, titre_temps, titre_zoom, titre_infos, 
 						type_vol, categorie_vol, id_vol, qfu_vol, ptdep_vol, heuredep_vol, heurelimite_vol,
 							vol_type, vol_categorie, vol_id, vol_qfu, vol_ptdep, vol_heuredep, vol_heurelimite;
 
 	/* JButton */
 	private JButton ouvrir, fermer, zoom_avant, zoom_arriere, play, pause;
 	
-	/* JTextField */
-	private JTextField secondes;
 
 	/* Table d'onglets */
 	private JTabbedPane onglets;
@@ -217,14 +215,7 @@ public class Informations extends JPanel implements Observer, ChangeListener {
         liste_vol_tempsreel = new JList(listModel);
 		JScrollPane scroll_pane = new JScrollPane(liste_vol_tempsreel);
 		
-        /* Onglet 2 */
-        
-        /* JLabel */
-        //Panel de gestion du temps
-        valeur_pas = new JLabel("Pas du timer :" ); /*+ .getPas() */
-        sec = new JLabel("secondes");
-        secondes = new JTextField("   ");
-        
+		/* Onglet 2 */
         //Panel de gestion des vols
         type_vol = new JLabel("Type du vol :");
         vol_type = new JLabel("Non selectionne");
@@ -242,8 +233,6 @@ public class Informations extends JPanel implements Observer, ChangeListener {
         vol_heurelimite = new JLabel("Non selectionne");
         
         /* JButton */
-        //Panel de gestion du zoom
-        valeur_zoom = new JLabel("Valeur du zoom :");
         zoom_arriere = new JButton(iMoins);
         zoom_avant = new JButton(iPlus);
         
