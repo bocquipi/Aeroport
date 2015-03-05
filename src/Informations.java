@@ -228,19 +228,19 @@ public class Informations extends JPanel implements Observer, ChangeListener {
         
         //Panel de gestion des vols
         type_vol = new JLabel("Type du vol :");
-        vol_type = new JLabel("Non sélectionné");
+        vol_type = new JLabel("Non selectionne");
         id_vol = new JLabel("Identifiant du vol :");
-        vol_id = new JLabel("Non sélectionné");
+        vol_id = new JLabel("Non selectionne");
         qfu_vol = new JLabel("Qfu de la piste :");
-        vol_qfu = new JLabel("Non sélectionné");
+        vol_qfu = new JLabel("Non selectionne");
         categorie_vol = new JLabel("Categorie du vol :");
-        vol_categorie = new JLabel("Non sélectionné");
+        vol_categorie = new JLabel("Non selectionne");
         ptdep_vol = new JLabel("Point de depart du vol :");
-        vol_ptdep = new JLabel("Non sélectionné");
+        vol_ptdep = new JLabel("Non selectionne");
         heuredep_vol = new JLabel("Heure de depart :");
-        vol_heuredep = new JLabel("Non sélectionné");
+        vol_heuredep = new JLabel("Non selectionne");
         heurelimite_vol = new JLabel("Heure limite du vol :");
-        vol_heurelimite = new JLabel("Non sélectionné");
+        vol_heurelimite = new JLabel("Non selectionne");
         
         /* JButton */
         //Panel de gestion du zoom
@@ -451,7 +451,7 @@ public class Informations extends JPanel implements Observer, ChangeListener {
 	}	
 	
 	/** Class SelectionVol
-	 * fonction : Information sur un vol selectionné.
+	 * fonction : Information sur un vol selectionnï¿½.
 	 * 
 	 */
 //	class SelectionVol implements ListSelectionListener {
