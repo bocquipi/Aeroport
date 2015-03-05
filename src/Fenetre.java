@@ -484,9 +484,6 @@ public class Fenetre extends JFrame {
 				x_c = (int) (x_c / plateforme.get_echelle().get_zoom());
 				y_c = (int) (y_c / plateforme.get_echelle().get_zoom());
 				
-				System.out.println(x_c);
-				System.out.println(y_c);
-				
 				/* Analyse */
 				/* Parcours de la liste des vols */
 				for(int i = 0 ; i < plateforme.get_aeroport().get_trafic().get_liste_vols().size() ; i++) {
@@ -505,8 +502,6 @@ public class Fenetre extends JFrame {
 					x = p.get_coordonnees_point().getX(); //Recuperation de x
 					y = plateforme.get_echelle().inverser(p.get_coordonnees_point().getY()); //Recuperation et inversion de y
 					
-					System.out.println(x);
-					System.out.println(y);
 					/* Creation d'une zone de verification */
 					if((x > x_c - 20) && (x < x_c + 20)  && (y > y_c - 200)  && (y < y_c + 200)) {
 						plateforme.get_fenetre().get_informations().getVol_categorie().setText(vol.getCategorie_avion());
