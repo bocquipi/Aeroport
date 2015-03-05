@@ -41,7 +41,7 @@ public class Informations extends JPanel implements Observer, ChangeListener {
 	
 	/* JTextField */
 	private JTextField secondes;
-	
+
 	/* Table d'onglets */
 	private JTabbedPane onglets;
 	
@@ -280,8 +280,8 @@ public class Informations extends JPanel implements Observer, ChangeListener {
         /** Application de gestion des vols presents en temps reel sur la plateforme aeroportuaire **/
         
         /* Creation de JLabel vide */
-        JLabel[] vide = new JLabel[40];
-        for (int i = 0; i < 40; i++) {
+        JLabel[] vide = new JLabel[16];
+        for (int i = 0; i < 16; i++) {
             vide[i] = new JLabel("");
         }
         
@@ -342,32 +342,32 @@ public class Informations extends JPanel implements Observer, ChangeListener {
 
         
         /* Ligne 4 */
-        gestion_secondes.add(secondes);
-        gestion_secondes.add(sec);
+        gestion_secondes.add(vide[7]);
+        gestion_secondes.add(vide[8]);
         gestion_secondes.add(play);
         gestion_secondes.add(pause);
         
         /* ligne 5 */ 
-        panel_vide1.add(valeur_pas);	
-		
+        panel_vide1.add(vide[9]);
+        
 		/** Application de gestion du zoom de la plateforme aeroportuaire*/
         
         /* Ligne 1 */ 
         titre_z.add(titre_zoom);
         
         /* Ligne 2 */
-        boutons_zoom.add(vide[9]);
         boutons_zoom.add(vide[10]);
+        boutons_zoom.add(vide[11]);
         boutons_zoom.add(zoom_avant);
         boutons_zoom.add(zoom_arriere);
-        boutons_zoom.add(vide[11]);
         boutons_zoom.add(vide[12]);
+        boutons_zoom.add(vide[13]);
         
         /* Ligne 3 */
-        affiche_zoom.add(vide[16]);
+        affiche_zoom.add(vide[14]);
         
         /* Ligne 4 */ 
-        panel_vide2.add(valeur_zoom);
+        panel_vide2.add(vide[15]);
 	}
 	
 	/** Getter pour le JLabel */
@@ -397,6 +397,11 @@ public class Informations extends JPanel implements Observer, ChangeListener {
 
 	public JLabel getVol_heurelimite() {
 		return vol_heurelimite;
+	}
+	
+	/** Getter du slider */
+	public JSlider getSlider() {
+		return slider;
 	}
 	
 	/** Getter de liste_vol_tempsreel
@@ -537,7 +542,7 @@ public class Informations extends JPanel implements Observer, ChangeListener {
 	/* fonction : Activer le timer */
 	class ActionPlay implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			
+			plateforme.get_time().start_timer();
 		}
 	}	
 	
@@ -545,7 +550,7 @@ public class Informations extends JPanel implements Observer, ChangeListener {
 	/* fonction : Mettre le timer en mode pause */
 	class ActionPause implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-	
+			plateforme.get_time().stop_timer();
 		}
 	}
 }

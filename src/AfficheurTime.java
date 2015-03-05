@@ -169,6 +169,7 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 	public void update(Observable Time, Object arg) {
 		slider.setValue(plateforme.get_time().getTemps());
 		label.setText(plateforme.get_time().afficher_time());
+		plateforme.get_fenetre().get_informations().getSlider().setValue(plateforme.get_time().getTemps());
 	}
 	
 	/** Classe inner pour les listeners **/
@@ -231,8 +232,8 @@ public class AfficheurTime extends JFrame implements Observer, ChangeListener {
 		}
 	}
    
-	/** Class ActionStop
-	/* fonction : stop le timer
+	/** Class ActionPause
+	/* fonction : pause du timer
 	 * 
 	 * @see Plateforme
 	 * @see Time
